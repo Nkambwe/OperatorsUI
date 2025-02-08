@@ -1,0 +1,141 @@
+
+/* 
+    Created on : Feb 1, 2025, 3:49:07 AM
+    Author     : Macjohnan
+*/
+body {
+    margin: 0;
+    padding: 0;
+}
+
+div.loader {
+    display: block;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0px;
+    z-index: 1999;
+    width: 100%;
+    height: 100vh;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.loader img {
+    display: block;
+    margin: 20% auto;
+    height: 150px;
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/*------------------------------------------ sidebar*/
+.side-bar {
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100%;
+    color: #20c997;
+    background: #343a40!important;
+    z-index: 100;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.side-bar-container {
+    position: relative;
+    height: 100%;
+}
+
+a.slide-button {
+    display: block;
+    background: #20c997;
+    margin: 0;
+    text-decoration: none;
+    width: 100%;
+    height: 65px;
+    font-size: 1.2em;
+    border: none;
+    cursor: pointer;
+}
+
+a.slide-button span:hover{
+    color:#fff;
+    transition: all .5s ease-in-out
+}
+
+a.slide-button span {
+    display: block;
+    background: transparent;
+    height: 100%;
+    padding: 0;
+    padding-left:10px;
+    font-size: 2.5rem;
+    color: #EDEDED;
+    transition: all .5s ease-in-out;
+    border-right: solid 1px #cecece;
+}
+
+.side-bar .app-logo,
+.side-bar .side-bar-label {
+    display: block;
+}
+
+.side-bar-label {
+    position: absolute;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -o-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    left: 0;
+    bottom: 50px;
+    height: 60px;
+    width: 290px;
+    font-size: 1.5em;
+    padding-top: 10px;
+}
+
+.side-bar .app-logo {
+    position: absolute;
+    left: 0;
+    bottom: 30px;  
+    padding: 3px 5px;
+    border-radius: 50%;
+    background-color: rgb(255,255,255);
+}
+
+.side-bar .app-logo img {
+    width: 50px;
+    height: 50px;
+    margin-left: -1px;
+    margin-bottom: 3px;
+    -o-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    border-radius: 50%;
+}
+
+/* Sliding navigation */
+.nav-bar-slide {
+    position: fixed;
+    top: 0;
+    left: 60px; 
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    z-index: 90;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* State class for menu toggle */
+body.menu-expanded .nav-bar-slide {
+    transform: translateX(0);
+}
+
+
+
