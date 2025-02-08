@@ -1,6 +1,6 @@
 package com.kram.operators.helpers;
 
-/**
+/** Session Manager
  * Application session manager
  * @author Macjohnan
  */

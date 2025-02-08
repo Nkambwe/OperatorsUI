@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
 
-/**
+/** String Extension class
  * Class used to validate string variables
  * @author Macjohnan
  */

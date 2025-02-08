@@ -4,7 +4,7 @@
  */
 package com.kram.operators.helpers;
 
-/**
+/** Singleton manager
  * Create a single instance of an object
  * @author Macjohnan
  */

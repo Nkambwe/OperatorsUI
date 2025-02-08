@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 
-/**
+/** Application utilities class
  * Class holds utility methods for general functionalities
  * @author Macjohnan
  */

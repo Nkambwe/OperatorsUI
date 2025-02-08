@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/** Logger class
  * Class used to write log file for the application
  * @author Macjohnan
  */

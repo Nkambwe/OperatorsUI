@@ -5,7 +5,7 @@
 package com.kram.operators.helpers;
 
 /**
- *
+ * DateTime adapter
  * @author Macjohnan
  */
 public class LocalDateTimeAdapter {

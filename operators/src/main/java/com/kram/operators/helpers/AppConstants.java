@@ -1,10 +1,10 @@
 package com.kram.operators.helpers;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/**Class manages application constants
  * @version 1.0
+
  * @author Macjohnan
  */
 public class AppConstants {
