@@ -14,8 +14,7 @@ public class AppConstants {
     public final static String KEY_LOGGEDIN = "logged_in";
     public final static String KEY_ACTIVE = "active";
     public final static String KEY_VERIFIED = "verified";
-    public final static String KEY_DELETED = "deleted";
-    
+    public final static String KEY_DELETED = "deleted";   
     public final static String KEY_USER = "logged_user";
     public final static String KEY_ID = "logged_user_id";
     public final static String KEY_LEVEL = "logged_user_level";

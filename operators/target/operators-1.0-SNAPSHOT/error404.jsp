@@ -1,5 +1,5 @@
 <%-- 
-    Document   : error404
+    Document   : error404 Error Page
     Created on : Jan 31, 2025, 8:15:07 PM
     Author     : Macjohnan
 --%>
