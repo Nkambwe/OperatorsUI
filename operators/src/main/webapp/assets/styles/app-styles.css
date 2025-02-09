@@ -19,21 +19,16 @@ body, html {
     z-index: 80;
 }
 
-/* Main content */
-.main-content {
-    padding: 80px 20px 20px; 
-    height: calc(100% - 140px); 
-    overflow-y: auto;
-}
 
 /* Main content header*/
 .main-content-header {
     position: fixed;
     top: 0;
-    left: 60px; 
+    left: 60px;
     right: 0;
     height: 65px;
-    background: #fff; 
+    color: #fff;
+    background: #20c997;
     display: flex;
     align-items: center;
     padding: 0 20px;
@@ -91,3 +86,68 @@ body, html {
     z-index: 1000;
 }
 
+
+/*message boxes*/
+.message-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.alert {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 0 !important;
+    border: 1px solid transparent;
+    border-radius: .10rem;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.alert span {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.alert button {
+    font-size: 0.8em;
+}
+
+.alert-success {
+    color: #28a745!important;
+    background-color: #a8eab7!important;
+    border-color: #28a745!important;
+}
+
+.alert-warning {
+    color: #edb100!important;
+    background-color: #fff3cd!important;
+    border-color: #edb100!important;
+}
+
+.alert-info {
+    color: #17a2b8!important;
+    background-color: #a0e8f3!important;
+    border-color: #17a2b8!important;
+}
+
+.alert-danger {
+    color: #fc5056!important;
+    background-color: #f7bbbe!important;
+    border-color: #fc5056!important;
+}
+
+
+/* Main content */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    padding: 65px 0 20px;
+    height: calc(100% - 140px);
+    overflow-y: auto;
+}
+
+.content-wrapper {
+    flex-grow: 1;
+}

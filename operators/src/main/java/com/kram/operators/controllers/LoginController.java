@@ -63,7 +63,7 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.KEY_VERIFIED, user.isVerified());
                     this.session.setAttribute(AppConstants.KEY_DELETED, user.isDeleted());
                     this.session.setAttribute(AppConstants.KEY_USER, user);
-                    this.session.setAttribute(AppConstants.KEY_USERNAME, username);
+                    this.session.setAttribute(AppConstants.KEY_USERNAME, user.getUsername());
                     this.session.setAttribute(AppConstants.KEY_PASSWORD, password);
                     this.session.setAttribute(AppConstants.EMPLOYEE_NAME, user.getEmployeeName());
                     this.session.setAttribute(AppConstants.EMPLOYEE_NO, user.getEmployeeNo());
@@ -76,6 +76,8 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.KEY_PASSWORDID, user.getPasswordId());
                     this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, user.getExpirePasswords());
                     this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, user.getExpiresIn());
+                    
+                    System.out.println("Employee Name: " + user.getEmployeeName());
                     ApplicationLog.saveLog("ERROR :: " + user.getResponseMessage(), "LOGINCONTROLLER");
                     if (!AppConstants.ISLIVE) {
                             try{

@@ -269,6 +269,57 @@ label.label {
     text-align: center;
 }
 
+/*message boxes*/
+.message-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.alert {
+    position: relative;
+    padding: 1rem 1rem;
+    margin-bottom: 0 !important;
+    border: 1px solid transparent;
+    border-radius: .10rem;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+}
+
+span.message-holder {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.alert button {
+    font-size: 0.8em;
+}
+
+.alert-success {
+    color: #28a745!important;
+    background-color: #a8eab7!important;
+    border-color: #28a745!important;
+}
+
+.alert-warning {
+    color: #edb100!important;
+    background-color: #fff3cd!important;
+    border-color: #edb100!important;
+}
+
+.alert-info {
+    color: #17a2b8!important;
+    background-color: #a0e8f3!important;
+    border-color: #17a2b8!important;
+}
+
+.alert-danger {
+    color: #fc5056!important;
+    background-color: #f7bbbe!important;
+    border-color: #fc5056!important;
+}
+
 /* 📱 Responsive for Mobile */
 @media (max-width: 768px) {
     .login-container {

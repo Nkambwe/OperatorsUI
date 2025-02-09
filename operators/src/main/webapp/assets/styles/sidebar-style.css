@@ -216,39 +216,5 @@ ul.slide-menu {
     background-color: #EEFFF5;
 }
 
-.menu-sub-menu {
-    display: none;
-    list-style: none;
-    padding-left: 20px;
-    margin: 0;
-    border-left: 2px solid #f0f0f0;
-}
-
-.menu-sub-menu.expanded {
-    display: block;
-}
-
-/* Arrow indicator for expandable items */
-.menu-item a::after {
-    content: '›';
-    position: absolute;
-    right: 15px;
-    transition: transform 0.3s ease;
-}
-
-.menu-item.expanded > a::after {
-    transform: rotate(90deg);
-}
-
-/* Parent active state when child is selected */
-.menu-item.has-active-child > a {
-    background-color: #e6f3ff;
-    color: #1a73e8;
-}
-
-/* Icons */
-.mdi {
-    margin-right: 10px;
-}
 
 

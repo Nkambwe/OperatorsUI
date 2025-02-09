@@ -33,7 +33,8 @@ public class AppConstants {
     public final static String USER_EMAIL = "email";
     public final static String KEY_PASSWORDID="pwd_id";
     public final static String KEY_EXPIRRPWD="pwd_exp";
-    public final static String KEY_EXPIRESINDAYS="pwd_days";
+    public final static String KEY_EXPIRESINDAYS="pwd_days"; 
+    public final static String CURRENT_PAGE="current_page";
     
     public final static String APP_FOOTER = String.format("Operactor 1.0 &copy 2024 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 

@@ -13,11 +13,11 @@
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    String msg = null, alertClass = "alert-danger", msg_type="Success";
     boolean invalidName = false;
     boolean invalidPassword = false;
     String username,password; 
     String class_validateName = "", validateNameMsg = "",class_validatepassword="",validatepasswordMsg="";
-    String msg = null, alertClass = "alert-success";
 
     if (session.getAttribute(AppConstants.KEY_LOGGEDIN) != null) {
         response.sendRedirect("index.jsp");
@@ -108,14 +108,17 @@
     <body onload="noBack();" onpageshow="if(event.persisted)noBack();">
        
         <section class="login-section"> 
+            
             <% if (msg != null) {%>
-            <div class="login-msaage">
-                    <div class="alert <%= alertClass%> alert-dismissable text-center">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <%= msg%>
+                <div class="message-container">
+                    
+                    <div class="alert <%=alertClass%>">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
                     </div>
+                        
                 </div>
             <% }%>
+            
             <div class="over-lay"></div>
             <div class="login-container">
                 
@@ -158,7 +161,7 @@
                             
                         </div>
                         <div id="loading" class="row">
-                            <img src="${pageContext.request.contextPath}/assets/images/loader.gif" alt="loader"/>
+                            <img src="${pageContext.request.contextPath}/assets/images/loading1.gif" alt="loader"/>
                          </div>    
                         <!-- Submit Button -->
                         <div class="submit-box">
@@ -174,6 +177,7 @@
             <%=AppConstants.APP_FOOTER%>
         </div>
 
+        <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/login-script.js" type="text/javascript"></script>
         

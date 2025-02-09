@@ -34,11 +34,11 @@ window.onpageshow = function (event) {
 };
 
 function showLoading() {
-    $('#loading').addClass("progress"); 
+    $('#loading').css("display", "block");
 }
 
 function hideLoading() {
-    $('#loading').removeClass("progress"); 
+    $('#loading').css("display", "none");
 }
 
 // Encapsulated function to detect and prevent pasting

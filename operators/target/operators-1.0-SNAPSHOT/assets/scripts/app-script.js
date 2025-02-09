@@ -6,9 +6,38 @@
 $(document).ready(function () {
     hideLoading();
     
+    //handle menu state
+    const sidebarState = localStorage.getItem('sidebarState');
+    console.log("Sidebar State: " + sidebarState);
+    
+    // If the stored state is 'collapsed', add the class to body on page load
+    if (sidebarState === 'expanded') {
+        $('body').addClass('menu-expanded');
+        $(window).trigger('resize');
+    } else {
+        $('body').removeClass('menu-expanded');
+    }
+    
+    // Retrieve the active item from localStorage
+    const activeItem = localStorage.getItem('activeItem');
+    console.log("Active Menu Item: " + activeItem);
+    if (activeItem) {
+        // Remove active from all
+        $('.menu-item > a').removeClass('active'); 
+        
+        // Set active to saved item
+        $('#' + activeItem).addClass('active'); 
+    } 
+
     // Toggle menu on slide button click
     $('.slide-button').click(function() {
-        $('body').toggleClass('menu-expanded');
+         if ($('body').hasClass('menu-expanded')) {
+            localStorage.setItem('sidebarState', 'collapsed');
+            $('body').toggleClass('menu-expanded');
+        } else {
+            localStorage.setItem('sidebarState', 'expanded');
+            $('body').toggleClass('menu-expanded');
+        }
     });
 
     // Close menu when clicking outside
@@ -20,20 +49,14 @@ $(document).ready(function () {
     
      // Handle menu item clicks
     $('.menu-item > a').click(function(e) {
-        e.preventDefault();
+        // Remove active class from all
+        $('.menu-item > a').removeClass('active'); 
         
-        const menuItem = $(this).parent();
-        const subMenu = menuItem.find('.menu-sub-menu');
-        
-        if (subMenu.length) {
-            // Toggle submenu
-            subMenu.toggleClass('expanded');
-            menuItem.toggleClass('expanded');
-        } else {
-            // Handle click on items without submenu
-            $('.menu-item > a').removeClass('active');
-            $(this).addClass('active');
-        }
+        // Add active class to clicked item
+        $(this).addClass('active'); 
+
+        // Store the clicked item's id in localStorage
+        localStorage.setItem('activeItem', $(this).attr('id'));
     });
     
     // Handle submenu item clicks
@@ -44,20 +67,7 @@ $(document).ready(function () {
         
         // Add active class to clicked item
         $(this).addClass('active');
-        
-        // Add active class to parent menu item
-        $(this).closest('.menu-item').addClass('has-active-child');
     });
-    
-    // Optional: Expand menu item if it contains active submenu item
-    if ($('.menu-list-item.active').length) {
-        $('.menu-list-item.active')
-            .closest('.menu-sub-menu')
-            .addClass('expanded')
-            .closest('.menu-item')
-            .addClass('expanded has-active-child');
-    }
-    
 });
 
 function showLoading() {

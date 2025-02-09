@@ -7,14 +7,18 @@
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String msg = null, alertClass = "alert-success";
+    String msg = null, alertClass = "alert-danger", msg_type="Success";
     String username = (String)session.getAttribute(AppConstants.KEY_USERNAME);
     
+    //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
     if(!isLoggedIn){
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    //set current page
+    session.setAttribute(AppConstants.CURRENT_PAGE, "INDEX_PAGE");
 
     //TODO--check number of days left for expirey
     boolean checkExpiredPwd = (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD);
@@ -45,13 +49,23 @@
 
         <section class="main-content-container">
             
-            <header class="main-content-header">
-                <div class="content-header-left">Left header</div>
-                <div class="content-header-right">Right header</div>
-            </header>
-            
+            <%@include file="header.jsp"%> 
             <div class="main-content">
-                <h1>Welcome <%=username%>!</h1>
+                <% if (msg != null) {%>
+                <div class="message-container">
+                    
+                    <div class="alert <%= alertClass%> alert-dismissable">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                        
+                </div>
+                <% }%>
+                
+                <div class="content-wrapper">
+                    <h1>Welcome <%=username%>!</h1>
+                </div>
+                
             </div>
             
             <div class="footer shadow-text">
@@ -59,6 +73,7 @@
             </div>
         </section>
             
+        <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
     </body>
