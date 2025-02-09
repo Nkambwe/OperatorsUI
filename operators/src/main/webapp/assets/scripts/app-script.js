@@ -68,7 +68,72 @@ $(document).ready(function () {
         // Add active class to clicked item
         $(this).addClass('active');
     });
+    
+     // Handle button clicks
+    $(".nav-item-button").click(function(e) {
+        e.preventDefault();
+        const partialName = $(this).data('partial');
+        
+        // Construct the correct URL by joining the paths
+        const url = '/operators/Pages/' + partialName;
+        
+        showOverlay();
+        
+        $('.page-container').load(url, function(response, status, xhr) {
+            if (status === "success") {
+                $('.page-container').addClass('show-page');
+            } else {
+                console.error("Error loading partial:", xhr.statusText);
+                hideOverlay();
+            }
+        });
+    });
+    
+    // Add close functionality (if needed)
+    $(document).on('click', '#overlay', function(e) {
+        if (e.target === this) {  // Only close if clicking the overlay itself
+            hideOverlay();
+        }
+    });
+    
+    //navigate backwords
+    // Delegate event handler for back button (since content is loaded dynamically)
+    $(document).on('click', '.btn-back', function() {
+        back();
+        $('#parent-container').attr('data-child', 'no-child');
+    });
+
+    // Delegate event handler for expand button
+    $(document).on('click', '.btn-expand', function() {
+        $(this).find('.mdi').toggleClass('hide-icon');
+        $('.page-container').toggleClass('expand-page');
+    });
 });
+
+function on(){
+    $("#overlay").css('display', 'block');
+}
+
+// Back button functionality
+function back() {
+    $("#overlay").css('display', 'none');
+    $('.page-container').removeClass('show-page');
+}
+    
+function childBack() {
+    $("#page-overlay").css('display', 'none');
+};
+
+ // Function to show overlay
+function showOverlay() {
+    $("#overlay").css("display", "block");
+}
+
+// Function to hide overlay
+function hideOverlay() {
+    $("#overlay").css("display", "none");
+    $('.page-container').removeClass('show-page');
+}
 
 function showLoading() {
     $('#loading').css("display", "block");

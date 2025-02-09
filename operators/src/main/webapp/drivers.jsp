@@ -55,10 +55,52 @@
                 <% }%>
                 
                 <div class="content-wrapper">
-                    <div class="page-header">
-                    </div>
+                    
+                    <header class="page-header">
+                        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+                            <div class="container-fluid">
+
+                                <span class="navbar-brand text-success">Drivers</span>
+
+                                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                                    <ul class="navbar-nav flex-grow-1">
+
+                                        <li class="nav-item">
+                                            <button id="btn-page-d1" class="nav-item-button"data-partial="driver_page_01.jsp">New Driver</button>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <button id="btn-page-d2" class="nav-item-button" data-partial="driver_page_02.jsp">Under Review</button>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_03.jsp">Engaged</button>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_03.jsp">Open Engagement</button>
+                                        </li>
+                                        
+                                        <li class="nav-item">
+                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_04.jsp">Blacklisted</button>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </nav>
+                    </header>
+                    
                     <div class="page-content">
-                         <h1>Drivers Page</h1>
+                        <!--container for child pages-->
+                        <div id="overlay">
+                            <div id="parent-container" class="page-container" data-child="no-child"></div>
+                        </div>
+                         <h1>Drivers Home Page</h1>
                     </div>
                    
                 </div>

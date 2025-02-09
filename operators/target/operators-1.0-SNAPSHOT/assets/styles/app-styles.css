@@ -149,5 +149,344 @@ body, html {
 }
 
 .content-wrapper {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
+}
+
+.page-content {
+    flex-grow: 1;
+}
+
+#page-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 65px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+
+.page-container {
+    position: relative;
+    top: 0;
+    left: 10vw;
+    width: 80vw;
+    height: 100vh;
+    background: #f2f4f5;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .page-container:before {
+        content: " ";
+        height: 100%;
+        top: 0;
+        left: -20px;
+        position: absolute;
+        width: 20px;
+        box-shadow: -20px 0 20px -20px #0d0d0d inset;
+        transition: all .3s ease-in-out
+    }
+
+    .page-container:after {
+        content: " ";
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 20px;
+        box-shadow: 20px 0 20px -20px #0d0d0d inset;
+        transition: all .3s ease-in-out
+    }
+
+    .page-container.show-page,
+    .page-child-container.show-page {
+        transform: translateY(0);
+        animation: pulse 200ms;
+        transition: all .3s ease-in-out
+    }
+
+.container-fluid.app-page {
+    padding: 0;
+}
+
+.page-top {
+    display: flex;
+    width: 100%;
+    background: #fff;
+    padding: 5px 10px;
+}
+
+.page-top button {
+    height: 30px;
+    width: 30px;
+    font-weight:400;
+    border: solid 1px #cecece;
+    background: transparent;
+}
+
+button.btn-back,
+button.btn-child-back {
+    border-radius: 20px;
+}
+
+button.btn-expand {
+    border: none;
+}
+
+    button.btn-back:hover,
+    button.btn-expand:hover,
+    button.btn-child-back:hover {
+        color: #258cfb;
+        transition: all .3s ease-in-out;
+    }
+
+button.btn-back:hover,
+button.btn-child-back:hover {
+    border-color: #258cfb;
+    transition: all .3s ease-in-out;
+}
+
+.page-top-header-container {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.page-top-header {
+    font-weight: 500;
+    font-size: .85em;
+    text-transform: uppercase;
+}
+
+.page-container.show-page.expand-page {
+    top: 0;
+    left: 0 !important;
+    width: 100vw !important;
+}
+
+.hide-icon {
+    display:none;
+}
+
+.page-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: solid 1px #cecece;
+    border-top: solid 1px #cecece;
+}
+
+.page-header-menu {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-header-left,
+.page-header-right {
+    display:flex;
+}
+
+.page-header-left {
+    flex-grow: 1;
+}
+
+.page-header-menu-item {
+    padding: 3px;
+    transition: all .3s ease-in-out;
+}
+
+    .page-header-menu-item button {
+        border: none;
+        padding: 2px 8px;
+        background-color: transparent;
+        transition: all .3s ease-in-out;
+    }
+
+        .page-header-menu-item button:hover,
+        .page-header-menu-item button:hover span,
+        .page-header-menu-item button:hover span i {
+            color: #86bff5;
+            transition: all .3s ease-in-out;
+        }
+
+        .page-header-menu-item button span i {
+            color: #4361d9;
+        }
+
+    .page-header-menu-item.menu-item-seperator-right button {
+        padding-right: 10px;
+        border-right: solid 1px #cecece;
+    }
+
+    .page-header-menu-item.menu-item-seperator-left button {
+        padding-left: 10px;
+        border-left: solid 1px #cecece;
+    }
+
+.page-content {
+    display: flex;
+    width: calc(100% - 100px);
+    margin: 0 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.content-filter {
+    position: absolute;
+    top: 0;
+    left: -250px;
+    padding: 200px 20px;
+    width: 250px;
+    height: 100%;
+    background-color: #ccc;
+    border: solid 1px #cecece;
+    transition: left 0.3s ease; 
+}
+
+.content-info {
+    position: absolute;
+    top: 0;
+    right: -250px;
+    padding: 200px 20px;
+    width: 250px;
+    height: 100%;
+    background-color: #ccc;
+    border: solid 1px #cecece;
+    transition: right 0.3s ease;
+}
+
+.content-box {
+    padding: 400px 20px;
+    text-align:center;
+    width:100%;
+}
+
+.page-content[data-pane="show-filter"] .content-filter {
+    transform: translateX(0);
+}
+
+.page-content[data-pane="show-filter"] .content-box {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    transition: all .3s ease;
+}
+
+.page-content[data-pane="show-info"] .content-info {
+    transform: translateX(0);
+}
+
+.page-content[data-pane="show-info"] .content-box {
+    margin-right: 250px;
+    width: calc(100% - 250px);
+    transition: all .3s ease;
+}
+
+.filter-active {
+    background-color: #ced4da !important;
+    transition: all .3s ease;
+}
+
+    .filter-active span i {
+        color: #0e6cc5 !important;
+        font-weight: 600;
+    }
+
+.info-active {
+    background-color: #ced4da !important;
+    transition: all .3s ease;
+}
+
+    .info-active span i {
+        color: #0e6cc5 !important;
+        font-weight: 600;
+    }
+
+.show-filter {
+    left: 0;
+}
+
+.show-info {
+    right: 0;
+}
+
+.child-page-container {
+    position: relative;
+    top: 0;
+    left: 30px;
+    width: 87.7vw;
+    height: 100vh;
+    padding: 0;
+    background: #f2f4f5;
+    transition: all .3s ease-in-out
+}
+
+    .child-page-container:before {
+        content: " ";
+        height: 100%;
+        top: 0;
+        left: -20px;
+        position: absolute;
+        width: 20px;
+        box-shadow: -20px 0 20px -20px #0d0d0d inset;
+        transition: all .3s ease-in-out
+    }
+
+    .child-page-container:after {
+        content: " ";
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: -20px;
+        width: 20px;
+        box-shadow: 20px 0 20px -20px #0d0d0d inset;
+        transition: all .3s ease-in-out
+    }
+
+    .child-page-container.expand-page {
+        left: -5vw;
+        width: 100vw;
+        height: 100vh;
+        transition: all .3s ease-in-out
+    }
+
+.page-container.show-page[data-child="has-child"] {
+    width: 90vw;
+    left: 5vw;
+    transition: all .3s ease-in-out
+}
+
+.page-container.show-page.expand-page {
+    left: 60px !important;
+    width: 97% !important;
+}
+
+@keyframes pulse {
+    0% {
+        height: 0
+    }
+
+    100% {
+        height: 100vh;
+    }
+
 }
