@@ -1,6 +1,6 @@
 <%-- 
-    Document   : driver_page_04
-    Created on : Feb 9, 2025, 9:26:09 PM
+    Document   : driver_page_05
+    Created on : Feb 9, 2025, 11:15:53 PM
     Author     : Macjohnan
 --%>
 
@@ -17,7 +17,7 @@
 
         <div class="page-top-header-container">
             <span class="page-top-header">
-                OPEN FOR CONTRACT
+                BLACKLIST DRIVER
             </span>
         </div>
 
@@ -33,8 +33,7 @@
     </div>
 
     <div class="page-content">
-        <span class="display-6">Contract Driver</span>
+        <span class="display-6">Blacklist a driver</span>
     </div>
 
 </div>
-

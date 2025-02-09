@@ -57,40 +57,58 @@
                 <div class="content-wrapper">
                     
                     <header class="page-header">
-                        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                        
+                        <nav class="page-parent-header">
 
-                            <div class="container-fluid">
+                            <span class="page-brand text-success">Drivers</span>
 
-                                <span class="navbar-brand text-success">Drivers</span>
+                            <ul class="page-header-menu">
 
-                                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="driver_page_01.jsp">
+                                        <span>
+                                              <i class="mdi mdi-plus"></i>
+                                        </span>
+                                        <span>New Driver</span>
+                                    </button>
+                                </li>
 
-                                    <ul class="navbar-nav flex-grow-1">
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="driver_page_02.jsp">
+                                        <span>
+                                            <i class="mdi mdi-magnify"></i>
+                                        </span>
+                                        <span>Under Review</span>
+                                    </button>
+                                </li>
 
-                                        <li class="nav-item">
-                                            <button id="btn-page-d1" class="nav-item-button"data-partial="driver_page_01.jsp">New Driver</button>
-                                        </li>
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-d3" class="nav-item-button page-menu-button" data-partial="driver_page_03.jsp">
+                                        <span>
+                                             <i class="mdi mdi-car-traction-control"></i>
+                                        </span>
+                                        <span>Engagements</span>
+                                    </button>
+                                </li>
 
-                                        <li class="nav-item">
-                                            <button id="btn-page-d2" class="nav-item-button" data-partial="driver_page_02.jsp">Under Review</button>
-                                        </li>
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="driver_page_04.jsp">
+                                        <span>
+                                            <i class="mdi mdi-car-2-plus"></i>
+                                        </span>
+                                        <span>Contract Driver</span>
+                                    </button>
+                                </li>
 
-                                        <li class="nav-item">
-                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_03.jsp">Engaged</button>
-                                        </li>
-                                        
-                                        <li class="nav-item">
-                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_03.jsp">Open Engagement</button>
-                                        </li>
-                                        
-                                        <li class="nav-item">
-                                            <button id="btn-page-d3" class="nav-item-button" data-partial="driver_page_04.jsp">Blacklisted</button>
-                                        </li>
-                                    </ul>
-
-                                </div>
-
-                            </div>
+                                <li class="page-header-menu-item">
+                                    <button  id="btn-page-d5" class="nav-item-button page-menu-button" data-partial="driver_page_05.jsp">
+                                        <span>
+                                            <i class="mdi mdi-card-bulleted-settings"></i>
+                                        </span>
+                                        <span>Blacklisted</span>
+                                    </button>
+                                </li>
+                           </ul>
 
                         </nav>
                     </header>

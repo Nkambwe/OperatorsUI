@@ -17,7 +17,7 @@
 
         <div class="page-top-header-container">
             <span class="page-top-header">
-                Page Header
+                DRIVER REVIEW
             </span>
         </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="page-content">
-        <span class="display-6">Driver Second Pop Page</span>
+        <span class="display-6">Review Driver</span>
     </div>
 
 </div>

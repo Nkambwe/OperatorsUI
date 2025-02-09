@@ -17,7 +17,7 @@
 
         <div class="page-top-header-container">
             <span class="page-top-header">
-                Page Header
+                OPEN FOR CONTRACT
             </span>
         </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="page-content">
-        <span class="display-6">Driver Fourth Pop Page</span>
+        <span class="display-6">Contract Driver</span>
     </div>
 
 </div>

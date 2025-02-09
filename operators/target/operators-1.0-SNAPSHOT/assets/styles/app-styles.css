@@ -315,23 +315,24 @@ button.btn-child-back:hover {
     transition: all .3s ease-in-out;
 }
 
-    .page-header-menu-item button {
-        border: none;
-        padding: 2px 8px;
-        background-color: transparent;
-        transition: all .3s ease-in-out;
-    }
+.page-header-menu-item button {
+    border: none;
+    padding: 5px 8px;
+    font-size: 1.1em;
+    background-color: transparent;
+    transition: all .3s ease-in-out;
+}
 
         .page-header-menu-item button:hover,
         .page-header-menu-item button:hover span,
         .page-header-menu-item button:hover span i {
-            color: #86bff5;
+            color: #7CAB92;
             transition: all .3s ease-in-out;
         }
 
-        .page-header-menu-item button span i {
+        /*.page-header-menu-item button span i {
             color: #4361d9;
-        }
+        }*/
 
     .page-header-menu-item.menu-item-seperator-right button {
         padding-right: 10px;
@@ -478,6 +479,22 @@ button.btn-child-back:hover {
 .page-container.show-page.expand-page {
     left: 60px !important;
     width: 97% !important;
+}
+
+.page-parent-header {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px;
+}
+
+.page-brand {
+    display: inline-block;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 400;
+    font-size: 1.6em;
+    padding-right: 20px;
 }
 
 @keyframes pulse {

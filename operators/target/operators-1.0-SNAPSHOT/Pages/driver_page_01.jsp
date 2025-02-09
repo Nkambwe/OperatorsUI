@@ -17,7 +17,7 @@
 
         <div class="page-top-header-container">
             <span class="page-top-header">
-                Page Header
+                NEW DRIVER
             </span>
         </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="page-content">
-        <span class="display-6">Driver First Pop Page</span>
+        <span class="display-6">Create Driver</span>
     </div>
 
 </div>
