@@ -60,7 +60,7 @@
                         
                         <nav class="page-parent-header">
 
-                            <span class="page-brand text-success">Drivers</span>
+                            <span class="page-brand text-success">DRIVERS</span>
 
                             <ul class="page-header-menu">
 
@@ -76,9 +76,18 @@
                                 <li class="page-header-menu-item">
                                     <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="driver_page_02.jsp">
                                         <span>
-                                            <i class="mdi mdi-magnify"></i>
+                                            <i class="mdi mdi-glasses"></i>
                                         </span>
                                         <span>Under Review</span>
+                                    </button>
+                                </li>
+                                
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="driver_page_04.jsp">
+                                        <span>
+                                            <i class="mdi mdi-car-key"></i>
+                                        </span>
+                                        <span>Contract Driver</span>
                                     </button>
                                 </li>
 
@@ -88,15 +97,6 @@
                                              <i class="mdi mdi-car-traction-control"></i>
                                         </span>
                                         <span>Engagements</span>
-                                    </button>
-                                </li>
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="driver_page_04.jsp">
-                                        <span>
-                                            <i class="mdi mdi-car-2-plus"></i>
-                                        </span>
-                                        <span>Contract Driver</span>
                                     </button>
                                 </li>
 
@@ -129,7 +129,8 @@
                 <%=AppConstants.APP_FOOTER%>
             </div>
         </section>
-            
+        
+        <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
     </body>

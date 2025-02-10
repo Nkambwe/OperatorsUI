@@ -13,7 +13,7 @@
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String msg = null, alertClass = "alert-danger", msg_type="Success";
+    String msg = null, alertClass = "alert-success", msg_type="Success";
     boolean invalidName = false;
     boolean invalidPassword = false;
     String username,password; 
@@ -65,25 +65,37 @@
                                 }
                                 response.sendRedirect("index.jsp");
                             } else {
+                                    msg_type = "Info!";
+                                    alertClass = "alert-danger";
+                                    msg = "Password is not correct. Please check your password and try again";
                                     validatepasswordMsg = "Your password is not correct";
                                     class_validatepassword ="invalid-field";
                             }
   
                         } else {
-                            msg = user.getResponseMessage();
+                            msg_type = "Error!";
                             alertClass = "alert-danger";
+                            msg = user.getResponseMessage();
                         }
                     } else {
+                        msg_type = "Error!";
+                        msg = "Password id required";
+                        alertClass = "alert-danger";
                         validatepasswordMsg = "Please enter password to login";
                         class_validatepassword ="invalid-field";
                     }
                 } else {
-                    validateNameMsg = "Please enter username";
+                    msg_type = "Error!";
+                    msg = "Username is not correct. Please check your username and try again";
+                    alertClass = "alert-danger";
+                    validateNameMsg = "Please enter correct username";
                     class_validateName ="invalid-field";
                 }
             }
         } catch(Exception ex){
-            msg = ex.getMessage();
+            msg_type = "System Error!";
+            msg = "Possible connection error. Please try again later";
+            ApplicationLog.saveLog(String.format("System Error! %s", ex.getMessage()), "LOGIN");
             alertClass = "alert-danger";
         }
         
@@ -113,7 +125,7 @@
                 <div class="message-container">
                     
                     <div class="alert <%=alertClass%>">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+                        <span><strong><%=msg_type%></strong> <%=msg%></span>
                     </div>
                         
                 </div>

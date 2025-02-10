@@ -271,9 +271,10 @@ label.label {
 
 /*message boxes*/
 .message-container {
-    display: flex;
+    position: fixed;
+    top: 0;
     width: 100%;
-    flex-direction: row;
+    z-index: 1000;
 }
 
 .alert {

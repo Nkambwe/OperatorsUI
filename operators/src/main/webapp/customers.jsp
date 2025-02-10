@@ -42,7 +42,9 @@
         <section class="main-content-container">
             
             <%@include file="header.jsp"%> 
+            
             <div class="main-content">
+                
                 <% if (msg != null) {%>
                 <div class="message-container">
                     
@@ -55,9 +57,57 @@
                 <% }%>
                 
                 <div class="content-wrapper">
-                    <h1>Clients Page</h1>
+                    
+                    <header class="page-header">
+                        
+                        <nav class="page-parent-header">
+
+                            <span class="page-brand text-success">CLIENTS</span>
+
+                            <ul class="page-header-menu">
+
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="customers_page_01.jsp">
+                                        <span>
+                                            <i class="mdi mdi-car-info"></i>
+                                        </span>
+                                        <span>New Client</span>
+                                    </button>
+                                </li>
+
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="customers_page_02.jsp">
+                                        <span>
+                                             <i class="mdi  mdi-car-electric"></i>
+                                        </span>
+                                        <span>Engagements</span>
+                                    </button>
+                                </li>
+                                
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="customers_page_03.jsp">
+                                        <span>
+                                             <i class="mdi mdi-car-off"></i>
+                                        </span>
+                                        <span>Canceled Contracts</span>
+                                    </button>
+                                </li>
+                                
+                           </ul>
+
+                        </nav>
+                    </header>
+                    
+                    <div class="page-content">
+                        <!--container for child pages-->
+                        <div id="overlay">
+                            <div id="parent-container" class="page-container" data-child="no-child"></div>
+                        </div>
+                         <h1>Clients Home Page</h1>
+                    </div>
+                   
                 </div>
-                
+               
             </div>
             
             <div class="footer shadow-text">

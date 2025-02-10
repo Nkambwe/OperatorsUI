@@ -54,9 +54,59 @@
                 </div>
                 <% }%>
                 
+                
                 <div class="content-wrapper">
-                    <h1>Members Page</h1>
+                    
+                    <header class="page-header">
+                        
+                        <nav class="page-parent-header">
+
+                            <span class="page-brand text-success">MEMBERS</span>
+
+                            <ul class="page-header-menu">
+
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="members_page_01.jsp">
+                                        <span>
+                                             <i class="mdi mdi-account-tie-outline"></i>
+                                        </span>
+                                        <span>New Member</span>
+                                    </button>
+                                </li>
+
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="members_page_03.jsp">
+                                        <span>
+                                            <i class="mdi mdi-account-tie-voice"></i>
+                                        </span>
+                                        <p>Referrals</p>
+                                    </button>
+                                </li>
+                                
+                                <li class="page-header-menu-item">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="customers_page_03.jsp">
+                                        <span>
+                                             <i class="mdi mdi-account-tie-voice-off"></i>
+                                        </span>
+                                        <span>Canceled</span>
+                                    </button>
+                                </li>
+                                
+                           </ul>
+
+                        </nav>
+                    </header>
+                    
+                    <div class="page-content">
+                        <!--container for child pages-->
+                        <div id="overlay">
+                            <div id="parent-container" class="page-container" data-child="no-child"></div>
+                        </div>
+                         <h1>Members Home Page</h1>
+                    </div>
+                   
                 </div>
+               
                 
             </div>
             
