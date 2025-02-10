@@ -47,11 +47,11 @@
                 </li>
                 
                 <li class="menu-item">
-                    <a id="menu_clients_link" href="customers.jsp" class="menu-item-link" onclick="showLoading();">
+                    <a id="menu_clients_link" href="employer.jsp" class="menu-item-link" onclick="showLoading();">
                         <span>  
                             <i class="mdi mdi-car-multiple"></i>
                         </span> 
-                        <p>Clients</p> 
+                        <p>Employer</p> 
                     </a>
 
                 </li>

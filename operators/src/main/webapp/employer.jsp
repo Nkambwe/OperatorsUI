@@ -67,16 +67,16 @@
                             <ul class="page-header-menu">
 
                                 <li class="page-header-menu-item">
-                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="customers_page_01.jsp">
+                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="employer_page_01.jsp">
                                         <span>
                                             <i class="mdi mdi-car-info"></i>
                                         </span>
-                                        <span>New Client</span>
+                                        <span>Employer</span>
                                     </button>
                                 </li>
 
                                 <li class="page-header-menu-item">
-                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="customers_page_02.jsp">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="employer_page_02.jsp">
                                         <span>
                                              <i class="mdi  mdi-car-electric"></i>
                                         </span>
@@ -85,7 +85,7 @@
                                 </li>
                                 
                                 <li class="page-header-menu-item">
-                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="customers_page_03.jsp">
+                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="employer_page_03.jsp">
                                         <span>
                                              <i class="mdi mdi-car-off"></i>
                                         </span>
@@ -103,7 +103,7 @@
                         <div id="overlay">
                             <div id="parent-container" class="page-container" data-child="no-child"></div>
                         </div>
-                         <h1>Clients Home Page</h1>
+                         <h1>Employer Home Page</h1>
                     </div>
                    
                 </div>
