@@ -32,7 +32,7 @@
                 <li id="menu_dashboard" class="menu-item">
                     <a id="menu_dashboard_link" href="index.jsp" class="menu-item-link active" onclick="showLoading();">
                         <span>  
-                            <i class="mdi mdi-chart-bubble"></i>
+                            <i class="mdi mdi-chart-scatter-plot"></i>
                         </span> 
                         <p>Dashboard</p> 
                     </a>
@@ -64,15 +64,38 @@
                     </a>
 
                 </li>
+                
+                <li class="menu-separator"></li>
+                
                 <li class="menu-item">
-                    <a id="menu_access_link" href="access.jsp" class="menu-item-link" onclick="showLoading();">
+                    <a id="menu_users_link" href="access_users.jsp" class="menu-item-link" onclick="showLoading();">
                         <span>  
-                            <i class="mdi mdi-arrange-bring-to-front"></i>
+                            <i class="mdi mdi-account-group"></i>
                         </span> 
-                        <p>System Access</p> 
+                        <p>Users</p> 
                     </a>
 
                 </li>
+                
+                <li class="menu-item">
+                    <a id="menu_roles_link" href="access_roles.jsp" class="menu-item-link" onclick="showLoading();">
+                        <span>  
+                            <i class="mdi mdi-account-supervisor"></i>
+                        </span> 
+                         <p>Roles</p> 
+                    </a>
+
+                </li>
+                <li class="menu-item">
+                    <a id="menu_permissions_link" href="access_permissions.jsp" class="menu-item-link" onclick="showLoading();">
+                        <span>  
+                            <i class="mdi mdi-account-key"></i>
+                        </span> 
+                        <p>Permissions</p> 
+                    </a>
+
+                </li>
+                
                 <li class="menu-item">
                     <a id="menu_settings_link" href="settings.jsp" class="menu-item-link" onclick="showLoading();">
                         <span>  

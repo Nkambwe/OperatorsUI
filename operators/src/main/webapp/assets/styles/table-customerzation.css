@@ -1,0 +1,66 @@
+/* 
+    Created on : Feb 15, 2025, 9:54:27 AM
+    Author     : Macjohnan
+*/
+
+/* Striped rows - odd rows */
+.table {
+    cursor: pointer;
+    border-top: none;
+}
+
+.table>thead {
+    vertical-align: bottom;
+    font-size: .9em;
+    color: #343a40;
+}
+
+div#datatable-users_info {
+    display: none;
+}
+
+.table-bordered>:not(caption)>* {
+    border-width: 0!important
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    --bs-table-accent-bg: #DFF0EB !important;
+    color: #041C15 !important;
+}
+
+/* Even rows */
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #fff;  
+    transition: all .3s ease-in-out;
+}
+
+table.table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1) > * {
+    box-shadow: inset 0 0 0 9999px #CCDFD9!important;
+    color: #041C15 !important;
+    transition: all .3s ease-in-out;
+}
+
+table.table.dataTable > tbody > tr.selected > * {
+    box-shadow: inset 0 0 0 9999px #BDCFC9;
+    color: #041C15;
+}
+
+/* Hover effect for even rows */
+.table-hover > tbody > tr:nth-of-type(even):hover {
+    --bs-table-accent-bg: #CCDFD9!important;
+    color: #041C15 !important;
+    transition: all .3s ease-in-out;
+}
+
+table.table.dataTable.table-hover > tbody > tr:hover > * {
+  box-shadow: inset 0 0 0 9999px #BDCFC9!important;
+}
+table.table.dataTable.table-hover > tbody > tr.selected:hover > * {
+  box-shadow: inset 0 0 0 9999px rgba(13, 110, 253, 0.975);
+}
+
+div.dt-container div.dt-search {
+    text-align: right;
+    margin-right: 20px;
+}
+

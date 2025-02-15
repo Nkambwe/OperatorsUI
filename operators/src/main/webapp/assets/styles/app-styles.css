@@ -144,7 +144,7 @@ body, html {
     display: flex;
     flex-direction: column;
     padding: 65px 0 20px;
-    height: calc(100% - 140px);
+    height: 100%;
     overflow-y: auto;
 }
 
@@ -286,7 +286,9 @@ button.btn-child-back:hover {
 }
 
 .page-header {
-    display: flex;
+    font-size: 1em;
+    display: flex
+;
     flex-direction: row;
     width: 100%;
     border-bottom: solid 1px #cecece;
@@ -346,10 +348,14 @@ button.btn-child-back:hover {
 
 .page-content {
     display: flex;
-    width: calc(100% - 100px);
-    margin: 0 50px;
+    width: 100%;
+    padding: 0;
     position: relative;
     overflow: hidden;
+}
+
+.page-cotent-home {
+    width: 100%;
 }
 
 .content-filter {
@@ -495,6 +501,9 @@ button.btn-child-back:hover {
     font-weight: 400;
     font-size: 1.6em;
     padding-right: 20px;
+    width: 200px;
+    text-align: right;
+    border-right: solid 1px #6c757d;
 }
 
 @keyframes pulse {

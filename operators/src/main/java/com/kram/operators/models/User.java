@@ -1,6 +1,5 @@
 package com.kram.operators.models;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
