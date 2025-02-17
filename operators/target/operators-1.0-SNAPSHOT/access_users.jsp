@@ -87,7 +87,7 @@
     
     
     //set current page
-    session.setAttribute(AppConstants.CURRENT_PAGE, "SETTINGS_PAGE");
+    session.setAttribute(AppConstants.CURRENT_PAGE, "USERS_PAGE");
 %>
 <!DOCTYPE html>
 <html>

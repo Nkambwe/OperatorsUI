@@ -68,6 +68,16 @@
                 <li class="menu-separator"></li>
                 
                 <li class="menu-item">
+                    <a id="menu_users_link" href="access_branches.jsp" class="menu-item-link" onclick="showLoading();">
+                        <span>  
+                            <i class="mdi mdi-source-branch-plus"></i>
+                        </span> 
+                        <p>Branches</p> 
+                    </a>
+
+                </li>
+                
+                <li class="menu-item">
                     <a id="menu_users_link" href="access_users.jsp" class="menu-item-link" onclick="showLoading();">
                         <span>  
                             <i class="mdi mdi-account-group"></i>

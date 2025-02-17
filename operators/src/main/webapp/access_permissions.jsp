@@ -17,7 +17,7 @@
     }
     
     //set current page
-    session.setAttribute(AppConstants.CURRENT_PAGE, "ACCESS_PAGE");
+    session.setAttribute(AppConstants.CURRENT_PAGE, "PERMISSIONS_PAGE");
 %>
 <!DOCTYPE html>
 <html>

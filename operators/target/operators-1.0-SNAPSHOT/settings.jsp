@@ -74,34 +74,34 @@
                                 <span><i class="mdi mdi-account-tie-outline"></i></span>
                                <span>Members</span>
                             </button>
-                            <button class="tablinks" onclick="openTab(event, 'Branches')">
-                                <span><i class="mdi mdi-source-branch-plus"></i></span>
-                                <span>Branches</span>
-                            </button>
+                            
                             <button class="tablinks" onclick="openTab(event, 'Users')">
                                 <span><i class="mdi mdi-account-cog"></i></span>
                                 <span>Users</span>
                             </button>
-                            <button class="tablinks" onclick="openTab(event, 'Roles')">
-                                <span><i class="mdi mdi-account-multiple-outline"></i></span>
-                                <span>Roles</span>
-                            </button>
-                            <button class="tablinks" onclick="openTab(event, 'Permission')">
-                                <span><i class="mdi mdi-account-network"></i></span>
-                                <span>Permissions</span>
-                            </button>
+                            
                             <button class="tablinks" onclick="openTab(event, 'Passwords')"> 
                                 <span><i class="mdi mdi-lock-reset"></i></span>
                                 <span>Password</span>
                             </button>
+                            
                         </div>
 
                         <div id="Drivers" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Drivers Settings</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <form id="driver-form" action="" method="post">
+                            
+                            <form id="driver-form" action="" method="post">
+                                
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>Drivers Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content-details">
+                                
                                     
                                     <div class="section-lable">
                                         <span>Bio-data settings</span>
@@ -114,8 +114,8 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="surnameNameRequired">
-                                                      Require driver Surname
-                                                      <input class="form-check-input" type="checkbox" value="N" id="surnameNameRequired"/>
+                                                      Driver Surname is required
+                                                      <input class="form-check-input" type="checkbox" value="N" checked id="surnameNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -123,8 +123,8 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="firstNameRequired">
-                                                      Require driver first name
-                                                      <input class="form-check-input" type="checkbox" value="N" id="firstNameRequired"/>
+                                                      Driver first name is required
+                                                      <input class="form-check-input" type="checkbox" value="N" checked id="firstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -132,7 +132,7 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="otherNameRequired">
-                                                      Require driver other name
+                                                      Driver other name is required
                                                       <input class="form-check-input" type="checkbox" value="N" id="otherNameRequired"/>
                                                     </label>
                                                 </div>
@@ -145,17 +145,26 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="dobRequired">
-                                                      Require driver date of birth
+                                                      Driver date of birth is required
                                                       <input class="form-check-input" type="checkbox" value="N" id="dobRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
-
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="idRequired">
-                                                      Require identification at registration
-                                                      <input class="form-check-input" type="checkbox" value="N" id="idRequired"/>
+                                                      Driver Identification is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="idRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="idRequiredAtReqgistration">
+                                                      Driver Identification is required at registration
+                                                      <input class="form-check-input" type="checkbox" value="N" id="idRequiredAtReqgistration"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -174,7 +183,7 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="homeDistrictct">
-                                                      Require home district
+                                                      Driver home district is required
                                                       <input class="form-check-input" type="checkbox" value="N" id="homeDistrictct"/>
                                                     </label>
                                                 </div>
@@ -183,8 +192,8 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="residenceDistrictct">
-                                                      Require residence district
-                                                      <input class="form-check-input" type="checkbox" value="N" id="residenceDistrictct"/>
+                                                      Driver residence district is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="residenceDistrictct"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -192,19 +201,20 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="phoneNumber">
-                                                      Require phone number
-                                                      <input class="form-check-input" type="checkbox" value="N" id="phoneNumber"/>
+                                                      Phone number is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="phoneNumber"/>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div class="col-md-6 p-0">
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="emailAddress">
-                                                      Require email address
-                                                      <input class="form-check-input" type="checkbox" value="N" id="emailAddress"/>
+                                                      Driver email address is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="emailAddress"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -212,7 +222,7 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="socialMedia">
-                                                      Require social media contact
+                                                      Social media contact is required
                                                       <input class="form-check-input" type="checkbox" value="N" id="socialMedia"/>
                                                     </label>
                                                 </div>
@@ -222,7 +232,7 @@
                                     </div>
         
                                     <div class="section-lable">
-                                        <span>Education and work experience</span>
+                                        <span>Documentation</span>
                                     </div>
                                     
                                     <div class="row p-0">
@@ -231,24 +241,61 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="academicInfo">
-                                                      Require academic info
-                                                      <input class="form-check-input" type="checkbox" value="N" id="academicInfo"/>
+                                                      Academic info is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="academicInfo"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="academicDocumentsRequired">
+                                                      Copied of academic documents are required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="academicDocumentsRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="licience">
-                                                      Require driver license certification
-                                                      <input class="form-check-input" type="checkbox" value="N" id="licience"/>
+                                                    <label class="form-check-label" for="licienceRequired">
+                                                      Driver's license certification is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="licienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
-
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="copyOfLicienceRequired">
+                                                      Copied of driver's license certification is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="copyOfLicienceRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                         
                                         <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="refereesRequired">
+                                                      Must provide referees at registration
+                                                      <input class="form-check-input" type="checkbox" value="N" id="refereesRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="copyOfReferenceRequired">
+                                                      Copied of reference are required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="copyOfReferenceRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="experience">
@@ -268,76 +315,495 @@
                                         
                                     </div>
                                     
-                                </form>
-                            </div>
+                               
+                                </div>
+                            </form>
                          </div>
 
                         <div id="Employers" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Employers</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>Employers settings goes here</p> 
-                            </div>
+                            <form id="employer-form" action="" method="post">
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>Employee Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                            
+                                <div class="tab-content-details">
+                                
+                                    <div class="section-lable">
+                                        <span>General Info</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <span class="inner-label">Company Employers</span>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="companyNameRequired">
+                                                      Company's name is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="companyNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="companyAddressRequired">
+                                                      Company's physical address is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="companyAddressRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="contactPersonRequired">
+                                                      Contact's Name is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="contactPersonNumberRequired">
+                                                      Contact Number is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonNumberRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="contactPersonIdRequired">
+                                                      Contact National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonIdRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="contactPersonIdCopyRequired">
+                                                      A copy of contact's National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonIdCopyRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <span class="inner-label">Individual Employers</span>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerNameRequired">
+                                                      Employer's name is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerAddressRequired">
+                                                      Employer's physical address is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerAddressRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerContactNumberRequired">
+                                                      Employer's contact number is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerContactNumberRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerIdRequired">
+                                                      Employer's National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerIdRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerIdCopyRequired">
+                                                      A copy employer's National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerIdCopyRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="section-lable">
+                                        <span>Additional Info</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                           
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerDistrictRequired">
+                                                      Employer district is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="employerDistrictRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerEmailRequired">
+                                                      Employer email address is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked  id="employerEmailRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="employerAlternativeNumberRequired">
+                                                      Alternative Contact Number is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="employerAlternativeNumberRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                             
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="markEmployerAsDeleted">
+                                                      Only Mark Employers as deleted on deletion (Employer record will not be deleted permanently)
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markEmployerAsDeleted"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                
+                                
+                                </div>        
+                            
+                            </form>
+                            
                         </div>
 
                         <div id="Members" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Members</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>Members settings goes here</p>
-                            </div>
                             
+                            <form id="member-form" action="" method="post">
+                                
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>Member Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
                             
+                                <div class="tab-content-details">
+                                
+                                    <div class="section-lable">
+                                        <span>General Info</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                           
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberFirstNameRequired">
+                                                      member first name is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberFirstNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberAddressRequired">
+                                                      Member's physical address is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="memberAddressRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberIdRequired">
+                                                      Member's National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="memberIdRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberSurameRequired">
+                                                      member surname name is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberSurameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="cmemberContactRequired">
+                                                      Member's contact number is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="cmemberContactRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberIdCopyRequired">
+                                                      A copy of member's National Id is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="memberIdCopyRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="section-lable">
+                                        <span>Additional Info</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                           
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberDistrictRequired">
+                                                      Member district is required
+                                                      <input class="form-check-input" type="checkbox" value="N" id="memberDistrictRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberEmailRequired">
+                                                      Member email address is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked  id="memberEmailRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="memberAlternativeNumberRequired">
+                                                      Member alternative contact number is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberAlternativeNumberRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                             
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="markMemberAsDeleted">
+                                                      Only mark Member as deleted on deletion (Member record will not be deleted permanently)
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markMemberAsDeleted"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>   
+                            </form>
                         </div>
 
-                        <div id="Branches" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Branches</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>Branches settings goes here</p>
-                            </div>
-                            
-                            
-                        </div>
-                        
                         <div id="Users" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Users</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>User settings goes here</p>
-                            </div>
+                            
+                            <form id="driver-form" action="" method="post">
+                                
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>User Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                            
+                                <div class="tab-content-details">
 
-                        </div>
+                                    <div class="section-lable">
+                                        <span>General Info</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="userFirstNameRequired">
+                                                      User first name is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userFirstNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
 
-                        <div id="Roles" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Roles</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>Roles settings goes here</p>
-                            </div>
-                        </div>
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="userLastNameRequired">
+                                                      User last name is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userLastNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="userMiddleNameRequired">
+                                                      User middle name is required
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userMiddleNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="uniqueUsername">
+                                                      Username must be unique
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="uniqueUsername"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="userEmailRequired">
+                                                      User must provide an email address
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userEmailRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
 
-                        <div id="Permission" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Permission</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <p>Permission settings goes here</p>
-                            </div>
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="uniqueUserEmail">
+                                                      User must provide a unique email address
+                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="uniqueUserEmail"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="verifyUsers">
+                                                      Users must be verified
+                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="verifyUsers"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="cannotVerifySame">
+                                                      Users can't be verified by user who created them
+                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="cannotVerifySame"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="section-lable">
+                                        <span>Additional settings</span>
+                                    </div>
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                            
+                                            
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="markUserAsDeleted">
+                                                      Mark users as deleted on deletion  (User record will not be deleted permanently)
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markUserAsDeleted"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="lockUserAccount">
+                                                      Lock user account after a specified number of attempted logins
+                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="lockUserAccount"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="expireDays">Maximum login attempts</span>
+                                                    <input type="number" class="form-control" placeholder="Enter maximum login attempts" aria-label="Maximum Login Attempts" aria-describedby="maximumAttempts">
+                                                 </div>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </form>    
                         </div>
 
                         <div id="Passwords" class="tabcontent">
-                            <div class="tab-cotent-header">
-                                <h3>Passwords</h3>
-                            </div>
-                            <div class="tab-cotent-details">
-                                <form action="" method="post">
-                                    
+                           
+                            <form action="" method="post">
+                                
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>Password Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content-details">
+
                                     <div class="row-cols-1 settings-row">
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="expirePasswords">
@@ -378,9 +844,8 @@
                                             </label>
                                         </div>
                                     </div>
-                                    
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

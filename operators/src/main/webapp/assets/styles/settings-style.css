@@ -97,13 +97,23 @@ button.tablinks span:last-child {
     text-align: left;
 }
 
-.tab-cotent-header h3 {
+.tab-content-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.tab-content-header h3 {
     display: block;
     font-weight: 300;
     line-height: 1.2;
     color:#20c997;
     font-family: var(--bs-font-sans-serif);
     font-size: 1.5rem !important;
+}
+
+.tab-content-header-banner {
+    flex: 1;
 }
 
 .tab-cotent-details {
@@ -121,4 +131,14 @@ button.tablinks span:last-child {
     font-size: 1.2rem;
     margin: 20px 0;
     text-decoration: underline
+}
+
+span.inner-label {
+    display: block;
+    font-size: 1.2em;
+    color: #B2C1CF;
+}
+
+form#driver-form {
+    padding: 10px;
 }
