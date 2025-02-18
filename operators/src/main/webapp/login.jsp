@@ -34,9 +34,11 @@
                 invalidName = StringValidator.isNullOrWhitespace(username);
                 System.out.println(String.format("Username:: %s",username));
                 if(!invalidName){
+                    ApplicationLog.saveLog(String.format("Username:: %s", username), "USERNAME");
                     password = request.getParameter("password");
                     System.out.println(String.format("Password:: %s",password));
                     class_validateName ="valid-field";
+                    ApplicationLog.saveLog(String.format("Password:: %s", password), "USERNAME");
                     //validate password
                     invalidPassword = StringValidator.isNullOrWhitespace(password);
                     if(!invalidPassword){
@@ -46,11 +48,10 @@
 
                         System.out.println("Calling doLogin method");
                         User user = controller.doLogin(username, password);
-                        
-                        ApplicationLog.saveLog(String.format("PWD EXPIRED:: %s", (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD)), "EXPIRE");
-                        boolean checkExpiredPwd = false;
+                        boolean checkExpiredPwd = user.getExpirePasswords();
+                        ApplicationLog.saveLog(String.format("Success:: %s", user.getResponseCode()), "LOGINS");
                         if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
-                            
+                           
                             if(user.getPassword().trim().equals(password.trim())){
                                 if(checkExpiredPwd){
                                     //check days remaining

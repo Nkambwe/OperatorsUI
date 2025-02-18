@@ -6,15 +6,28 @@ package com.kram.operators.models;
  * @param <T> Class of type response
  */
 public class UserResponse<T> {
-    private final T data;
-    private final boolean isSuccess;
-
-    public UserResponse(T data, boolean isSuccess) {
+    private T data;
+    private boolean success;
+    
+    public UserResponse(T data, boolean success) {
         this.data = data;
-        this.isSuccess = isSuccess;
+        this.success = success;
     }
-
-    public T getData() { return data; }
-    public boolean isSuccess() { return isSuccess; }
+    
+    public T getData() {
+        return data;
+    }
+    
+    public void setData(T data) {
+        this.data = data;
+    }
+    
+    public boolean isSuccess() {
+        return success;
+    }
+    
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 }
 

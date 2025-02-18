@@ -55,7 +55,9 @@ public class LoginController {
             if (response.isSuccess()) {
                 user = (User) response.getData();
                 ApplicationLog.saveLog("User account retrieved successfully", "LOGINCONTROLLER");
-                if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
+                ApplicationLog.saveLog("SUCCESS CODE:: " + user.getResponseCode(), "LOGINCONTROLLER");
+                ApplicationLog.saveLog("STATUS VALUE:: " + user.getResponseStatus(), "LOGINCONTROLLER");
+                if(user.getResponseStatus()){
                     ApplicationLog.saveLog("Record retrieved scuccessfully", "LOGINCONTROLLER");
                     this.session.setAttribute(AppConstants.USER_ID, user.getId());
                     this.session.setAttribute(AppConstants.KEY_LOGGEDIN, true);
@@ -79,7 +81,7 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, user.getExpiresIn());
                     
                     System.out.println("Employee Name: " + user.getEmployeeName());
-                    ApplicationLog.saveLog(String.format("ERROR :: %s",user.getResponseMessage()), "LOGINCONTROLLER");
+                    ApplicationLog.saveLog("ERROR :: " + user.getResponseMessage(), "LOGINCONTROLLER");
                     if (!AppConstants.ISLIVE) {
                             try{
                             System.out.println(String.format("SESSION :: %s",new Gson().toJson(session))); 
@@ -100,7 +102,7 @@ public class LoginController {
                 user.setResponseCode(error.getStatusCode());
                 user.setResponseMessage(error.getResponseMessage());
                 user.setResponseDescription(error.getResponseDescription());
-                ApplicationLog.saveLog(String.format("ERROR :: %s", error.getResponseMessage()), "LOGINCONTROLLER");
+                ApplicationLog.saveLog("ERROR :: " + error.getResponseMessage(), "LOGINCONTROLLER");
             }
             
         } catch (IOException | InterruptedException ex) {

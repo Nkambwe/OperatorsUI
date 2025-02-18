@@ -1,5 +1,6 @@
 package com.kram.operators.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 /**
@@ -14,10 +15,6 @@ public class User {
     private int branchId;
     public int getBranchId() { return this.branchId; }
     public void setBranchId(int branchId) { this.branchId = branchId; }
-
-    private String name;
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
 
     private String employeeNo;
     public String getEmployeeNo() { return employeeNo; }
@@ -114,4 +111,32 @@ public class User {
     private String responseDescription;
     public String getResponseDescription() { return responseDescription; }
     public void setResponseDescription(String responseDescription) { this.responseDescription = responseDescription; }
+    
+    
+    // Add a field for response metadata
+    private ResponseMetadata responseMetadata = new ResponseMetadata();
+    
+    // Create a separate inner class for response metadata
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class ResponseMetadata {
+        private boolean responseStatus;
+        private int responseCode;
+        private String responseMessage;
+        private String responseDescription;
+        
+        // Getters and setters for response metadata
+        public boolean getResponseStatus() { return this.responseStatus; }
+        public void setResponseStatus(boolean responseStatus) { this.responseStatus = responseStatus; }
+        
+        public int getResponseCode() { return this.responseCode; }
+        public void setResponseCode(int responseCode) { this.responseCode = responseCode; }
+        
+        public String getResponseMessage() { return responseMessage; }
+        public void setResponseMessage(String responseMessage) { this.responseMessage = responseMessage; }
+        
+        public String getResponseDescription() { return responseDescription; }
+        public void setResponseDescription(String responseDescription) { this.responseDescription = responseDescription; }
+    }
+    
+
 }
