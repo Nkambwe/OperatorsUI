@@ -46,8 +46,10 @@
 
                         System.out.println("Calling doLogin method");
                         User user = controller.doLogin(username, password);
-                        boolean checkExpiredPwd = (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD);
-                        if(user.getStatusCode() == AppConstants.CODE_SUCCESS){
+                        
+                        ApplicationLog.saveLog(String.format("PWD EXPIRED:: %s", (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD)), "EXPIRE");
+                        boolean checkExpiredPwd = false;
+                        if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
                             
                             if(user.getPassword().trim().equals(password.trim())){
                                 if(checkExpiredPwd){
@@ -96,6 +98,7 @@
             msg_type = "System Error!";
             msg = "Possible connection error. Please try again later";
             ApplicationLog.saveLog(String.format("System Error! %s", ex.getMessage()), "LOGIN");
+            ApplicationLog.saveLog(String.format("System Error! %s", ex), "STACKTRACE");
             alertClass = "alert-danger";
         }
         

@@ -99,9 +99,13 @@ public class User {
     public  List<String> getPermissions() { return permissions; }
     public void setPermissions( List<String> permissions) { this.permissions = permissions; }
     
-    private int statusCode;
-    public int getStatusCode() { return this.statusCode; }
-    public void setStatusCode(int statusCode) { this.statusCode = statusCode; }
+    private boolean responseStatus;
+    public boolean getResponseStatus() { return this.responseStatus; }
+    public void setResponseStatus(boolean responseStatus) { this.responseStatus = responseStatus; }
+    
+    private int responseCode;
+    public int getResponseCode() { return this.responseCode; }
+    public void setResponseCode(int responseCode) { this.responseCode = responseCode; }
     
     private String responseMessage;
     public String getResponseMessage() { return responseMessage; }

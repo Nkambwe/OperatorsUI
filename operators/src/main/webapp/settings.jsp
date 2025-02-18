@@ -4,16 +4,95 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.dtos.AppResponse"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Optional"%>
+<%@page import="com.kram.operators.helpers.AttributeList"%>
+<%@page import="com.kram.operators.dtos.Attribute"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="com.kram.operators.controllers.SettingsController"%>
+<%@page import="com.kram.operators.helpers.ApplicationUtilities"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String msg = null, alertClass = "alert-danger", msg_type="Success";
+    String msg = null, alertClass = "alert-success", msg_type="Success";
 
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
     if(!isLoggedIn){
         response.sendRedirect("login.jsp");
         return;
+    }
+    
+    String ipAddress = ApplicationUtilities.getClientIP(request);
+    SettingsController controller = new SettingsController(session,ipAddress);
+    
+    
+    if (request.getMethod().equalsIgnoreCase("POST")) {
+        List<String> checkboxNames = null;
+        ArrayList<Attribute> attributes = null;
+        String mtd  = request.getParameter("mtd");
+        
+        switch(mtd){
+            case "driver-setting":
+                checkboxNames = AttributeList.getDriverSettings() ;
+                attributes = AttributeList.getAttributes(AppConstants.DRVATRIB);
+            break;
+            case "employ-setting":
+                checkboxNames = AttributeList.getEmployerSettings() ;
+                attributes = AttributeList.getAttributes(AppConstants.EMPATRIB);
+            break;
+            case "member-setting":
+                checkboxNames = AttributeList.getMemberSettings() ;
+                attributes = AttributeList.getAttributes(AppConstants.MEMATRIB);
+            break;
+            case "user-setting":
+                checkboxNames = AttributeList.getUserSettings() ;
+                attributes = AttributeList.getAttributes(AppConstants.USEATRIB);
+            break;
+            case "pwd-setting":
+                checkboxNames = AttributeList.getPasswordSettings() ;
+                attributes = AttributeList.getAttributes(AppConstants.PWDATRIB);
+            break;
+            default:
+                //get from the database and use all check names
+                //checkboxNames = AttributeList.getPasswordSettings() ;
+                //attributes = AttributeList.getAttributes(AppConstants.DRVATRIB);
+            break;
+        }
+        
+        
+        if(attributes != null && checkboxNames != null){
+            for (String name : checkboxNames) {
+                String paramValue = request.getParameter(name);
+
+                // Get attribute object using proper stream syntax and Optional handling
+                Optional<Attribute> atrObj = attributes.stream()
+                    .filter(a -> a.getParameterName().equals(name))
+                    .findFirst();
+
+                // Update the value if attribute exists
+                atrObj.ifPresent(attr -> {
+                    attr.setParameterValue(paramValue != null && paramValue.equals("YES"));
+                });
+            }
+
+            // Save updates
+            AppResponse resp = controller.updateConfigurations(attributes);
+
+            // Simplified response handling
+            if (resp.getResponseStatus() && resp.getResponseCode() == 200) {
+                msg = "Settings updated successfully";
+                alertClass = "alert-success";
+                msg_type = "Success";
+            } else {
+                msg = resp.getResponseMessage();
+                alertClass = "alert-danger";
+                msg_type = "Danger";
+            }
+        }
     }
     
     //set current page
@@ -89,14 +168,17 @@
 
                         <div id="Drivers" class="tabcontent">
                             
-                            <form id="driver-form" action="" method="post">
+                            <form id="driver-form" method="post" role="form" >
+                                
+                                <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="driver-setting"/>
                                 
                                 <div class="tab-content-header">
                                     <div class="tab-content-header-banner">
                                         <h3>Drivers Settings</h3>
                                     </div>
                                     <div class="tab-content-header-button">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
                                     </div>
                                 </div>
                                 
@@ -115,7 +197,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="surnameNameRequired">
                                                       Driver Surname is required
-                                                      <input class="form-check-input" type="checkbox" value="N" checked id="surnameNameRequired"/>
+                                                      <input name="surnameNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="surnameNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -124,7 +206,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="firstNameRequired">
                                                       Driver first name is required
-                                                      <input class="form-check-input" type="checkbox" value="N" checked id="firstNameRequired"/>
+                                                      <input name="firstNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="firstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -133,7 +215,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="otherNameRequired">
                                                       Driver other name is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="otherNameRequired"/>
+                                                      <input name="otherNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="otherNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -146,7 +228,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="dobRequired">
                                                       Driver date of birth is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="dobRequired"/>
+                                                      <input name="dobRequired" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="dobRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -155,7 +237,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="idRequired">
                                                       Driver Identification is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="idRequired"/>
+                                                      <input name="idRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="idRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -164,7 +246,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="idRequiredAtReqgistration">
                                                       Driver Identification is required at registration
-                                                      <input class="form-check-input" type="checkbox" value="N" id="idRequiredAtReqgistration"/>
+                                                      <input name="idRequiredAtReqgistration" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="idRequiredAtReqgistration"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -180,20 +262,21 @@
                                     <div class="row p-0">
                                         
                                         <div class="col-md-6 p-0">
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="homeDistrictct">
+                                                    <label class="form-check-label" for="homeDistrict">
                                                       Driver home district is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="homeDistrictct"/>
+                                                      <input name="homeDistrict" class="form-check-input  driver-attribute" type="checkbox" value="N" id="homeDistrict"/>
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="residenceDistrictct">
+                                                    <label class="form-check-label" for="residenceDistrict">
                                                       Driver residence district is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="residenceDistrictct"/>
+                                                      <input name="residenceDistrict" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="residenceDistrict"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -202,7 +285,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="phoneNumber">
                                                       Phone number is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="phoneNumber"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="phoneNumber"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -214,7 +297,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="emailAddress">
                                                       Driver email address is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="emailAddress"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="emailAddress"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -223,10 +306,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="socialMedia">
                                                       Social media contact is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="socialMedia"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="N" id="socialMedia"/>
                                                     </label>
                                                 </div>
                                             </div>
+                                            
                                          </div>
                                         
                                     </div>
@@ -238,11 +322,12 @@
                                     <div class="row p-0">
                                         
                                         <div class="col-md-6 p-0">
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="academicInfo">
                                                       Academic info is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="academicInfo"/>
+                                                      <input name="academicInfo" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="academicInfo"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -251,7 +336,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="academicDocumentsRequired">
                                                       Copied of academic documents are required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="academicDocumentsRequired"/>
+                                                      <input name="academicDocumentsRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="academicDocumentsRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -260,7 +345,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="licienceRequired">
                                                       Driver's license certification is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="licienceRequired"/>
+                                                      <input name="licienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="licienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -269,7 +354,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="copyOfLicienceRequired">
                                                       Copied of driver's license certification is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="copyOfLicienceRequired"/>
+                                                      <input name="copyOfLicienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="copyOfLicienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -282,7 +367,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="refereesRequired">
                                                       Must provide referees at registration
-                                                      <input class="form-check-input" type="checkbox" value="N" id="refereesRequired"/>
+                                                      <input name="refereesRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="refereesRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -291,7 +376,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="copyOfReferenceRequired">
                                                       Copied of reference are required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="copyOfReferenceRequired"/>
+                                                      <input name="copyOfReferenceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="copyOfReferenceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -300,15 +385,15 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="experience">
                                                       Require work experience
-                                                      <input class="form-check-input" type="checkbox" value="N" id="experience"/>
+                                                      <input name="experience" class="form-check-input  driver-attribute" type="checkbox" value="N" id="experience"/>
                                                     </label>
                                                 </div>
                                             </div>
-
+                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="expireDays">Number of years of working experience required</span>
-                                                    <input type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of years experience" aria-describedby="yearsOfExperience">
+                                                    <input name="expireDays" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of years experience" aria-describedby="yearsOfExperience">
                                                  </div>
                                             </div>
                                          </div>
@@ -318,16 +403,22 @@
                                
                                 </div>
                             </form>
+                            
                          </div>
 
                         <div id="Employers" class="tabcontent">
-                            <form id="employer-form" action="" method="post">
+                            
+                            <form id="employ-form" method="post" role="form" >
+                                
+                                <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="employ-setting"/>
+                                
                                 <div class="tab-content-header">
                                     <div class="tab-content-header-banner">
                                         <h3>Employee Settings</h3>
                                     </div>
                                     <div class="tab-content-header-button">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
                                     </div>
                                 </div>
                             
@@ -513,14 +604,17 @@
 
                         <div id="Members" class="tabcontent">
                             
-                            <form id="member-form" action="" method="post">
+                            <form id="member-form" method="post" role="form" >
+                                
+                                <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="member-setting"/>
                                 
                                 <div class="tab-content-header">
                                     <div class="tab-content-header-banner">
                                         <h3>Member Settings</h3>
                                     </div>
                                     <div class="tab-content-header-button">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
                                     </div>
                                 </div>
                             
@@ -644,18 +738,22 @@
                                     </div>
                                 </div>   
                             </form>
+                            
                         </div>
 
                         <div id="Users" class="tabcontent">
                             
-                            <form id="driver-form" action="" method="post">
+                            <form id="user-form" method="post" role="form" >
+                                
+                                <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="user-setting"/>
                                 
                                 <div class="tab-content-header">
                                     <div class="tab-content-header-banner">
                                         <h3>User Settings</h3>
                                     </div>
                                     <div class="tab-content-header-button">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
                                     </div>
                                 </div>
                             
@@ -787,18 +885,22 @@
                                     </div>
                                 </div>
                             </form>    
+                            
                         </div>
 
                         <div id="Passwords" class="tabcontent">
                            
-                            <form action="" method="post">
+                            <form id="password-form" method="post" role="form" >
+                                
+                                <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="pwd-setting"/>
                                 
                                 <div class="tab-content-header">
                                     <div class="tab-content-header-banner">
                                         <h3>Password Settings</h3>
                                     </div>
                                     <div class="tab-content-header-button">
-                                        <button type="submit" class="btn btn-success">Update</button>
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
                                     </div>
                                 </div>
                                 
@@ -846,7 +948,9 @@
                                     </div>
                                 </div>
                             </form>
+                            
                         </div>
+                        
                     </div>
                 </div>
  

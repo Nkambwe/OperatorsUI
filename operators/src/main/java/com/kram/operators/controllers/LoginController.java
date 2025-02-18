@@ -55,7 +55,7 @@ public class LoginController {
             if (response.isSuccess()) {
                 user = (User) response.getData();
                 ApplicationLog.saveLog("User account retrieved successfully", "LOGINCONTROLLER");
-                if(user.getStatusCode() == AppConstants.CODE_SUCCESS){
+                if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
                     ApplicationLog.saveLog("Record retrieved scuccessfully", "LOGINCONTROLLER");
                     this.session.setAttribute(AppConstants.USER_ID, user.getId());
                     this.session.setAttribute(AppConstants.KEY_LOGGEDIN, true);
@@ -75,13 +75,14 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.USER_EMAIL, user.getEmail());
                     this.session.setAttribute(AppConstants.KEY_PASSWORDID, user.getPasswordId());
                     this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, user.getExpirePasswords());
+                     ApplicationLog.saveLog(String.format("EXPIRED PASSWORD :: %s", user.getExpirePasswords()), "LOGINCONTROLLER");
                     this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, user.getExpiresIn());
                     
                     System.out.println("Employee Name: " + user.getEmployeeName());
-                    ApplicationLog.saveLog("ERROR :: " + user.getResponseMessage(), "LOGINCONTROLLER");
+                    ApplicationLog.saveLog(String.format("ERROR :: %s",user.getResponseMessage()), "LOGINCONTROLLER");
                     if (!AppConstants.ISLIVE) {
                             try{
-                            System.out.println("SESSION :: " + new Gson().toJson(session)); 
+                            System.out.println(String.format("SESSION :: %s",new Gson().toJson(session))); 
                             }catch(UnsupportedOperationException cc){
                                 System.err.println("Error Printing session data:: "+cc.getMessage());
                                 final Gson gson = new GsonBuilder()
@@ -96,10 +97,10 @@ public class LoginController {
             } else {
                 ErrorResponse error = (ErrorResponse) response.getData();
                 user = new User();
-                user.setStatusCode(error.getStatusCode());
+                user.setResponseCode(error.getStatusCode());
                 user.setResponseMessage(error.getResponseMessage());
                 user.setResponseDescription(error.getResponseDescription());
-                ApplicationLog.saveLog("ERROR :: " + error.getResponseMessage(), "LOGINCONTROLLER");
+                ApplicationLog.saveLog(String.format("ERROR :: %s", error.getResponseMessage()), "LOGINCONTROLLER");
             }
             
         } catch (IOException | InterruptedException ex) {

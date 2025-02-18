@@ -24,11 +24,11 @@ public class ApplicationLog {
             //Specify the file name and path here
             String directory;
             if(isWindows()){
-            directory = "C://Activity_Logs/Operator";
+                 directory = "C://Activity_Logs/Operator";
             }else if(isMac()){
-            directory="/users/eng.semandamoses/Documents/Activity_Logs/Operator";
+                directory="E://Activity_Logs/Operator";
             }else{
-            directory="/users/eng.semandamoses/Documents/Activity_Logs/Operator";
+                directory="E://Activity_Logs/Operator";
             }
             
             File d = new File(directory);

@@ -35,6 +35,11 @@ public class AppConstants {
     public final static String KEY_EXPIRRPWD="pwd_exp";
     public final static String KEY_EXPIRESINDAYS="pwd_days"; 
     public final static String CURRENT_PAGE="current_page";
+    public final static String DRVATRIB = "DRVATRIB";
+    public final static String EMPATRIB = "EMPATRIB";
+    public final static String MEMATRIB = "MEMATRIB";
+    public final static String USEATRIB = "USEATRIB";
+    public final static String PWDATRIB = "PWDATRIB";
     
     public final static String APP_FOOTER = String.format("Operactor 1.0 &copy 2024 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 
