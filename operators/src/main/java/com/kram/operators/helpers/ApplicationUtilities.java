@@ -2,6 +2,9 @@ package com.kram.operators.helpers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.kram.operators.dtos.CurrentUser;
+import com.kram.operators.dtos.UserData;
+import com.kram.operators.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -85,6 +88,13 @@ public class ApplicationUtilities {
         String[] tokens = ddmmmYYY.trim().split("/");
         return String.format("%s-%s-%s",tokens[2],tokens[1],tokens[0]); 
 
+    }
+    
+    public static CurrentUser generateUser(User user) {
+        if (user == null || user.getData() == null) {
+            return null; // Handle null cases
+        }
+        return new CurrentUser(user);
     }
     
    public static boolean canPerformAction(String pageRole, String actionStr) {

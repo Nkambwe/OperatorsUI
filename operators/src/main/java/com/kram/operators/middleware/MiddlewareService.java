@@ -1,5 +1,6 @@
 package com.kram.operators.middleware;
 
+import com.google.gson.FieldNamingPolicy;
 import com.kram.operators.helpers.AppConstants;
 import com.kram.operators.helpers.ApplicationLog;
 import com.kram.operators.models.ErrorResponse;
@@ -16,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.kram.operators.dtos.UserData;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -41,32 +43,17 @@ public class MiddlewareService {
         // Create Gson with custom type adapter
         Gson gson = new GsonBuilder()
             .setLenient()
-            .registerTypeAdapter(User.class, new JsonDeserializer<User>() {
-                @Override
-                public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
-                        throws JsonParseException {
-                    JsonObject jsonObject = json.getAsJsonObject();
-                    User user = new User();
-                    
-                    // Deserialize basic user properties
-                    if (jsonObject.has("id")) user.setId(jsonObject.get("id").getAsInt());
-                    if (jsonObject.has("username")) user.setUsername(jsonObject.get("username").getAsString());
-                    // ... deserialize other user properties ...
-                    
-                    // Deserialize response metadata
-                    if (jsonObject.has("responseStatus")) user.setResponseStatus(jsonObject.get("responseStatus").getAsBoolean());
-                    if (jsonObject.has("responseCode")) user.setResponseCode(jsonObject.get("responseCode").getAsInt());
-                    if (jsonObject.has("responseMessage")) user.setResponseMessage(jsonObject.get("responseMessage").getAsString());
-                    if (jsonObject.has("responseDescription")) user.setResponseDescription(jsonObject.get("responseDescription").getAsString());
-                    
-                    return user;
-                }
-            })
+            .excludeFieldsWithoutExposeAnnotation() // Ensures Gson only serializes annotated fields
+            .serializeNulls()  // Ensure Gson includes null fields instead of skipping them
+            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) // Preserve field names exactly
             .create();
-            
+
         HttpClient client = createInsecureHttpClient();
         
         // Log the request body for debugging
+        System.out.println("UserRequest Object: " + userRequest);
+        ApplicationLog.saveLog("RAW USEROBJECT : " + userRequest, "MIDDLEWARESERVICE");
+
         String requestBody = gson.toJson(userRequest);
         ApplicationLog.saveLog("Request body :: " + requestBody, "MIDDLEWARESERVICE");
         
@@ -93,8 +80,9 @@ public class MiddlewareService {
             // Check HTTP response code first
             if (response.statusCode() != 200) {
                 ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.setStatusCode(response.statusCode());
+                errorResponse.setResponseCode(response.statusCode());
                 errorResponse.setResponseMessage("HTTP Error: " + response.statusCode());
+                errorResponse.setResponseDescription("Something went wrong");
                 return new UserResponse<>(errorResponse, false);
             }
             
@@ -102,7 +90,10 @@ public class MiddlewareService {
             if (jsonObject.has("responseCode")) {
                 int statusCode = jsonObject.get("responseCode").getAsInt();
                 ApplicationLog.saveLog("Response code :: " + statusCode, "MIDDLEWARESERVICE");
-                
+                String responseMessage = jsonObject.get("responseMessage").getAsString();
+                ApplicationLog.saveLog("Response Message :: " + responseMessage, "MIDDLEWARESERVICE");
+                String responseDescription = jsonObject.get("responseDescription").getAsString();
+                ApplicationLog.saveLog("Response Descr :: " + responseDescription, "MIDDLEWARESERVICE");
                 if (statusCode != 200) {
                     ErrorResponse errorResponse = gson.fromJson(jsonObject, ErrorResponse.class);
                     return new UserResponse<>(errorResponse, false);
@@ -111,10 +102,28 @@ public class MiddlewareService {
             
             // Attempt to deserialize as User with detailed error handling
             try {
+                //deserialize User object
                 User user = gson.fromJson(jsonObject, User.class);
+                if (user == null) {
+                    throw new JsonSyntaxException("Failed to retrieve user record");
+                }
                 
                 // Validate essential fields
-                if (user.getUsername() == null || user.getEmployeeNo() == null) {
+                UserData data = user.getData();
+                if(data == null){
+                    throw new JsonSyntaxException("Missing 'data' object in response");
+                } else {
+                    // Extract the "data" object that contains user details
+                    JsonObject dataObject = jsonObject.getAsJsonObject("data");
+
+                    String jsonData = dataObject.toString();
+                    ApplicationLog.saveLog("Extracted JSON Data: " + jsonData, "MIDDLEWARESERVICE");
+                    
+                    // Log deserialized object to verify
+                    ApplicationLog.saveLog("Deserialized User: " + gson.toJson(user), "MIDDLEWARESERVICE");
+                    
+                }
+                if (data.getUsername() == null || data.getEmployeeNo() == null) {
                     throw new JsonSyntaxException("Missing required user fields");
                 }
                 
@@ -126,7 +135,7 @@ public class MiddlewareService {
             
         } catch (JsonSyntaxException | JsonIOException e) {
             ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatusCode(500);
+            errorResponse.setResponseCode(500);
             errorResponse.setResponseMessage("Error parsing response");
             errorResponse.setResponseDescription(e.getMessage());
             
@@ -134,7 +143,7 @@ public class MiddlewareService {
             return new UserResponse<>(errorResponse, false);
         } catch (Exception e) {
             ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatusCode(500);
+            errorResponse.setResponseCode(500);
             errorResponse.setResponseMessage("Unexpected error");
             errorResponse.setResponseDescription(e.getMessage());
             

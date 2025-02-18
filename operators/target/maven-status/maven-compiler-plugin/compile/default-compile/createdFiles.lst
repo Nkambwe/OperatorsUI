@@ -4,12 +4,12 @@ com\kram\operators\models\User.class
 com\kram\operators\helpers\ApplicationUtilities.class
 com\kram\operators\middleware\MiddlewareService$1.class
 com\kram\operators\models\UserRequest.class
+com\kram\operators\dtos\UserData.class
 com\kram\operators\models\ErrorResponse.class
 com\kram\operators\helpers\AppSingleton.class
 com\kram\operators\webfilters\HashingFilter.class
+com\kram\operators\dtos\CurrentUser.class
 com\kram\operators\dtos\Attribute.class
-com\kram\operators\models\User$ResponseMetadata.class
-com\kram\operators\middleware\MiddlewareService$2.class
 com\kram\operators\middleware\MiddlewareService.class
 com\kram\operators\helpers\StringValidator.class
 com\kram\operators\controllers\SettingsController.class

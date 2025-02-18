@@ -2,9 +2,12 @@ package com.kram.operators.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kram.operators.dtos.CurrentUser;
+import com.kram.operators.dtos.UserData;
 import com.kram.operators.helpers.AppConstants;
 import com.kram.operators.helpers.AppSingleton;
 import com.kram.operators.helpers.ApplicationLog;
+import com.kram.operators.helpers.ApplicationUtilities;
 import com.kram.operators.middleware.MiddlewareService;
 import com.kram.operators.models.ErrorResponse;
 import com.kram.operators.models.User;
@@ -34,9 +37,9 @@ public class LoginController {
 
     }
     
-    public User doLogin(String username, String password) {
+    public CurrentUser doLogin(String username, String password) {
         ApplicationLog.saveLog("Attempting to login user", "LOGINCONTROLLER");
-        User user = null;
+        CurrentUser cUser = null;
         //String userId = ApplicationUtilities.getUserId(session);
         
         try {
@@ -53,34 +56,34 @@ public class LoginController {
             response = apiMiddleware.retrieveUser(userRequest);
             
             if (response.isSuccess()) {
-                user = (User) response.getData();
+                 User user = (User)response.getData();
+                cUser = ApplicationUtilities.generateUser(user);
                 ApplicationLog.saveLog("User account retrieved successfully", "LOGINCONTROLLER");
-                ApplicationLog.saveLog("SUCCESS CODE:: " + user.getResponseCode(), "LOGINCONTROLLER");
-                ApplicationLog.saveLog("STATUS VALUE:: " + user.getResponseStatus(), "LOGINCONTROLLER");
-                if(user.getResponseStatus()){
+                ApplicationLog.saveLog("SUCCESS CODE:: " + cUser.getResponseCode(), "LOGINCONTROLLER");
+                if(cUser.getResponseCode() == AppConstants.CODE_SUCCESS){
                     ApplicationLog.saveLog("Record retrieved scuccessfully", "LOGINCONTROLLER");
-                    this.session.setAttribute(AppConstants.USER_ID, user.getId());
+                    this.session.setAttribute(AppConstants.USER_ID, cUser.getId());
                     this.session.setAttribute(AppConstants.KEY_LOGGEDIN, true);
-                    this.session.setAttribute(AppConstants.KEY_ACTIVE, user.isActive());
-                    this.session.setAttribute(AppConstants.KEY_VERIFIED, user.isVerified());
-                    this.session.setAttribute(AppConstants.KEY_DELETED, user.isDeleted());
-                    this.session.setAttribute(AppConstants.KEY_USER, user);
-                    this.session.setAttribute(AppConstants.KEY_USERNAME, user.getUsername());
-                    this.session.setAttribute(AppConstants.KEY_PASSWORD, password);
-                    this.session.setAttribute(AppConstants.EMPLOYEE_NAME, user.getEmployeeName());
-                    this.session.setAttribute(AppConstants.EMPLOYEE_NO, user.getEmployeeNo());
-                    this.session.setAttribute(AppConstants.PERMISSIONS, user.getPermissions());
-                    this.session.setAttribute(AppConstants.USER_ROLEID, user.getRoleId());
-                    this.session.setAttribute(AppConstants.USER_ROLE, user.getRole());
-                    this.session.setAttribute(AppConstants.BRANCH_ID, user.getBranchId());
-                    this.session.setAttribute(AppConstants.BRANCH_CODE, user.getBranchCode());
-                    this.session.setAttribute(AppConstants.USER_EMAIL, user.getEmail());
-                    this.session.setAttribute(AppConstants.KEY_PASSWORDID, user.getPasswordId());
-                    this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, user.getExpirePasswords());
-                     ApplicationLog.saveLog(String.format("EXPIRED PASSWORD :: %s", user.getExpirePasswords()), "LOGINCONTROLLER");
-                    this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, user.getExpiresIn());
+                    this.session.setAttribute(AppConstants.KEY_ACTIVE, cUser.isActive());
+                    this.session.setAttribute(AppConstants.KEY_VERIFIED, cUser.isVerified());
+                    this.session.setAttribute(AppConstants.KEY_DELETED, cUser.isDeleted());
+                    this.session.setAttribute(AppConstants.KEY_USER, cUser);
+                    this.session.setAttribute(AppConstants.KEY_USERNAME, cUser.getUsername());
+                    this.session.setAttribute(AppConstants.KEY_PASSWORD, cUser.getPassword());
+                    this.session.setAttribute(AppConstants.EMPLOYEE_NAME, cUser.getEmployeeName());
+                    this.session.setAttribute(AppConstants.EMPLOYEE_NO, cUser.getEmployeeNo());
+                    this.session.setAttribute(AppConstants.PERMISSIONS, cUser.getPermissions());
+                    this.session.setAttribute(AppConstants.USER_ROLEID, cUser.getRoleId());
+                    this.session.setAttribute(AppConstants.USER_ROLE, cUser.getRole());
+                    this.session.setAttribute(AppConstants.BRANCH_ID, cUser.getBranchId());
+                    this.session.setAttribute(AppConstants.BRANCH_CODE, cUser.getBranchCode());
+                    this.session.setAttribute(AppConstants.USER_EMAIL, cUser.getEmail());
+                    this.session.setAttribute(AppConstants.KEY_PASSWORDID, cUser.getPasswordId());
+                    this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, cUser.getExpirePasswords());
+                     ApplicationLog.saveLog(String.format("EXPIRED PASSWORD :: %s", cUser.getExpirePasswords()), "LOGINCONTROLLER");
+                    this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, cUser.getExpiresIn());
                     
-                    System.out.println("Employee Name: " + user.getEmployeeName());
+                    System.out.println("Employee Name: " + cUser.getEmployeeName());
                     ApplicationLog.saveLog("ERROR :: " + user.getResponseMessage(), "LOGINCONTROLLER");
                     if (!AppConstants.ISLIVE) {
                             try{
@@ -98,10 +101,13 @@ public class LoginController {
                 }
             } else {
                 ErrorResponse error = (ErrorResponse) response.getData();
-                user = new User();
-                user.setResponseCode(error.getStatusCode());
+                User user = new User();
+                user.setResponseCode(error.getResponseCode());
                 user.setResponseMessage(error.getResponseMessage());
                 user.setResponseDescription(error.getResponseDescription());
+                user.setData(new UserData());
+                
+                cUser = ApplicationUtilities.generateUser(user);
                 ApplicationLog.saveLog("ERROR :: " + error.getResponseMessage(), "LOGINCONTROLLER");
             }
             
@@ -111,6 +117,6 @@ public class LoginController {
         }
             
         
-        return user;
+        return cUser;
     }
 }

@@ -4,6 +4,7 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.dtos.CurrentUser"%>
 <%@page import="com.kram.operators.models.User"%>
 <%@page import="com.kram.operators.controllers.LoginController"%>
 <%@page import="com.kram.operators.middleware.MiddlewareService"%>
@@ -47,7 +48,7 @@
                         LoginController controller = new LoginController(session,ipAddress);
 
                         System.out.println("Calling doLogin method");
-                        User user = controller.doLogin(username, password);
+                        CurrentUser user = controller.doLogin(username, password);
                         boolean checkExpiredPwd = user.getExpirePasswords();
                         ApplicationLog.saveLog(String.format("Success:: %s", user.getResponseCode()), "LOGINS");
                         if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
@@ -76,9 +77,9 @@
                             }
   
                         } else {
-                            msg_type = "Error!";
+                            msg_type = "Error! ";
                             alertClass = "alert-danger";
-                            msg = user.getResponseMessage();
+                            msg = user.getResponseMessage() + " - " + user.getResponseDescription();
                         }
                     } else {
                         msg_type = "Error!";
