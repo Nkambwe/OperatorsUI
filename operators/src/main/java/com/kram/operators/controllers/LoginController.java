@@ -40,8 +40,7 @@ public class LoginController {
     public CurrentUser doLogin(String username, String password) {
         ApplicationLog.saveLog("Attempting to login user", "LOGINCONTROLLER");
         CurrentUser cUser = null;
-        //String userId = ApplicationUtilities.getUserId(session);
-        
+
         try {
             //create request object
             UserRequest userRequest = new UserRequest();

@@ -12,7 +12,7 @@ public class ErrorResponse {
     @Expose
     private int responseCode;
     public int getResponseCode() { return this.responseCode; }
-    public void setResponseCode(int responseStatus) { this.responseCode = responseCode; }
+    public void setResponseCode(int responseCode) { this.responseCode = responseCode; }
     
     @SerializedName("responseMessage")
     @Expose

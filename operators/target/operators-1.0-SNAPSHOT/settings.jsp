@@ -4,7 +4,8 @@
     Author     : Macjohnan
 --%>
 
-<%@page import="com.kram.operators.dtos.AppResponse"%>
+<%@page import="com.kram.operators.helpers.ApplicationLog"%>
+<%@page import="com.kram.operators.models.AppResponse"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Optional"%>
 <%@page import="com.kram.operators.helpers.AttributeList"%>
@@ -25,75 +26,95 @@
         response.sendRedirect("login.jsp");
         return;
     }
-    
+
     String ipAddress = ApplicationUtilities.getClientIP(request);
     SettingsController controller = new SettingsController(session,ipAddress);
+    ApplicationLog.saveLog("Application Configurations", "SETTINGS");
     
-    
-    if (request.getMethod().equalsIgnoreCase("POST")) {
-        List<String> checkboxNames = null;
-        ArrayList<Attribute> attributes = null;
-        String mtd  = request.getParameter("mtd");
-        
-        switch(mtd){
-            case "driver-setting":
-                checkboxNames = AttributeList.getDriverSettings() ;
-                attributes = AttributeList.getAttributes(AppConstants.DRVATRIB);
-            break;
-            case "employ-setting":
-                checkboxNames = AttributeList.getEmployerSettings() ;
-                attributes = AttributeList.getAttributes(AppConstants.EMPATRIB);
-            break;
-            case "member-setting":
-                checkboxNames = AttributeList.getMemberSettings() ;
-                attributes = AttributeList.getAttributes(AppConstants.MEMATRIB);
-            break;
-            case "user-setting":
-                checkboxNames = AttributeList.getUserSettings() ;
-                attributes = AttributeList.getAttributes(AppConstants.USEATRIB);
-            break;
-            case "pwd-setting":
-                checkboxNames = AttributeList.getPasswordSettings() ;
-                attributes = AttributeList.getAttributes(AppConstants.PWDATRIB);
-            break;
-            default:
-                //get from the database and use all check names
-                //checkboxNames = AttributeList.getPasswordSettings() ;
-                //attributes = AttributeList.getAttributes(AppConstants.DRVATRIB);
-            break;
-        }
-        
-        
-        if(attributes != null && checkboxNames != null){
-            for (String name : checkboxNames) {
-                String paramValue = request.getParameter(name);
-
-                // Get attribute object using proper stream syntax and Optional handling
-                Optional<Attribute> atrObj = attributes.stream()
-                    .filter(a -> a.getParameterName().equals(name))
-                    .findFirst();
-
-                // Update the value if attribute exists
-                atrObj.ifPresent(attr -> {
-                    attr.setParameterValue(paramValue != null && paramValue.equals("YES"));
-                });
+    try {
+        if (request.getMethod().equalsIgnoreCase("POST")) {
+            List<String> checkboxNames = null;
+            ArrayList<Attribute> attributes = null;
+            String mtd  = request.getParameter("mtd");
+            String settingType = "ALL";
+            
+            Attribute workingExpAtrr = null;
+            switch(mtd){
+                case "driver-setting":
+                    settingType = AppConstants.DRVATRIB;
+                    checkboxNames = AttributeList.getDriverSettings();
+                    String expireDays =  request.getParameter("expireDays"); 
+                    expireDays = (expireDays =="" || expireDays == null) ? "0" : expireDays;
+                    workingExpAtrr = new Attribute(); 
+                    workingExpAtrr.setId(0);
+                    workingExpAtrr.setIdentifier(settingType);
+                    workingExpAtrr.setParameterName("workingExperience");
+                    workingExpAtrr.setParameterValue(expireDays);
+                break;
+                case "employ-setting":
+                    settingType = AppConstants.EMPATRIB;
+                    checkboxNames = AttributeList.getEmployerSettings() ;
+                break;
+                case "member-setting":
+                    settingType = AppConstants.MEMATRIB;
+                    checkboxNames = AttributeList.getMemberSettings() ;
+                break;
+                case "user-setting":
+                    settingType = AppConstants.USEATRIB;
+                    checkboxNames = AttributeList.getUserSettings() ;
+                break;
+                case "pwd-setting":
+                    settingType = AppConstants.PWDATRIB;
+                    checkboxNames = AttributeList.getPasswordSettings() ;
+                break;
+                default:
+                    //get from the database and use all check names
+                    //checkboxNames = AttributeList.getPasswordSettings() ;
+                break;
             }
 
-            // Save updates
-            AppResponse resp = controller.updateConfigurations(attributes);
+            ApplicationLog.saveLog("Processing settings ::", "SETTINGS");
+            attributes = AttributeList.getAttributes(settingType);
+            if(attributes != null && checkboxNames != null){
+                for (String name : checkboxNames) {
+                    String paramValue = request.getParameter(name);
 
-            // Simplified response handling
-            if (resp.getResponseStatus() && resp.getResponseCode() == 200) {
-                msg = "Settings updated successfully";
-                alertClass = "alert-success";
-                msg_type = "Success";
-            } else {
-                msg = resp.getResponseMessage();
-                alertClass = "alert-danger";
-                msg_type = "Danger";
+                    // Get attribute object using proper stream syntax and Optional handling
+                    Optional<Attribute> atrObj = attributes.stream()
+                        .filter(a -> a.getParameterName().equals(name))
+                        .findFirst();
+
+                    // Update the value if attribute exists
+                    atrObj.ifPresent(attr -> {
+                        attr.setParameterValue(paramValue != null && paramValue.equals("YES"));
+                    });
+                }
+
+                // Save updates
+                ApplicationLog.saveLog(String.format("Processing (%d)settings for %s", attributes.size(), settingType), "SETTINGS");
+                
+                attributes.add(workingExpAtrr);
+                AppResponse resp = controller.updateConfigurations(attributes.toArray(new Attribute[0]), settingType);
+                if (resp.getResponseCode() == 200) {
+                    msg = "Settings updated successfully";
+                    alertClass = "alert-success";
+                    msg_type = "Success";
+                    ApplicationLog.saveLog(String.format("%d Settings saved successfullys", attributes.size()), "SETTINGS");
+                } else {
+                    msg = "Could not save settings. An error occurred :: " + resp.getResponseMessage();
+                    alertClass = "alert-danger";
+                    msg_type = "Error !";
+                    ApplicationLog.saveLog(msg, "SETTINGS");
+                }
             }
         }
+    } catch(Exception ex){
+        alertClass = "alert-danger";
+        msg_type = "System Error! ";
+        msg = ex.getMessage();
+        ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGS");
     }
+    
     
     //set current page
     session.setAttribute(AppConstants.CURRENT_PAGE, "SETTINGS_PAGE");
@@ -311,6 +332,15 @@
                                                 </div>
                                             </div>
                                             
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="markDriverAsDeleted">
+                                                      Only Mark Drivers as deleted on deletion (Driver record will not be deleted permanently)
+                                                      <input name="markDriverAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markDriverAsDeleted"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
                                          </div>
                                         
                                     </div>
@@ -383,17 +413,17 @@
                                             
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="experience">
+                                                    <label class="form-check-label" for="workExperienceRequired">
                                                       Require work experience
-                                                      <input name="experience" class="form-check-input  driver-attribute" type="checkbox" value="N" id="experience"/>
+                                                      <input name="workExperienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="workExperienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
                                             
                                             <div class="row-cols-1 settings-row">
                                                 <div class="input-group mb-3">
-                                                    <span class="input-group-text" id="expireDays">Number of years of working experience required</span>
-                                                    <input name="expireDays" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of years experience" aria-describedby="yearsOfExperience">
+                                                    <span class="input-group-text" id="workingExperience">Number of years of working experience required</span>
+                                                    <input id="workingExperience" name="expireDays" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of years experience" aria-describedby="workingExperience">
                                                  </div>
                                             </div>
                                          </div>
@@ -440,7 +470,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="companyNameRequired">
                                                       Company's name is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="companyNameRequired"/>
+                                                      <input name="companyNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="companyNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -449,7 +479,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="companyAddressRequired">
                                                       Company's physical address is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="companyAddressRequired"/>
+                                                      <input name="companyAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="companyAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -458,7 +488,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonRequired">
                                                       Contact's Name is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonRequired"/>
+                                                      <input name="contactPersonRequired" class="form-check-input" type="checkbox" value="YES" checked id="contactPersonRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -467,7 +497,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonNumberRequired">
                                                       Contact Number is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonNumberRequired"/>
+                                                      <input name="contactPersonNumberRequired" class="form-check-input" type="checkbox" value="N" id="contactPersonNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -476,7 +506,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonIdRequired">
                                                       Contact National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonIdRequired"/>
+                                                      <input class="form-check-input" type="checkbox" value="YES" checked id="contactPersonIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -485,7 +515,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonIdCopyRequired">
                                                       A copy of contact's National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="contactPersonIdCopyRequired"/>
+                                                      <input name="contactPersonIdCopyRequired" class="form-check-input" type="checkbox" value="NO" id="contactPersonIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -501,7 +531,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerNameRequired">
                                                       Employer's name is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerNameRequired"/>
+                                                      <input name="employerNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -510,7 +540,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerAddressRequired">
                                                       Employer's physical address is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerAddressRequired"/>
+                                                      <input name="employerAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -519,7 +549,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerContactNumberRequired">
                                                       Employer's contact number is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerContactNumberRequired"/>
+                                                      <input name="employerContactNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerContactNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -528,7 +558,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerIdRequired">
                                                       Employer's National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerIdRequired"/>
+                                                      <input name="employerIdRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -537,7 +567,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerIdCopyRequired">
                                                       A copy employer's National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerIdCopyRequired"/>
+                                                      <input nam="employerIdCopyRequired" class="form-check-input" type="checkbox" value="NO" id="employerIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -558,7 +588,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerDistrictRequired">
                                                       Employer district is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="employerDistrictRequired"/>
+                                                      <input name="employerDistrictRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerDistrictRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -567,7 +597,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerEmailRequired">
                                                       Employer email address is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked  id="employerEmailRequired"/>
+                                                      <input name="employerEmailRequired" class="form-check-input" type="checkbox" value="YES" checked  id="employerEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -576,7 +606,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerAlternativeNumberRequired">
                                                       Alternative Contact Number is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="employerAlternativeNumberRequired"/>
+                                                      <input name="employerAlternativeNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerAlternativeNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -585,7 +615,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markEmployerAsDeleted">
                                                       Only Mark Employers as deleted on deletion (Employer record will not be deleted permanently)
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markEmployerAsDeleted"/>
+                                                      <input name="markEmployerAsDeleted" class="form-check-input" type="checkbox" value="NO" id="markEmployerAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -593,9 +623,7 @@
                                         </div>
                                         
                                     </div>
-                                    
-                                
-                                
+
                                 </div>        
                             
                             </form>
@@ -632,7 +660,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberFirstNameRequired">
                                                       member first name is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberFirstNameRequired"/>
+                                                      <input name="memberFirstNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberFirstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -641,7 +669,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberAddressRequired">
                                                       Member's physical address is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="memberAddressRequired"/>
+                                                      <input name="memberAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -650,7 +678,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberIdRequired">
                                                       Member's National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="memberIdRequired"/>
+                                                      <input name="memberIdRequired" class="form-check-input" type="checkbox" value="YES" id="memberIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -663,16 +691,16 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberSurameRequired">
                                                       member surname name is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberSurameRequired"/>
+                                                      <input name="memberSurameRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberSurameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
                                             
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="cmemberContactRequired">
+                                                    <label class="form-check-label" for="memberContactRequired">
                                                       Member's contact number is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="cmemberContactRequired"/>
+                                                      <input name="memberContactRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberContactRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -681,7 +709,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberIdCopyRequired">
                                                       A copy of member's National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="memberIdCopyRequired"/>
+                                                      <input name="memberIdCopyRequired" class="form-check-input" type="checkbox" value="YES" id="memberIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -701,7 +729,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberDistrictRequired">
                                                       Member district is required
-                                                      <input class="form-check-input" type="checkbox" value="N" id="memberDistrictRequired"/>
+                                                      <input name="memberDistrictRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberDistrictRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -710,7 +738,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberEmailRequired">
                                                       Member email address is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked  id="memberEmailRequired"/>
+                                                      <input name="memberEmailRequired" class="form-check-input" type="checkbox" value="YES" checked  id="memberEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -719,7 +747,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberAlternativeNumberRequired">
                                                       Member alternative contact number is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="memberAlternativeNumberRequired"/>
+                                                      <input name="memberAlternativeNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberAlternativeNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -728,7 +756,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markMemberAsDeleted">
                                                       Only mark Member as deleted on deletion (Member record will not be deleted permanently)
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markMemberAsDeleted"/>
+                                                      <input name="markMemberAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markMemberAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -771,7 +799,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userFirstNameRequired">
                                                       User first name is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userFirstNameRequired"/>
+                                                      <input name="userFirstNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userFirstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -780,7 +808,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userLastNameRequired">
                                                       User last name is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userLastNameRequired"/>
+                                                      <input name="userLastNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userLastNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -789,7 +817,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userMiddleNameRequired">
                                                       User middle name is required
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userMiddleNameRequired"/>
+                                                      <input name="userMiddleNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userMiddleNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -798,7 +826,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="uniqueUsername">
                                                       Username must be unique
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="uniqueUsername"/>
+                                                      <input name="uniqueUsername" class="form-check-input" type="checkbox" value="YES" checked id="uniqueUsername"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -811,7 +839,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userEmailRequired">
                                                       User must provide an email address
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="userEmailRequired"/>
+                                                      <input name="userEmailRequired" class="form-check-input" type="checkbox" value="YES" checked id="userEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -820,7 +848,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="uniqueUserEmail">
                                                       User must provide a unique email address
-                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="uniqueUserEmail"/>
+                                                      <input name="uniqueUserEmail" class="form-check-input" type="checkbox" value="YES"  checked id="uniqueUserEmail"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -829,7 +857,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="verifyUsers">
                                                       Users must be verified
-                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="verifyUsers"/>
+                                                      <input namme="verifyUsers" class="form-check-input" type="checkbox" value="YES"  checked id="verifyUsers"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -838,7 +866,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="cannotVerifySame">
                                                       Users can't be verified by user who created them
-                                                      <input class="form-check-input" type="checkbox" value="Y"  checked id="cannotVerifySame"/>
+                                                      <input name="cannotVerifySame" class="form-check-input" type="checkbox" value="YES"  checked id="cannotVerifySame"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -854,12 +882,11 @@
                                         
                                         <div class="col-md-6 p-0">
                                             
-                                            
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markUserAsDeleted">
                                                       Mark users as deleted on deletion  (User record will not be deleted permanently)
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="markUserAsDeleted"/>
+                                                      <input name="markUserAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markUserAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -868,7 +895,7 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="lockUserAccount">
                                                       Lock user account after a specified number of attempted logins
-                                                      <input class="form-check-input" type="checkbox" value="Y" checked id="lockUserAccount"/>
+                                                      <input name="lockUserAccount" class="form-check-input" type="checkbox" value="YES" checked id="lockUserAccount"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -876,7 +903,7 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="expireDays">Maximum login attempts</span>
-                                                    <input type="number" class="form-control" placeholder="Enter maximum login attempts" aria-label="Maximum Login Attempts" aria-describedby="maximumAttempts">
+                                                    <input name="maximumAttempts" type="number" class="form-control" placeholder="Enter maximum login attempts" aria-label="Maximum Login Attempts" aria-describedby="maximumAttempts">
                                                  </div>
                                             </div>
                                             
@@ -910,7 +937,7 @@
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="expirePasswords">
                                               Expire user passwords after a specified period
-                                              <input class="form-check-input" type="checkbox" value="N" id="expirePasswords"/>
+                                              <input name="expirePasswords" class="form-check-input" type="checkbox" value="NO" id="expirePasswords"/>
                                             </label>
                                         </div>
                                     </div>
@@ -918,7 +945,7 @@
                                     <div class="row-cols-1 settings-row">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="expireDays">Number of days it takes to expire a password</span>
-                                            <input type="number" class="form-control" placeholder="Enter Days" aria-label="Password expire days" aria-describedby="expireDays">
+                                            <input name="expireDays" type="number" class="form-control" placeholder="Enter Days" aria-label="Password expire days" aria-describedby="expireDays">
                                          </div>
                                     </div>
 
@@ -926,7 +953,7 @@
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="reusePasswords">
                                               Allow users to reuse old passwords after a specified number of password
-                                              <input class="form-check-input" type="checkbox" value="N" id="reusePasswords"/>
+                                              <input name="reusePasswords" class="form-check-input" type="checkbox" value="NO" id="reusePasswords"/>
                                             </label>
                                         </div>
                                     </div>
@@ -934,7 +961,7 @@
                                     <div class="row-cols-1 settings-row">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text" id="expireDays">Number of passwords user must have before start reusing passwords</span>
-                                            <input type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of reusable passwords" aria-describedby="reusablePasswords">
+                                            <input name="reusablePasswords" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of reusable passwords" aria-describedby="reusablePasswords">
                                          </div>
                                     </div>
                                     
@@ -942,11 +969,13 @@
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="strongPasswords">
                                               Use strong passwords(User password should contain a combination of upper and lower case letters, numbers and special characters)
-                                              <input class="form-check-input" type="checkbox" value="N" id="strongPasswords"/>
+                                              <input name="strongPasswords" class="form-check-input" type="checkbox" value="NO" id="strongPasswords"/>
                                             </label>
                                         </div>
                                     </div>
+                                    
                                 </div>
+                                
                             </form>
                             
                         </div>

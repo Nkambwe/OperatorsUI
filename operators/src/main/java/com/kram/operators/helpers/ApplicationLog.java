@@ -75,6 +75,17 @@ public class ApplicationLog {
 
     }
     
+    public static String getStackTraceAsString(Exception ex) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ex.toString()).append("\n");
+
+        for (StackTraceElement element : ex.getStackTrace()) {
+            sb.append("\tat ").append(element.toString()).append("\n");
+        }
+
+        return sb.toString();
+    }
+    
     private static boolean isWindows() {
         return (OS.contains("win"));
 	}

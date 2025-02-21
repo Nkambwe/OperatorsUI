@@ -37,103 +37,64 @@ public class AttributeList {
             "copyOfLicenceRequired",
             "refereesRequired",
             "copyOfReferenceRequired",
-            "experience",
-            "expireDays"
+            "workExperienceRequired",
+            "markDriverAsDeleted"
         );
     }
     
     public static List<String> getEmployerSettings() {
         return List.of(
-            "surnameNameRequired",
-            "firstNameRequired",
-            "otherNameRequired",
-            "dobRequired",
-            "idRequired",
+            "companyNameRequired",
+            "companyAddressRequired",
+            "contactPersonRequired",
+            "contactPersonNumberRequired",
+            "contactPersonIdCopyRequired",
             "idRequiredAtRegistration",
-            "homeDistrict",
-            "residenceDistrict",
-            "emailAddress",
-            "phoneNumber",
-            "socialMedia",
-            "academicInfo",
-            "academicDocumentsRequired",
-            "licenceRequired",
-            "copyOfLicenceRequired",
-            "refereesRequired",
-            "copyOfReferenceRequired",
-            "experience",
-            "expireDays"
+            "employerNameRequired",
+            "employerAddressRequired",
+            "employerContactNumberRequired",
+            "employerIdRequired",
+            "employerIdCopyRequired",
+            "employerDistrictRequired",
+            "employerEmailRequired",
+            "employerAlternativeNumberRequired",
+            "markEmployerAsDeleted"
         );
     }
     
     public static List<String> getMemberSettings() {
         return List.of(
-            "surnameNameRequired",
-            "firstNameRequired",
-            "otherNameRequired",
-            "dobRequired",
-            "idRequired",
-            "idRequiredAtRegistration",
-            "homeDistrict",
-            "residenceDistrict",
-            "emailAddress",
-            "phoneNumber",
-            "socialMedia",
-            "academicInfo",
-            "academicDocumentsRequired",
-            "licenceRequired",
-            "copyOfLicenceRequired",
-            "refereesRequired",
-            "copyOfReferenceRequired",
-            "experience",
-            "expireDays"
+            "memberFirstNameRequired",
+            "memberIdRequired",
+            "memberAddressRequired",
+            "memberSurameRequired",
+            "memberContactRequired",
+            "memberIdCopyRequired",
+            "memberDistrictRequired",
+            "memberEmailRequired",
+            "memberAlternativeNumberRequired",
+            "markMemberAsDeleted"
         );
     }
     public static List<String> getUserSettings() {
         return List.of(
-            "surnameNameRequired",
-            "firstNameRequired",
-            "otherNameRequired",
-            "dobRequired",
-            "idRequired",
-            "idRequiredAtRegistration",
-            "homeDistrict",
-            "residenceDistrict",
-            "emailAddress",
-            "phoneNumber",
-            "socialMedia",
-            "academicInfo",
-            "academicDocumentsRequired",
-            "licenceRequired",
-            "copyOfLicenceRequired",
-            "refereesRequired",
-            "copyOfReferenceRequired",
-            "experience",
-            "expireDays"
+            "userFirstNameRequired",
+            "userLastNameRequired",
+            "userMiddleNameRequired",
+            "uniqueUsername",
+            "userEmailRequired",
+            "uniqueUserEmail",
+            "cannotVerifySame",
+            "markUserAsDeleted",
+            "lockUserAccount"
         );
     }
     
     public static List<String> getPasswordSettings() {
         return List.of(
-            "surnameNameRequired",
-            "firstNameRequired",
-            "otherNameRequired",
-            "dobRequired",
-            "idRequired",
-            "idRequiredAtRegistration",
-            "homeDistrict",
-            "residenceDistrict",
-            "emailAddress",
-            "phoneNumber",
-            "socialMedia",
-            "academicInfo",
-            "academicDocumentsRequired",
-            "licenceRequired",
-            "copyOfLicenceRequired",
-            "refereesRequired",
-            "copyOfReferenceRequired",
-            "experience",
-            "expireDays"
+            "expirePasswords",
+            "reusePasswords",
+            "strongPasswords"
         );
     }
     private static ArrayList<Attribute> getAttributes(){
@@ -242,15 +203,237 @@ public class AttributeList {
         
         var experience = new Attribute();
         experience.setIdentifier(AppConstants.DRVATRIB);
-        experience.setParameterName("experience");
+        experience.setParameterName("workExperienceRequired");
         experience.setParameterValue(true);
         list.add(experience);
         
         var expireDays = new Attribute();
         expireDays.setIdentifier(AppConstants.DRVATRIB);
-        expireDays.setParameterName("expireDays");
+        expireDays.setParameterName("markDriverAsDeleted");
         expireDays.setParameterValue(true);
         list.add(expireDays);
+        
+        var companyNameRequired = new Attribute();
+        companyNameRequired.setIdentifier(AppConstants.EMPATRIB);
+        companyNameRequired.setParameterName("companyNameRequired");
+        companyNameRequired.setParameterValue(true);
+        list.add(companyNameRequired);
+        
+        var companyAddressRequired = new Attribute();
+        companyAddressRequired.setIdentifier(AppConstants.EMPATRIB);
+        companyAddressRequired.setParameterName("companyAddressRequired");
+        companyAddressRequired.setParameterValue(true);
+        list.add(companyAddressRequired);
+
+        var contactPersonRequired = new Attribute();
+        contactPersonRequired.setIdentifier(AppConstants.EMPATRIB);
+        contactPersonRequired.setParameterName("contactPersonRequired");
+        contactPersonRequired.setParameterValue(true);
+        list.add(contactPersonRequired);
+         
+        var contactPersonNumberRequired = new Attribute();
+        contactPersonNumberRequired.setIdentifier(AppConstants.EMPATRIB);
+        contactPersonNumberRequired.setParameterName("contactPersonNumberRequired");
+        contactPersonNumberRequired.setParameterValue(true);
+        list.add(contactPersonNumberRequired);
+
+        var contactPersonIdCopyRequired = new Attribute();
+        contactPersonIdCopyRequired.setIdentifier(AppConstants.EMPATRIB);
+        contactPersonIdCopyRequired.setParameterName("contactPersonIdCopyRequired");
+        contactPersonIdCopyRequired.setParameterValue(true);
+        list.add(contactPersonIdCopyRequired);
+
+        var idRequiredAtRegistration = new Attribute();
+        idRequiredAtRegistration.setIdentifier(AppConstants.EMPATRIB);
+        idRequiredAtRegistration.setParameterName("idRequiredAtRegistration");
+        idRequiredAtRegistration.setParameterValue(true);
+        list.add(idRequiredAtRegistration);
+
+        var employerNameRequired = new Attribute();
+        employerNameRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerNameRequired.setParameterName("employerNameRequired");
+        employerNameRequired.setParameterValue(true);
+        list.add(employerNameRequired);
+
+        var employerAddressRequired = new Attribute();
+        employerAddressRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerAddressRequired.setParameterName("employerAddressRequired");
+        employerAddressRequired.setParameterValue(true);
+        list.add(employerAddressRequired);
+
+        var employerContactNumberRequired = new Attribute();
+        employerContactNumberRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerContactNumberRequired.setParameterName("employerContactNumberRequired");
+        employerContactNumberRequired.setParameterValue(true);
+        list.add(employerContactNumberRequired);
+
+        var employerIdRequired = new Attribute();
+        employerIdRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerIdRequired.setParameterName("employerIdRequired");
+        employerIdRequired.setParameterValue(true);
+        list.add(employerIdRequired);
+
+        var employerIdCopyRequired = new Attribute();
+        employerIdCopyRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerIdCopyRequired.setParameterName("employerIdCopyRequired");
+        employerIdCopyRequired.setParameterValue(true);
+        list.add(employerIdCopyRequired);
+
+        var employerDistrictRequired = new Attribute();
+        employerDistrictRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerDistrictRequired.setParameterName("employerDistrictRequired");
+        employerDistrictRequired.setParameterValue(true);
+        list.add(employerDistrictRequired);
+
+        var employerEmailRequired = new Attribute();
+        employerEmailRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerEmailRequired.setParameterName("employerEmailRequired");
+        employerEmailRequired.setParameterValue(true);
+        list.add(employerEmailRequired);
+
+        var employerAlternativeNumberRequired = new Attribute();
+        employerAlternativeNumberRequired.setIdentifier(AppConstants.EMPATRIB);
+        employerAlternativeNumberRequired.setParameterName("employerAlternativeNumberRequired");
+        employerAlternativeNumberRequired.setParameterValue(true);
+        list.add(employerAlternativeNumberRequired);
+
+        var markEmployerAsDeleted = new Attribute();
+        markEmployerAsDeleted.setIdentifier(AppConstants.EMPATRIB);
+        markEmployerAsDeleted.setParameterName("markEmployerAsDeleted");
+        markEmployerAsDeleted.setParameterValue(true);
+        list.add(markEmployerAsDeleted);
+        
+        var memberFirstNameRequired = new Attribute();
+        memberFirstNameRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberFirstNameRequired.setParameterName("memberFirstNameRequired");
+        memberFirstNameRequired.setParameterValue(true);
+        list.add(memberFirstNameRequired);
+       
+        var memberIdRequired = new Attribute();
+        memberIdRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberIdRequired.setParameterName("memberIdRequired");
+        memberIdRequired.setParameterValue(true);
+        list.add(memberIdRequired);
+        
+        var memberAddressRequired = new Attribute();
+        memberAddressRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberAddressRequired.setParameterName("memberAddressRequired");
+        memberAddressRequired.setParameterValue(true);
+        list.add(memberAddressRequired);
+
+        var memberSurameRequired = new Attribute();
+        memberSurameRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberSurameRequired.setParameterName("memberSurameRequired");
+        memberSurameRequired.setParameterValue(true);
+        list.add(memberSurameRequired);
+
+        var memberContactRequired = new Attribute();
+        memberContactRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberContactRequired.setParameterName("memberContactRequired");
+        memberContactRequired.setParameterValue(true);
+        list.add(memberContactRequired);
+        
+        var memberIdCopyRequired = new Attribute();
+        memberIdCopyRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberIdCopyRequired.setParameterName("memberIdCopyRequired");
+        memberIdCopyRequired.setParameterValue(true);
+        list.add(memberIdCopyRequired);
+
+        var memberDistrictRequired = new Attribute();
+        memberDistrictRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberDistrictRequired.setParameterName("memberDistrictRequired");
+        memberDistrictRequired.setParameterValue(true);
+        list.add(memberDistrictRequired);
+
+        var memberEmailRequired = new Attribute();
+        memberEmailRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberEmailRequired.setParameterName("memberEmailRequired");
+        memberEmailRequired.setParameterValue(true);
+        list.add(memberEmailRequired);
+
+        var memberAlternativeNumberRequired = new Attribute();
+        memberAlternativeNumberRequired.setIdentifier(AppConstants.MEMATRIB);
+        memberAlternativeNumberRequired.setParameterName("memberAlternativeNumberRequired");
+        memberAlternativeNumberRequired.setParameterValue(true);
+        list.add(memberAlternativeNumberRequired);
+
+        var markMemberAsDeleted = new Attribute();
+        markMemberAsDeleted.setIdentifier(AppConstants.MEMATRIB);
+        markMemberAsDeleted.setParameterName("markMemberAsDeleted");
+        markMemberAsDeleted.setParameterValue(true);
+        list.add(markMemberAsDeleted);
+        
+        var userFirstNameRequired = new Attribute();
+        userFirstNameRequired.setIdentifier(AppConstants.USEATRIB);
+        userFirstNameRequired.setParameterName("userFirstNameRequired");
+        userFirstNameRequired.setParameterValue(true);
+        list.add(userFirstNameRequired);
+        
+        var userLastNameRequired = new Attribute();
+        userLastNameRequired.setIdentifier(AppConstants.USEATRIB);
+        userLastNameRequired.setParameterName("userLastNameRequired");
+        userLastNameRequired.setParameterValue(true);
+        list.add(userLastNameRequired);
+        
+        var userMiddleNameRequired = new Attribute();
+        userMiddleNameRequired.setIdentifier(AppConstants.USEATRIB);
+        userMiddleNameRequired.setParameterName("userMiddleNameRequired");
+        userMiddleNameRequired.setParameterValue(true);
+        list.add(userMiddleNameRequired);
+        
+        var uniqueUsername = new Attribute();
+        uniqueUsername.setIdentifier(AppConstants.USEATRIB);
+        uniqueUsername.setParameterName("uniqueUsername");
+        uniqueUsername.setParameterValue(true);
+        list.add(uniqueUsername);
+        
+        var userEmailRequired = new Attribute();
+        userEmailRequired.setIdentifier(AppConstants.USEATRIB);
+        userEmailRequired.setParameterName("userEmailRequired");
+        userEmailRequired.setParameterValue(true);
+        list.add(userEmailRequired);
+        
+        var uniqueUserEmail = new Attribute();
+        uniqueUserEmail.setIdentifier(AppConstants.USEATRIB);
+        uniqueUserEmail.setParameterName("uniqueUserEmail");
+        uniqueUserEmail.setParameterValue(true);
+        list.add(uniqueUserEmail);
+        
+        var cannotVerifySame = new Attribute();
+        cannotVerifySame.setIdentifier(AppConstants.USEATRIB);
+        cannotVerifySame.setParameterName("cannotVerifySame");
+        cannotVerifySame.setParameterValue(true);
+        list.add(cannotVerifySame);
+        
+        var markUserAsDeleted = new Attribute();
+        markUserAsDeleted.setIdentifier(AppConstants.USEATRIB);
+        markUserAsDeleted.setParameterName("markUserAsDeleted");
+        markUserAsDeleted.setParameterValue(true);
+        list.add(markUserAsDeleted);
+
+        var lockUserAccount = new Attribute();
+        lockUserAccount.setIdentifier(AppConstants.USEATRIB);
+        lockUserAccount.setParameterName("lockUserAccount");
+        lockUserAccount.setParameterValue(true);
+        list.add(lockUserAccount);
+        
+        var expirePasswords = new Attribute();
+        expirePasswords.setIdentifier(AppConstants.PWDATRIB);
+        expirePasswords.setParameterName("expirePasswords");
+        expirePasswords.setParameterValue(true);
+        list.add(expirePasswords);
+        
+        var reusePasswords = new Attribute();
+        reusePasswords.setIdentifier(AppConstants.PWDATRIB);
+        reusePasswords.setParameterName("reusePasswords");
+        reusePasswords.setParameterValue(true);
+        list.add(reusePasswords);
+        
+        var strongPasswords = new Attribute();
+        strongPasswords.setIdentifier(AppConstants.PWDATRIB);
+        strongPasswords.setParameterName("strongPasswords");
+        strongPasswords.setParameterValue(true);
+        list.add(strongPasswords);
         
         return list;
     }

@@ -1,11 +1,15 @@
 package com.kram.operators.controllers;
 
-import com.kram.operators.dtos.AppResponse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.kram.operators.models.AppResponse;
 import com.kram.operators.dtos.Attribute;
+import com.kram.operators.dtos.SettingsRequest;
 import com.kram.operators.helpers.AppSingleton;
+import com.kram.operators.helpers.ApplicationLog;
+import com.kram.operators.helpers.ApplicationUtilities;
 import com.kram.operators.middleware.MiddlewareService;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 
 /**
  *
@@ -14,7 +18,7 @@ import java.util.ArrayList;
 public class SettingsController {
     public static String ErrorMessage;
     private HttpSession session;
-    private MiddlewareService apiMiddleware = new MiddlewareService();
+    private final MiddlewareService apiMiddleware = new MiddlewareService();
     private String clientIP;
     
     public SettingsController() {}
@@ -26,8 +30,36 @@ public class SettingsController {
 
     }
     
-    public AppResponse updateConfigurations(ArrayList<Attribute> attributes) {
-       
-        return null;
+    public AppResponse updateConfigurations(Attribute[] attributes, String settingType) {
+        Gson gson = new GsonBuilder().create();
+        String requestBody;
+        SettingsRequest settings = new SettingsRequest();
+        try{
+            ApplicationLog.saveLog("Saving system configurations", "SETTINGCONTROLLER");
+            int branchId = Integer.parseInt(ApplicationUtilities.getBranchId(session));
+            ApplicationLog.saveLog(String.format("Branch ID :: %d", branchId), "SETTINGCONTROLLER");
+            int userId = Integer.parseInt(ApplicationUtilities.getUserId(session));
+            ApplicationLog.saveLog(String.format("User ID :: %d", userId), "SETTINGCONTROLLER");
+            
+            settings.setAttributes(attributes);
+            settings.setSettingType(settingType);
+            settings.setUserId(userId);
+            settings.setBranchId(branchId);
+
+            //log request object
+            requestBody = gson.toJson(settings);
+            ApplicationLog.saveLog("Request body :: " + requestBody, "SETTINGCONTROLLER");
+            return apiMiddleware.saveSettings(settings);
+        } catch(NumberFormatException ex){
+            var response = new AppResponse(); 
+            response.setResponseCode(200);
+            response.setResponseDescription("An error occurred.");
+            response.setResponseMessage(ex.getMessage());
+            requestBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("Request body :: %s", requestBody), "SETTINGCONTROLLER");
+            // Convert the exception to a string and pass it to saveLog
+             ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGCONTROLLER");
+            return response;
+        } 
     }
 }

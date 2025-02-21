@@ -10,6 +10,7 @@ com\kram\operators\helpers\AppSingleton.class
 com\kram\operators\webfilters\HashingFilter.class
 com\kram\operators\dtos\CurrentUser.class
 com\kram\operators\dtos\Attribute.class
+com\kram\operators\models\AppResponse.class
 com\kram\operators\middleware\MiddlewareService.class
 com\kram\operators\helpers\StringValidator.class
 com\kram\operators\controllers\SettingsController.class
@@ -18,6 +19,7 @@ com\kram\operators\webfilters\SlashFilter.class
 com\kram\operators\webfilters\ValidateHashToken.class
 com\kram\operators\controllers\LoginController.class
 com\kram\operators\JakartaRestConfiguration.class
+com\kram\operators\dtos\SettingsRequest.class
 com\kram\operators\helpers\ApplicationLog.class
 com\kram\operators\models\UserResponse.class
 com\kram\operators\helpers\AppSingleton$ApSingletonHolder.class
@@ -25,6 +27,5 @@ com\kram\operators\dtos\AppUser.class
 com\kram\operators\helpers\SessionManager.class
 com\kram\operators\middleware\RequestHandler.class
 com\kram\operators\resources\JakartaEE10Resource.class
-com\kram\operators\dtos\AppResponse.class
 com\kram\operators\helpers\Permissions.class
 com\kram\operators\helpers\AppConstants.class

@@ -3,7 +3,6 @@ package com.kram.operators.helpers;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.kram.operators.dtos.CurrentUser;
-import com.kram.operators.dtos.UserData;
 import com.kram.operators.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -71,8 +70,19 @@ public class ApplicationUtilities {
     }
 
     private static String getUserIdComplete(HttpSession session) {
-        String Id = (String) session.getAttribute(AppConstants.USER_ID);
+        String Id = String.valueOf(session.getAttribute(AppConstants.USER_ID));
         return Id != null ? Id : "0";
+    }
+    
+    public static String getBranchId(HttpSession session) {
+        String Id = String.valueOf(session.getAttribute(AppConstants.BRANCH_ID));
+        return Id != null ? Id : "0";
+    }
+
+    
+    public static String getBranchCode(HttpSession session) {
+        String code = (String) session.getAttribute(AppConstants.BRANCH_CODE); 
+        return code != null ? code : "";
     }
 
     public static String injectSaltValue(HttpServletRequest request) {

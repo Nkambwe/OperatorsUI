@@ -9,17 +9,14 @@ import com.kram.operators.models.UserRequest;
 import com.kram.operators.models.UserResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.kram.operators.dtos.SettingsRequest;
 import com.kram.operators.dtos.UserData;
+import com.kram.operators.models.AppResponse;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -36,29 +33,36 @@ import javax.net.ssl.X509TrustManager;
  * @author Macjohnan
  */
 public class MiddlewareService {
+    private final String API_URL; 
+
+    public MiddlewareService(){
+        API_URL = AppConstants.BASE_URL; 
+    }
     
     public UserResponse<Object> retrieveUser(UserRequest userRequest) throws IOException, InterruptedException {
-        String API_URL = AppConstants.BASE_URL + "/RetrieveUser";
+        String url = String.format("%s/RetrieveUser", API_URL);
 
         // Create Gson with custom type adapter
         Gson gson = new GsonBuilder()
             .setLenient()
-            .excludeFieldsWithoutExposeAnnotation() // Ensures Gson only serializes annotated fields
-            .serializeNulls()  // Ensure Gson includes null fields instead of skipping them
-            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) // Preserve field names exactly
+            // Ensures Gson only serializes annotated fields
+            .excludeFieldsWithoutExposeAnnotation() 
+            // Ensure Gson includes null fields instead of skipping them
+            .serializeNulls()  
+            // Preserve field names exactly
+            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) 
             .create();
 
         HttpClient client = createInsecureHttpClient();
         
         // Log the request body for debugging
-        System.out.println("UserRequest Object: " + userRequest);
         ApplicationLog.saveLog("RAW USEROBJECT : " + userRequest, "MIDDLEWARESERVICE");
 
         String requestBody = gson.toJson(userRequest);
         ApplicationLog.saveLog("Request body :: " + requestBody, "MIDDLEWARESERVICE");
         
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_URL))
+                .uri(URI.create(url))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
@@ -152,6 +156,95 @@ public class MiddlewareService {
         }
     }
     
+    /*Save settings*/
+    public AppResponse saveSettings(SettingsRequest settings) {
+        try {
+            String url = String.format("%s/SaveConfigurations", API_URL);
+
+            // Create Gson with custom configuration
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            HttpClient client = createInsecureHttpClient();
+            
+            // Log the request object for debugging
+            String requestBody = gson.toJson(settings);
+            ApplicationLog.saveLog("SETTINGS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+                    
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                AppResponse errorResponse = new AppResponse();
+                errorResponse.setResponseCode(response.statusCode());
+                errorResponse.setResponseMessage("HTTP Error: " + response.statusCode());
+                errorResponse.setResponseDescription("Something went wrong");
+                return errorResponse;
+            }
+            
+            // Attempt to deserialize the response
+            AppResponse appResponse = gson.fromJson(jsonObject, AppResponse.class);
+            if (appResponse == null) {
+                throw new JsonSyntaxException("Failed to parse response");
+            }
+            
+            // Log the response code
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            
+            return appResponse;
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            AppResponse errorResponse = new AppResponse();
+            errorResponse.setResponseCode(500);
+            errorResponse.setResponseMessage("Error parsing response");
+            errorResponse.setResponseDescription(e.getMessage());
+            return errorResponse;
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            AppResponse errorResponse = new AppResponse();
+            errorResponse.setResponseCode(500);
+            errorResponse.setResponseMessage("Network error occurred");
+            errorResponse.setResponseDescription(e.getMessage());
+            return errorResponse;
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            AppResponse errorResponse = new AppResponse();
+            errorResponse.setResponseCode(500);
+            errorResponse.setResponseMessage("Unexpected error");
+            errorResponse.setResponseDescription(e.getMessage());
+            return errorResponse;
+        }
+    }
+    
+    /*User logout*/
+    public boolean logout(String userId, String clientIP) {
+        String action="Logged Out";
+        //throw new UnsupportedOperationException("Inside Logout in API Service. Not implemented");
+        return true;
+    }
+    
     // ✅ This method disables SSL verification for local development
     private HttpClient createInsecureHttpClient() {
         try {
@@ -173,12 +266,6 @@ public class MiddlewareService {
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException("Failed to create insecure SSL client", e);
         }
-    }
-    
-    public boolean logout(String userId, String clientIP) {
-        String action="Logged Out";
-        //throw new UnsupportedOperationException("Inside Logout in API Service. Not implemented");
-        return true;
     }
     
 }
