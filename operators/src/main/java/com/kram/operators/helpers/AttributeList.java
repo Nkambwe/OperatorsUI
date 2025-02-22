@@ -18,6 +18,12 @@ public class AttributeList {
             .collect(Collectors.toCollection(ArrayList::new));
     }
      
+    public static List<String> getGeneralSettings() {
+         return List.of(
+            "includeDeletedObjects"
+         );
+    }
+     
     public static List<String> getDriverSettings() {
         return List.of(
             "surnameNameRequired",
@@ -99,6 +105,13 @@ public class AttributeList {
     }
     private static ArrayList<Attribute> getAttributes(){
         ArrayList<Attribute> list = new ArrayList<>();
+        
+        var includeDeletedObjects = new Attribute();
+        includeDeletedObjects.setIdentifier(AppConstants.GENATRIB);
+        includeDeletedObjects.setParameterName("includeDeletedObjects");
+        includeDeletedObjects.setParameterValue(false);
+        list.add(includeDeletedObjects);
+        
         var surnameNameRequired = new Attribute();
         surnameNameRequired.setIdentifier(AppConstants.DRVATRIB);
         surnameNameRequired.setParameterName("surnameNameRequired");

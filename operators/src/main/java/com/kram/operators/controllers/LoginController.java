@@ -76,6 +76,7 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.USER_ROLE, cUser.getRole());
                     this.session.setAttribute(AppConstants.BRANCH_ID, cUser.getBranchId());
                     this.session.setAttribute(AppConstants.BRANCH_CODE, cUser.getBranchCode());
+                    this.session.setAttribute(AppConstants.BRANCH_NAME, cUser.getBranchName());
                     this.session.setAttribute(AppConstants.USER_EMAIL, cUser.getEmail());
                     this.session.setAttribute(AppConstants.KEY_PASSWORDID, cUser.getPasswordId());
                     this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, cUser.getExpirePasswords());

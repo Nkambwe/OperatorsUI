@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String msg = null, alertClass = "alert-danger", msg_type="Success";
-    String username = (String)session.getAttribute(AppConstants.KEY_USERNAME);
+    String username = (String)session.getAttribute(AppConstants.EMPLOYEE_NAME);
     
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
@@ -24,7 +24,8 @@
     boolean checkExpiredPwd = (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD);
     var remainders = (int)session.getAttribute(AppConstants.KEY_EXPIRESINDAYS); 
     if(remainders <= 7){
-        msg = String.format("Your password will expire in %s days. Change password");
+    msg_type="Warning! ";
+        msg = String.format("Your password will expire in %s days, Change password", remainders);
         alertClass = "alert-warning";
     }
     

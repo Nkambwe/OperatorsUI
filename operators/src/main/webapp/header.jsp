@@ -9,10 +9,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String loggedin_user =  session.getAttribute(AppConstants.EMPLOYEE_NAME) != null ? (String)session.getAttribute(AppConstants.EMPLOYEE_NAME):"";
+    String current_branch =  session.getAttribute(AppConstants.BRANCH_NAME) != null ? (String)session.getAttribute(AppConstants.BRANCH_NAME):"";
     String current_page = session.getAttribute(AppConstants.CURRENT_PAGE) != null ? (String)session.getAttribute(AppConstants.CURRENT_PAGE) : "";
     
 %>
  <header class="main-content-header">
-    <div class="content-header-left"><%=loggedin_user%></div>
-    <div class="content-header-right"><%=current_page%></div>
+    <div class="content-header-left"><%=current_branch %></div>
+    <div class="content-header-right"><%=loggedin_user%></div>
 </header>

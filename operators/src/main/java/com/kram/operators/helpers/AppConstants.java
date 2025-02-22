@@ -26,6 +26,7 @@ public class AppConstants {
     public final static String EMPLOYEE_NAME = "employee_name";
     public final static String BRANCH_ID = "branch_id";
     public final static String BRANCH_CODE = "branch_code";
+    public final static String BRANCH_NAME = "branch_name";
     public final static String KEY_PASSWORD = "Key_password";
     public final static int CODE_SUCCESS = 200;
     public final static String PERMISSIONS = "permissions";
@@ -40,6 +41,7 @@ public class AppConstants {
     public final static String MEMATRIB = "MEMATRIB";
     public final static String USEATRIB = "USEATRIB";
     public final static String PWDATRIB = "PWDATRIB";
+    public final static String GENATRIB = "GENATRIB";
     
     public final static String APP_FOOTER = String.format("Operactor 1.0 &copy 2024 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 

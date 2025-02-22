@@ -40,6 +40,10 @@
             
             Attribute workingExpAtrr = null;
             switch(mtd){
+                case "general-setting":
+                    settingType = AppConstants.GENATRIB;
+                    checkboxNames = AttributeList.getGeneralSettings();
+                break;
                 case "driver-setting":
                     settingType = AppConstants.DRVATRIB;
                     checkboxNames = AttributeList.getDriverSettings();
@@ -96,7 +100,7 @@
                 attributes.add(workingExpAtrr);
                 AppResponse resp = controller.updateConfigurations(attributes.toArray(new Attribute[0]), settingType);
                 if (resp.getResponseCode() == 200) {
-                    msg = "Settings updated successfully";
+                    msg = String.format("%s:: %s",resp.getResponseMessage(), resp.getResponseDescription());
                     alertClass = "alert-success";
                     msg_type = "Success";
                     ApplicationLog.saveLog(String.format("%d Settings saved successfullys", attributes.size()), "SETTINGS");
@@ -162,7 +166,11 @@
                     </div>
                     <div class="tab-area">
                         <div class="tab tab-headers">
-                            <button class="tablinks tab-active" id="defaultTab" onclick="openTab(event, 'Drivers')">
+                            <button class="tablinks tab-active" id="defaultTab" onclick="openTab(event, 'General')">
+                                <span><i class="mdi mdi-cogs"></i></span>
+                                <span>General</span>
+                            </button>
+                            <button class="tablinks" onclick="openTab(event, 'Drivers')">
                                 <span><i class="mdi mdi-car-cruise-control"></i></span>
                                 <span>Drivers</span>
                             </button>
@@ -187,6 +195,46 @@
                             
                         </div>
 
+                        <div id="General" class="tabcontent">
+                            
+                            <form id="general-form" method="post" role="form" >
+                                 <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" name="mtd" value="general-setting"/>
+                                
+                                <div class="tab-content-header">
+                                    <div class="tab-content-header-banner">
+                                        <h3>General Settings</h3>
+                                    </div>
+                                    <div class="tab-content-header-button">
+                                        <button type="submit" class="btn btn-success" onclick="showLoading();">Update</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-content-details">
+                                    
+                                    <div class="row p-0">
+                                        
+                                        <div class="col-md-6 p-0">
+                                            <div class="row-cols-1 settings-row">
+                                                <div class="form-check form-switch">
+                                                    <label class="form-check-label" for="surnameNameRequired">
+                                                      Include records marked as deleted when searching for records
+                                                      <input name="includeDeletedObjects" class="form-check-input" type="checkbox" value="NO" id="surnameNameRequired"/>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 p-0"></div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
+                            </form>
+                            
+                        </div>
+                        
                         <div id="Drivers" class="tabcontent">
                             
                             <form id="driver-form" method="post" role="form" >
@@ -205,7 +253,6 @@
                                 
                                 <div class="tab-content-details">
                                 
-                                    
                                     <div class="section-lable">
                                         <span>Bio-data settings</span>
                                     </div>
@@ -432,6 +479,7 @@
                                     
                                
                                 </div>
+                                
                             </form>
                             
                          </div>

@@ -139,6 +139,11 @@ span.inner-label {
     color: #B2C1CF;
 }
 
-form#driver-form {
+form#general-form,
+form#driver-form,
+form#employ-form,
+form#member-form,
+form#user-form,
+form#password-form {
     padding: 10px;
 }
