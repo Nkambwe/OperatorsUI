@@ -4,6 +4,7 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.ApplicationUtilities"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -56,7 +57,7 @@
                 <div class="message-container">
                     
                     <div class="alert <%= alertClass%> alert-dismissable">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                         
@@ -64,7 +65,7 @@
                 <% }%>
                 
                 <div class="content-wrapper">
-                    <h1>Welcome <%=username%>!</h1>
+                    <h1 class="display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</h1>
                 </div>
                 
             </div>

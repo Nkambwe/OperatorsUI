@@ -90,6 +90,7 @@ public class AttributeList {
             "uniqueUsername",
             "userEmailRequired",
             "uniqueUserEmail",
+            "verifyUsers",
             "cannotVerifySame",
             "markUserAsDeleted",
             "lockUserAccount"
@@ -99,7 +100,9 @@ public class AttributeList {
     public static List<String> getPasswordSettings() {
         return List.of(
             "expirePasswords",
+            "noofexpiredays",
             "reusePasswords",
+            "noofeusablePasswords",
             "strongPasswords"
         );
     }
@@ -249,6 +252,12 @@ public class AttributeList {
         contactPersonNumberRequired.setParameterName("contactPersonNumberRequired");
         contactPersonNumberRequired.setParameterValue(true);
         list.add(contactPersonNumberRequired);
+        
+        var contactPersonIdRequired = new Attribute();
+        contactPersonIdRequired.setIdentifier(AppConstants.EMPATRIB);
+        contactPersonIdRequired.setParameterName("contactPersonIdRequired");
+        contactPersonIdRequired.setParameterValue(true);
+        list.add(contactPersonIdRequired);
 
         var contactPersonIdCopyRequired = new Attribute();
         contactPersonIdCopyRequired.setIdentifier(AppConstants.EMPATRIB);
@@ -417,6 +426,12 @@ public class AttributeList {
         cannotVerifySame.setParameterName("cannotVerifySame");
         cannotVerifySame.setParameterValue(true);
         list.add(cannotVerifySame);
+        
+        var verifyUsers = new Attribute();
+        verifyUsers.setIdentifier(AppConstants.USEATRIB);
+        verifyUsers.setParameterName("verifyUsers");
+        verifyUsers.setParameterValue(true);
+        list.add(verifyUsers);
         
         var markUserAsDeleted = new Attribute();
         markUserAsDeleted.setIdentifier(AppConstants.USEATRIB);

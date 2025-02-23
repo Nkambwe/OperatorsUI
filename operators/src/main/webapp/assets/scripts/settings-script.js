@@ -11,6 +11,27 @@ $(document).ready(function () {
     $(document).on('change', '.driver-attribute', function() {
         $(this).val($(this).prop('checked') ? 'YES' : 'NO');
     });
+    
+    //set checked state for driver attributes
+    $(document).on('change', '.mem-attribute', function() {
+        $(this).val($(this).prop('checked') ? 'YES' : 'NO');
+    });
+    
+    //set checked state for driver attributes
+    $(document).on('change', '.pwd-attribute', function() {
+        $(this).val($(this).prop('checked') ? 'YES' : 'NO');
+    });
+    
+    //set checked state for driver attributes
+    $(document).on('change', '.emp-attribute', function() {
+        $(this).val($(this).prop('checked') ? 'YES' : 'NO');
+    });
+    
+    //set checked state for driver attributes
+    $(document).on('change', '.user-attribute', function() {
+        $(this).val($(this).prop('checked') ? 'YES' : 'NO');
+    });
+    
 });
 
 function setActiveTab(){

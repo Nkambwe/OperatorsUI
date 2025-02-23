@@ -24,9 +24,24 @@
     String surnameValue = "", surnameChecked = "", firstNameValue = "", firstNameChecked = "", otherNameValue = "", otherNameChecked = "", dobValue = "";
     String dobChecked = "", idRequiredValue = "", idRequiredChecked = "", idAtRegValue = "", idAtRegChecked = "", dHomeDistRegValue = "", dHomeDistChecked = "";
     String dresDistRegValue = "", dresDistChecked = "", dphoneValue = "", dphoneChecked = "", dsocialValue = "", dsocialChecked = "", dmarkDeletedValue = "";
-    String dmarkDeletedChecked = "", dacademicValue = "", dacademicChecked = "", demailValue="", demailChecked="";
+    String dmarkDeletedChecked = "", dacademicValue = "", dacademicChecked = "", demailValue="", demailChecked="", pwdExpiresValue = "", pwdExpiresChecked = "";
+    String pwdStrongValue="",pwdStrongChecked="", pwdReusableValue="",pwdReusableChecked="", reusablePwdValue = "0", pwdExpiredaysValue="0";
     String dacademicDocsValue = "", dacademicDocsChecked = "", dlicenseValue = "", dlicenseChecked = "", dlicenseCopyValue = "", dlicenseCopyChecked = "";
     String dreferValue = "", dreferChecked = "", dreferCopyValue = "", dreferCopyChecked = "", dworkexpValue = "", dworkexpChecked = "", dworkexpPeriodValue = "0";
+    String usrRequireLastValue = "", usrRequireLastChecked = "", usrRequireFirstValue = "", usrRequireFirstChecked = "", usrUniqueUserValue = "", usrUniqueUserChecked = "";
+    String usrRequireOtherValue = "", usrRequireOtherChecked = "", usrRequireEmailValue = "", usrRequireEmailChecked = "", usrUniqueEmailValue = "", usrUniqueEmailChecked = "";
+    String usrMustVerifyValue = "", usrMustVerifyChecked = "", usrVerifySameValue = "", usrVerifySameChecked = "", usrMarkDeletedValue="",usrMarkDeletedChecked="";
+    String usrLockAccValue="", usrLockAccChecked="", umaxloginattempts="0", includeDeletedValue = "", includeDeletedChecked = "";
+    String memRequireAddressValue ="", memRequireAddressChecked ="", memRequireFirstNameValue ="", memRequireFirstNameChecked ="", memRequireSurnameValue ="", memRequireSurnameChecked ="";
+    String memRequireContactValue ="", memRequireContactChecked ="", memRequireIdValue ="", memRequireIdChecked ="", memRequireIdCopyValue ="", memRequireIdCopyChecked ="";
+    String memRequireDistValue ="", memRequireDistChecked ="", memRequireAltValue ="", memRequireAltChecked ="", memRequireEmailValue ="", memRequireEmailChecked ="";
+    String empMarkDeletedValue ="", empMarkDeletedChecked ="", memMarkDeletedValue="", memMarkDeletedChecked ="", empRequireBizContactAddressValue ="", empRequireBizContactChecked =""; 
+    String empRequireBizContactNameValue ="", empRequireBizContactNameChecked ="", empRequireBizContactNumberValue ="", empRequireBizContactNumberChecked ="", empRequireAddressChecked =""; 
+    String empRequireBizContactIdValue ="", empRequireBizContactIdChecked ="", empRequireBizContactIdCopyValue ="", empRequireBizContactIdCopyChecked ="",empRequireAddressValue ="";
+    String empRequireNameValue ="", empRequireNameChecked ="",empRequireContactValue ="", empRequireContactChecked ="", empRequireIdCopyValue ="", empRequireIdCopyChecked ="";
+    String empRequireIdValue ="", empRequireIdChecked ="", empRequireDistValue ="", empRequireDistChecked ="", empRequireEmailValue ="", empRequireEmailChecked ="";
+    String empRequireAltValue ="", empRequireAltChecked ="", empRequireBizContactAddressChecked ="", empRequireBizContactValue="";
+
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
     if(!isLoggedIn){
@@ -46,6 +61,9 @@
             String settingType = "ALL";
             
             Attribute workingExpAtrr = null;
+            Attribute pwdExpireAttr = null;
+            Attribute pwdNoOfUseAttr = null;
+            Attribute maxAttemptsAtrr = null;
             switch(mtd){
                 case "general-setting":
                     settingType = AppConstants.GENATRIB;
@@ -72,11 +90,35 @@
                 break;
                 case "user-setting":
                     settingType = AppConstants.USEATRIB;
-                    checkboxNames = AttributeList.getUserSettings() ;
+                    checkboxNames = AttributeList.getUserSettings();
+                    
+                    String maxAttempts =  request.getParameter("maximumAttempts"); 
+                    maxAttempts = (maxAttempts =="" || maxAttempts == null) ? "0" : maxAttempts;
+                    maxAttemptsAtrr = new Attribute(); 
+                    maxAttemptsAtrr.setId(0);
+                    maxAttemptsAtrr.setIdentifier(settingType);
+                    maxAttemptsAtrr.setParameterName("maximumAttempts");
+                    maxAttemptsAtrr.setParameterValue(maxAttempts);
+
                 break;
                 case "pwd-setting":
                     settingType = AppConstants.PWDATRIB;
                     checkboxNames = AttributeList.getPasswordSettings() ;
+                    
+                    String expireDays =  request.getParameter("noofexpiredays"); 
+                    expireDays = (expireDays =="" || expireDays == null) ? "0" : expireDays;
+                    
+                    pwdExpireAttr = new Attribute();
+                    pwdExpireAttr.setIdentifier(AppConstants.PWDATRIB);
+                    pwdExpireAttr.setParameterName("noofexpiredays");
+                    pwdExpireAttr.setParameterValue(Integer.parseInt(expireDays));
+
+                    String noOfReuse =  request.getParameter("noofeusablePasswords"); 
+                    noOfReuse = (noOfReuse =="noofexpiredays" || noOfReuse == null) ? "0" : noOfReuse;
+                    pwdNoOfUseAttr = new Attribute();
+                    pwdNoOfUseAttr.setIdentifier(AppConstants.PWDATRIB);
+                    pwdNoOfUseAttr.setParameterName("noofeusablePasswords");
+                    pwdNoOfUseAttr.setParameterValue(Integer.parseInt(noOfReuse));
                 break;
                 default:
                     //get from the database and use all check names
@@ -103,8 +145,18 @@
 
                 // Save updates
                 ApplicationLog.saveLog(String.format("Processing (%d)settings for %s", attributes.size(), settingType), "SETTINGS");
+                if(mtd.equals("driver-setting")){
+                    attributes.add(workingExpAtrr);
+                }
                 
-                attributes.add(workingExpAtrr);
+                if(mtd.equals("pwd-setting")){
+                    attributes.add(pwdExpireAttr);
+                    attributes.add(pwdNoOfUseAttr);
+                }
+                if(mtd.equals("user-setting")){
+                    attributes.add(maxAttemptsAtrr);
+                }
+                ApplicationLog.saveLog(String.format("Processing (%d) settings for %s after adding number values", attributes.size(), settingType), "SETTINGS");
                 AppResponse resp = controller.updateConfigurations(attributes.toArray(new Attribute[0]), settingType);
                 if (resp.getResponseCode() == 200) {
                     msg = String.format("%s:: %s",resp.getResponseMessage(), resp.getResponseDescription());
@@ -137,9 +189,19 @@
             Map<String, List<Attribute>> groupedAttributes = ApplicationUtilities.groupAttributes(zattributes);
             //..access each group separately
             genAttributes = groupedAttributes.get("GENATRIB");
-            drvAttributes = groupedAttributes.get("DRVATRIB");
+            ApplicationLog.saveLog(String.format("%d Driver settings", genAttributes == null ? 0 : genAttributes.size()), "SETTINGS");
+            if(genAttributes != null && genAttributes.size() > 0){
+                for(Attribute a : genAttributes){
+                    if ("includeDeletedObjects".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        includeDeletedValue = boolValue ? "YES" : "NO";
+                        includeDeletedChecked = boolValue ? "checked" : "";
+                    }
+                }
+            }
             
-            ApplicationLog.saveLog(String.format("%d Driver settings", drvAttributes.size()), "SETTINGS");
+            drvAttributes = groupedAttributes.get("DRVATRIB");
+            ApplicationLog.saveLog(String.format("%d Driver settings", drvAttributes == null ? 0 : drvAttributes.size()), "SETTINGS");
             if(drvAttributes != null && drvAttributes.size() > 0){
             
                 for(Attribute a : drvAttributes){
@@ -264,9 +326,269 @@
             }
             
             empAttributes = groupedAttributes.get("EMPATRIB");
+            ApplicationLog.saveLog(String.format("%d User settings", empAttributes == null ? 0 :  empAttributes.size()), "SETTINGS");
+            if(empAttributes != null && empAttributes.size() > 0){
+                for(Attribute a : empAttributes){
+                    if ("companyNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("companyAddressRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactAddressValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactAddressChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("contactPersonRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactNameValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactNameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("contactPersonNumberRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactNumberValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactNumberChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("contactPersonIdRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactIdValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactIdChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("contactPersonIdCopyRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireBizContactIdCopyValue = boolValue ? "YES" : "NO";
+                        empRequireBizContactIdCopyChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireNameValue = boolValue ? "YES" : "NO";
+                        empRequireNameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerAddressRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireAddressValue = boolValue ? "YES" : "NO";
+                        empRequireAddressChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerContactNumberRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireContactValue = boolValue ? "YES" : "NO";
+                        empRequireContactChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerIdRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireIdValue = boolValue ? "YES" : "NO";
+                        empRequireIdChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerIdCopyRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireIdCopyValue = boolValue ? "YES" : "NO";
+                        empRequireIdCopyChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerDistrictRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireDistValue = boolValue ? "YES" : "NO";
+                        empRequireDistChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerEmailRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireEmailValue = boolValue ? "YES" : "NO";
+                        empRequireEmailChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("employerAlternativeNumberRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empRequireAltValue = boolValue ? "YES" : "NO";
+                        empRequireAltChecked = boolValue ? "checked" : "";
+                    }
+                    
+                    if ("markEmployerAsDeleted".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        empMarkDeletedValue = boolValue ? "YES" : "NO";
+                        empMarkDeletedChecked = boolValue ? "checked" : "";  
+                    }
+                }
+            }
+            
             memAttributes = groupedAttributes.get("MEMATRIB");
+            ApplicationLog.saveLog(String.format("%d Driver settings", memAttributes == null ? 0 : memAttributes.size()), "SETTINGS");
+            if(memAttributes != null && memAttributes.size() > 0){
+                for(Attribute a : memAttributes){
+                    if ("memberFirstNameRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireFirstNameValue = boolValue ? "YES" : "NO";
+                            memRequireFirstNameChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberAddressRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireAddressValue = boolValue ? "YES" : "NO";
+                            memRequireAddressChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberIdRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireIdValue = boolValue ? "YES" : "NO";
+                            memRequireIdChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberSurameRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireSurnameValue = boolValue ? "YES" : "NO";
+                            memRequireSurnameChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberContactRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireContactValue = boolValue ? "YES" : "NO";
+                            memRequireContactChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberIdCopyRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireIdCopyValue = boolValue ? "YES" : "NO";
+                            memRequireIdCopyChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberDistrictRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireDistValue = boolValue ? "YES" : "NO";
+                            memRequireDistChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberEmailRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireEmailValue = boolValue ? "YES" : "NO";
+                            memRequireEmailChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("memberAlternativeNumberRequired".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memRequireAltValue = boolValue ? "YES" : "NO";
+                            memRequireAltChecked = boolValue ? "checked" : "";
+                        }
+
+                        if ("markMemberAsDeleted".equals(a.getParameterName())) {
+                            Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                            memMarkDeletedValue = boolValue ? "YES" : "NO";
+                            memMarkDeletedChecked = boolValue ? "checked" : "";
+                        }
+                }
+            }
+            
             useAttributes = groupedAttributes.get("USEATRIB");
+            ApplicationLog.saveLog(String.format("%d User settings", pwdAttributes == null ? 0 :  pwdAttributes.size()), "SETTINGS");
+            if(useAttributes != null && useAttributes.size() > 0){
+                for(Attribute a : useAttributes){
+                    if ("userLastNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrRequireFirstValue = boolValue ? "YES" : "NO";
+                        usrRequireFirstChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("userMiddleNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrRequireOtherValue = boolValue ? "YES" : "NO";
+                        usrRequireOtherChecked = boolValue ? "checked" : "";
+                    }
+                    
+                    
+                    if ("userLastNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrRequireLastValue = boolValue ? "YES" : "NO";
+                        usrRequireLastChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("uniqueUsername".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrUniqueUserValue = boolValue ? "YES" : "NO";
+                        usrUniqueUserChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("userEmailRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrRequireEmailValue = boolValue ? "YES" : "NO";
+                        usrRequireEmailChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("uniqueUserEmail".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrUniqueEmailValue = boolValue ? "YES" : "NO";
+                        usrUniqueEmailChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("verifyUsers".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrMustVerifyValue = boolValue ? "YES" : "NO";
+                        usrMustVerifyChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("cannotVerifySame".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrVerifySameValue = boolValue ? "YES" : "NO";
+                        usrVerifySameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("markUserAsDeleted".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrMarkDeletedValue = boolValue ? "YES" : "NO";
+                        usrMarkDeletedChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("lockUserAccount".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        usrLockAccValue = boolValue ? "YES" : "NO";
+                        usrLockAccChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("maximumAttempts".equals(a.getParameterName())) {
+                        umaxloginattempts = String.format("%d", Integer.valueOf(a.getParameterValue().toString()));
+                    }
+                }
+            }
+            
             pwdAttributes = groupedAttributes.get("PWDATRIB");
+            ApplicationLog.saveLog(String.format("%d Password settings", pwdAttributes == null ? 0 : pwdAttributes.size()), "SETTINGS");
+            if(pwdAttributes != null && pwdAttributes.size() > 0){
+                for(Attribute a : pwdAttributes){
+                    if ("expirePasswords".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        pwdExpiresValue = boolValue ? "YES" : "NO";
+                        pwdExpiresChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("noofexpiredays".equals(a.getParameterName())) {
+                        pwdExpiredaysValue = String.format("%d", Integer.valueOf(a.getParameterValue().toString()));
+                    }
+
+                    if ("reusePasswords".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        pwdReusableValue = boolValue ? "YES" : "NO";
+                        pwdReusableChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("noofeusablePasswords".equals(a.getParameterName())) {
+                        reusablePwdValue = String.format("%d", Integer.valueOf(a.getParameterValue().toString()));
+                    }
+
+                    if ("strongPasswords".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        pwdStrongValue = boolValue ? "YES" : "NO";
+                        pwdStrongChecked = boolValue ? "checked" : "";
+                    }
+                }
+            }
         }
     } else {
         ApplicationLog.saveLog(String.format("Error! %s - %s", 
@@ -367,17 +689,7 @@
                                 <div class="tab-content-details">
                                     
                                     <div class="row p-0">
-                                        <% if(genAttributes != null && genAttributes.size() > 0){
-                                            String includeDeletedValue = "";
-                                            String includeDeletedChecked = "";
-                                            for(Attribute a : genAttributes){
-                                                if ("includeDeletedObjects".equals(a.getParameterName())) {
-                                                    Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
-                                                    includeDeletedValue = boolValue ? "YES" : "NO";
-                                                    includeDeletedChecked = boolValue ? "checked" : "";
-                                                }
-                                        %>
-                                            
+
                                             <div class="col-md-6 p-0">
                                                 
                                                 <div class="row-cols-1 settings-row">
@@ -396,25 +708,6 @@
 
                                             <div class="col-md-6 p-0"></div>
                                             
-                                        <%} } else {%>
-                                        
-                                            <div class="col-md-6 p-0">
-                                                
-                                                <div class="row-cols-1 settings-row">
-                                                    <div class="form-check form-switch">
-                                                        <label class="form-check-label" for="surnameNameRequired">
-                                                          Include records marked as deleted when searching for records
-                                                          <input name="includeDeletedObjects" class="form-check-input" type="checkbox" value="NO" id="surnameNameRequired"/>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-
-                                            <div class="col-md-6 p-0"></div>
-                                        
-                                        <% } %>
-                                        
                                     </div>
                                     
                                 </div>
@@ -746,13 +1039,7 @@
                                 </div>
                             
                                 <div class="tab-content-details">
-                                    <%
-                                        if(genAttributes != null && genAttributes.size() > 0){
-
-                                        } else {
-
-                                        }
-                                    %>
+                                    
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -769,7 +1056,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="companyNameRequired">
                                                       Company's name is required
-                                                      <input name="companyNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="companyNameRequired"/>
+                                                      <input name="companyNameRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactValue%>"
+                                                             <%=empRequireBizContactChecked.equals("checked") ? "checked" : "" %>
+                                                             id="companyNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -778,7 +1068,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="companyAddressRequired">
                                                       Company's physical address is required
-                                                      <input name="companyAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="companyAddressRequired"/>
+                                                      <input name="companyAddressRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactAddressValue%>"
+                                                             <%=empRequireBizContactAddressChecked.equals("checked") ? "checked" : "" %>
+                                                             id="companyAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -787,7 +1080,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonRequired">
                                                       Contact's Name is required
-                                                      <input name="contactPersonRequired" class="form-check-input" type="checkbox" value="YES" checked id="contactPersonRequired"/>
+                                                      <input name="contactPersonRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactNameValue%>"
+                                                             <%=empRequireBizContactNameChecked.equals("checked") ? "checked" : "" %>
+                                                             id="contactPersonRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -796,7 +1092,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonNumberRequired">
                                                       Contact Number is required
-                                                      <input name="contactPersonNumberRequired" class="form-check-input" type="checkbox" value="N" id="contactPersonNumberRequired"/>
+                                                      <input name="contactPersonNumberRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactNumberValue%>"
+                                                             <%=empRequireBizContactNumberChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="contactPersonNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -805,7 +1104,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonIdRequired">
                                                       Contact National Id is required
-                                                      <input class="form-check-input" type="checkbox" value="YES" checked id="contactPersonIdRequired"/>
+                                                      <input name="contactPersonIdRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactIdValue%>"
+                                                             <%=empRequireBizContactIdChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="contactPersonIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -814,7 +1116,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="contactPersonIdCopyRequired">
                                                       A copy of contact's National Id is required
-                                                      <input name="contactPersonIdCopyRequired" class="form-check-input" type="checkbox" value="NO" id="contactPersonIdCopyRequired"/>
+                                                      <input name="contactPersonIdCopyRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireBizContactIdCopyValue%>"
+                                                             <%=empRequireBizContactIdCopyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="contactPersonIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -830,7 +1135,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerNameRequired">
                                                       Employer's name is required
-                                                      <input name="employerNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerNameRequired"/>
+                                                      <input name="employerNameRequired" class="form-check-input emp-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=empRequireNameValue%>"
+                                                             <%=empRequireNameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -839,7 +1148,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerAddressRequired">
                                                       Employer's physical address is required
-                                                      <input name="employerAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerAddressRequired"/>
+                                                      <input name="employerAddressRequired" class="form-check-input emp-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=empRequireAddressValue%>"
+                                                             <%=empRequireAddressChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -848,7 +1161,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerContactNumberRequired">
                                                       Employer's contact number is required
-                                                      <input name="employerContactNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerContactNumberRequired"/>
+                                                      <input name="employerContactNumberRequired" class="form-check-input emp-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=empRequireContactValue%>"
+                                                             <%=empRequireContactChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerContactNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -857,7 +1174,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerIdRequired">
                                                       Employer's National Id is required
-                                                      <input name="employerIdRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerIdRequired"/>
+                                                      <input name="employerIdRequired" class="form-check-input emp-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=empRequireIdValue%>"
+                                                             <%=empRequireIdChecked.equals("checked") ? "checked" : "" %>
+                                                             id="employerIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -866,7 +1187,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerIdCopyRequired">
                                                       A copy employer's National Id is required
-                                                      <input nam="employerIdCopyRequired" class="form-check-input" type="checkbox" value="NO" id="employerIdCopyRequired"/>
+                                                      <input nam="employerIdCopyRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireIdCopyValue%>"
+                                                             <%=empRequireIdCopyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -887,7 +1211,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerDistrictRequired">
                                                       Employer district is required
-                                                      <input name="employerDistrictRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerDistrictRequired"/>
+                                                      <input name="employerDistrictRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                             value="<%=empRequireDistValue%>"
+                                                            <%=empRequireDistChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerDistrictRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -896,7 +1223,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerEmailRequired">
                                                       Employer email address is required
-                                                      <input name="employerEmailRequired" class="form-check-input" type="checkbox" value="YES" checked  id="employerEmailRequired"/>
+                                                      <input name="employerEmailRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                            value="<%=empRequireEmailValue%>"
+                                                            <%=empRequireEmailChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -905,7 +1235,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="employerAlternativeNumberRequired">
                                                       Alternative Contact Number is required
-                                                      <input name="employerAlternativeNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="employerAlternativeNumberRequired"/>
+                                                      <input name="employerAlternativeNumberRequired" class="form-check-input emp-attribute" type="checkbox" 
+                                                            value="<%=empRequireAltValue%>"
+                                                            <%=empRequireAltChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="employerAlternativeNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -914,7 +1247,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markEmployerAsDeleted">
                                                       Only Mark Employers as deleted on deletion (Employer record will not be deleted permanently)
-                                                      <input name="markEmployerAsDeleted" class="form-check-input" type="checkbox" value="NO" id="markEmployerAsDeleted"/>
+                                                      <input name="markEmployerAsDeleted" class="form-check-input emp-attribute" type="checkbox" 
+                                                            value="<%=empMarkDeletedValue%>"
+                                                            <%=empMarkDeletedChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="markEmployerAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -945,14 +1281,7 @@
                                 </div>
                             
                                 <div class="tab-content-details">
-                                    <%
-                                        if(genAttributes != null && genAttributes.size() > 0){
 
-                                        } else {
-
-                                        }
-                                    %>
-                                    
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -965,7 +1294,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberFirstNameRequired">
                                                       member first name is required
-                                                      <input name="memberFirstNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberFirstNameRequired"/>
+                                                      <input name="memberFirstNameRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireFirstNameValue%>"
+                                                             <%=memRequireFirstNameChecked.equals("checked") ? "checked" : "" %>
+                                                             id="memberFirstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -974,7 +1306,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberAddressRequired">
                                                       Member's physical address is required
-                                                      <input name="memberAddressRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberAddressRequired"/>
+                                                      <input name="memberAddressRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireAddressValue%>"
+                                                             <%=memRequireAddressChecked.equals("checked") ? "checked" : "" %>
+                                                             id="memberAddressRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -983,7 +1318,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberIdRequired">
                                                       Member's National Id is required
-                                                      <input name="memberIdRequired" class="form-check-input" type="checkbox" value="YES" id="memberIdRequired"/>
+                                                      <input name="memberIdRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireIdValue%>"
+                                                             <%=memRequireIdChecked.equals("checked") ? "checked" : "" %>
+                                                             id="memberIdRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -996,7 +1334,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberSurameRequired">
                                                       member surname name is required
-                                                      <input name="memberSurameRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberSurameRequired"/>
+                                                      <input name="memberSurameRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireSurnameValue%>"
+                                                             <%=memRequireSurnameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="memberSurameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1005,7 +1346,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberContactRequired">
                                                       Member's contact number is required
-                                                      <input name="memberContactRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberContactRequired"/>
+                                                      <input name="memberContactRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireContactValue%>"
+                                                             <%=memRequireContactChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="memberContactRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1014,7 +1358,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberIdCopyRequired">
                                                       A copy of member's National Id is required
-                                                      <input name="memberIdCopyRequired" class="form-check-input" type="checkbox" value="YES" id="memberIdCopyRequired"/>
+                                                      <input name="memberIdCopyRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireIdCopyValue%>"
+                                                             <%=memRequireIdCopyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="memberIdCopyRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1034,7 +1381,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberDistrictRequired">
                                                       Member district is required
-                                                      <input name="memberDistrictRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberDistrictRequired"/>
+                                                      <input name="memberDistrictRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireDistValue%>"
+                                                             <%=memRequireDistChecked.equals("checked") ? "checked" : "" %>
+                                                             id="memberDistrictRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1043,7 +1393,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberEmailRequired">
                                                       Member email address is required
-                                                      <input name="memberEmailRequired" class="form-check-input" type="checkbox" value="YES" checked  id="memberEmailRequired"/>
+                                                      <input name="memberEmailRequired" class="form-check-input mem-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=memRequireEmailValue%>"
+                                                             <%=memRequireEmailChecked.equals("checked") ? "checked" : "" %>  
+                                                             id="memberEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1052,7 +1406,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="memberAlternativeNumberRequired">
                                                       Member alternative contact number is required
-                                                      <input name="memberAlternativeNumberRequired" class="form-check-input" type="checkbox" value="YES" checked id="memberAlternativeNumberRequired"/>
+                                                      <input name="memberAlternativeNumberRequired" class="form-check-input mem-attribute" type="checkbox" 
+                                                             value="<%=memRequireAltValue%>"
+                                                             <%=memRequireAltChecked.equals("checked") ? "checked" : "" %>  
+                                                             id="memberAlternativeNumberRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1061,7 +1418,11 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markMemberAsDeleted">
                                                       Only mark Member as deleted on deletion (Member record will not be deleted permanently)
-                                                      <input name="markMemberAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markMemberAsDeleted"/>
+                                                      <input name="markMemberAsDeleted" class="form-check-input mem-attribute" 
+                                                             type="checkbox" 
+                                                             value="<%=memMarkDeletedValue%>"
+                                                             <%=memMarkDeletedChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="markMemberAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1091,15 +1452,7 @@
                                 </div>
                             
                                 <div class="tab-content-details">
-                                    
-                                    <%
-                                        if(genAttributes != null && genAttributes.size() > 0){
-
-                                        } else {
-
-                                        }
-                                    %>
-                                        
+ 
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -1112,7 +1465,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userFirstNameRequired">
                                                       User first name is required
-                                                      <input name="userFirstNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userFirstNameRequired"/>
+                                                      <input name="userFirstNameRequired" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrRequireFirstValue%>"
+                                                            <%=usrRequireFirstChecked.equals("checked") ? "checked" : "" %>
+                                                             id="userFirstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1121,7 +1477,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userLastNameRequired">
                                                       User last name is required
-                                                      <input name="userLastNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userLastNameRequired"/>
+                                                      <input name="userLastNameRequired" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrRequireLastValue%>"
+                                                            <%=usrRequireLastChecked.equals("checked") ? "checked" : "" %>
+                                                             id="userLastNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1129,8 +1488,11 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userMiddleNameRequired">
-                                                      User middle name is required
-                                                      <input name="userMiddleNameRequired" class="form-check-input" type="checkbox" value="YES" checked id="userMiddleNameRequired"/>
+                                                      User Other name is required
+                                                      <input name="userMiddleNameRequired" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrRequireOtherValue%>"
+                                                            <%=usrRequireOtherChecked.equals("checked") ? "checked" : "" %>
+                                                             id="userMiddleNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1139,7 +1501,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="uniqueUsername">
                                                       Username must be unique
-                                                      <input name="uniqueUsername" class="form-check-input" type="checkbox" value="YES" checked id="uniqueUsername"/>
+                                                      <input name="uniqueUsername" class="form-check-input user-attribute" type="checkbox"
+                                                            value="<%=usrUniqueUserValue%>"
+                                                            <%=usrUniqueUserChecked.equals("checked") ? "checked" : "" %>
+                                                             id="uniqueUsername"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1152,7 +1517,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="userEmailRequired">
                                                       User must provide an email address
-                                                      <input name="userEmailRequired" class="form-check-input" type="checkbox" value="YES" checked id="userEmailRequired"/>
+                                                      <input name="userEmailRequired" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrRequireEmailValue%>"
+                                                            <%=usrRequireEmailChecked.equals("checked") ? "checked" : "" %>
+                                                             id="userEmailRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1161,7 +1529,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="uniqueUserEmail">
                                                       User must provide a unique email address
-                                                      <input name="uniqueUserEmail" class="form-check-input" type="checkbox" value="YES"  checked id="uniqueUserEmail"/>
+                                                      <input name="uniqueUserEmail" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrUniqueEmailValue%>"
+                                                            <%=usrUniqueEmailChecked.equals("checked") ? "checked" : "" %>
+                                                             id="uniqueUserEmail"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1170,7 +1541,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="verifyUsers">
                                                       Users must be verified
-                                                      <input namme="verifyUsers" class="form-check-input" type="checkbox" value="YES"  checked id="verifyUsers"/>
+                                                      <input namme="verifyUsers" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrMustVerifyValue%>"
+                                                            <%=usrMustVerifyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="verifyUsers"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1179,7 +1553,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="cannotVerifySame">
                                                       Users can't be verified by user who created them
-                                                      <input name="cannotVerifySame" class="form-check-input" type="checkbox" value="YES"  checked id="cannotVerifySame"/>
+                                                      <input name="cannotVerifySame" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrVerifySameValue%>"
+                                                            <%=usrVerifySameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="cannotVerifySame"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1199,7 +1576,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markUserAsDeleted">
                                                       Mark users as deleted on deletion  (User record will not be deleted permanently)
-                                                      <input name="markUserAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markUserAsDeleted"/>
+                                                      <input name="markUserAsDeleted" class="form-check-input user-attribute" type="checkbox" 
+                                                            value="<%=usrMarkDeletedValue%>"
+                                                            <%=usrMarkDeletedChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="markUserAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -1208,15 +1588,23 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="lockUserAccount">
                                                       Lock user account after a specified number of attempted logins
-                                                      <input name="lockUserAccount" class="form-check-input" type="checkbox" value="YES" checked id="lockUserAccount"/>
+                                                      <input name="lockUserAccount" class="form-check-input user-attribute" 
+                                                            type="checkbox" 
+                                                            value="<%=usrLockAccValue%>"
+                                                            <%=usrLockAccChecked.equals("checked") ? "checked" : "" %>  
+                                                            id="lockUserAccount"/>
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="row-cols-1 settings-row">
                                                 <div class="input-group mb-3">
-                                                    <span class="input-group-text" id="expireDays">Maximum login attempts</span>
-                                                    <input name="maximumAttempts" type="number" class="form-control" placeholder="Enter maximum login attempts" aria-label="Maximum Login Attempts" aria-describedby="maximumAttempts">
+                                                    <span class="input-group-text" id="maximumAttempts">Maximum login attempts</span>
+                                                    <input id="maximumAttempts" name="maximumAttempts" type="number" class="form-control" 
+                                                           placeholder="Enter maximum login attempts" 
+                                                           aria-label="Maximum Login Attempts" 
+                                                           value="<%=umaxloginattempts%>"
+                                                           aria-describedby="maximumAttempts">
                                                  </div>
                                             </div>
                                             
@@ -1246,26 +1634,26 @@
                                 </div>
                                 
                                 <div class="tab-content-details">
-                                    
-                                    <% if(pwdAttributes != null && pwdAttributes.size() > 0){%>
-                                    
-                                    <%} else {%>
 
-                                    <% } %>
-                                        
                                     <div class="row-cols-1 settings-row">
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="expirePasswords">
                                               Expire user passwords after a specified period
-                                              <input name="expirePasswords" class="form-check-input" type="checkbox" value="NO" id="expirePasswords"/>
+                                              <input name="expirePasswords" class="form-check-input pwd-attribute" type="checkbox" 
+                                                    value="<%=pwdExpiresValue%>"
+                                                    <%=pwdExpiresChecked.equals("checked") ? "checked" : "" %>
+                                                    id="expirePasswords"/>
                                             </label>
                                         </div>
                                     </div>
                                     
                                     <div class="row-cols-1 settings-row">
                                         <div class="input-group mb-3">
-                                            <span class="input-group-text" id="expireDays">Number of days it takes to expire a password</span>
-                                            <input name="expireDays" type="number" class="form-control" placeholder="Enter Days" aria-label="Password expire days" aria-describedby="expireDays">
+                                            <span class="input-group-text" id="noofexpiredays">Number of days it takes to expire a password</span>
+                                            <input name="noofexpiredays" type="number" class="form-control" placeholder="Enter Days" 
+                                                   aria-label="Password expire days" 
+                                                   value="<%=pwdExpiredaysValue%>"
+                                                   aria-describedby="noofexpiredays">
                                          </div>
                                     </div>
 
@@ -1273,15 +1661,22 @@
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="reusePasswords">
                                               Allow users to reuse old passwords after a specified number of password
-                                              <input name="reusePasswords" class="form-check-input" type="checkbox" value="NO" id="reusePasswords"/>
+                                              <input name="reusePasswords" class="form-check-input pwd-attribute" type="checkbox" 
+                                                    value="<%=pwdReusableValue%>"
+                                                    <%=pwdReusableChecked.equals("checked") ? "checked" : "" %>
+                                                     id="reusePasswords"/>
                                             </label>
                                         </div>
                                     </div>
                             
                                     <div class="row-cols-1 settings-row">
                                         <div class="input-group mb-3">
-                                            <span class="input-group-text" id="expireDays">Number of passwords user must have before start reusing passwords</span>
-                                            <input name="reusablePasswords" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of reusable passwords" aria-describedby="reusablePasswords">
+                                            <span class="input-group-text" for="noofeusablePasswords">Number of passwords user must have before start reusing passwords</span>
+                                            <input name="noofeusablePasswords" type="number" class="form-control" id="noofeusablePasswords"
+                                                   placeholder="Enter number of reusable passwords" 
+                                                   aria-label="Number of reusable passwords" 
+                                                   value="<%=reusablePwdValue%>"
+                                                   aria-describedby="noofeusablePasswords">
                                          </div>
                                     </div>
                                     
@@ -1289,7 +1684,10 @@
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="strongPasswords">
                                               Use strong passwords(User password should contain a combination of upper and lower case letters, numbers and special characters)
-                                              <input name="strongPasswords" class="form-check-input" type="checkbox" value="NO" id="strongPasswords"/>
+                                              <input name="strongPasswords" class="form-check-input pwd-attribute" type="checkbox" 
+                                                    value="<%=pwdStrongValue%>"
+                                                    <%=pwdStrongChecked.equals("checked") ? "checked" : "" %>
+                                                     id="strongPasswords"/>
                                             </label>
                                         </div>
                                     </div>
