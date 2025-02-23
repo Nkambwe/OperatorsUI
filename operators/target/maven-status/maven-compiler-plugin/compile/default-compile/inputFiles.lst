@@ -1,9 +1,11 @@
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\ApplicationUtilities.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\middleware\RequestHandler.java
+C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\SettingsRequest.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\resources\JakartaEE10Resource.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\AppResponse.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\controllers\LoginController.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\ErrorResponse.java
+C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\SettingsResponse.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\controllers\SettingsController.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\Attribute.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\Driver.java
@@ -13,10 +15,10 @@ C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\SessionManager.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\middleware\MiddlewareService.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\AppUser.java
+C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\GeneralRequest.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\StringValidator.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\CurrentUser.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\UserData.java
-C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\SettingsRequest.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\Permissions.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\webfilters\ValidateHashToken.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\AttributeList.java

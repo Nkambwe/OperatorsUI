@@ -2,18 +2,22 @@ package com.kram.operators.helpers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.kram.operators.dtos.Attribute;
 import com.kram.operators.dtos.CurrentUser;
 import com.kram.operators.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /** Application utilities class
  * Class holds utility methods for general functionalities
  * @author Macjohnan
  */
 public class ApplicationUtilities {
-    
+   
     public static String getClientIP(HttpServletRequest request) {
         String ip = request.getHeader("X-FORWARDED-FOR");
         if (ip != null) {
@@ -22,6 +26,12 @@ public class ApplicationUtilities {
         } else {
             return request.getRemoteAddr();
         }
+    }
+    
+    // Method to group attributes
+    public static Map<String, List<Attribute>> groupAttributes(List<Attribute> attributes) {
+        return attributes.stream()
+            .collect(Collectors.groupingBy(attr -> attr.getIdentifier()));
     }
     
     public static boolean isPasswordComplex(String password) {

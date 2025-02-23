@@ -3,5 +3,6 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="my_persistence_unit">
     <class>com.kram.operators.dtos.Property</class>
+    <class>com.kram.operators.models.GeneralRequest</class>
   </persistence-unit>
 </persistence>

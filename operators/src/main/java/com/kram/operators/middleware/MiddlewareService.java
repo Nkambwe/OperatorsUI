@@ -13,9 +13,11 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.kram.operators.dtos.SettingsRequest;
+import com.kram.operators.models.SettingsRequest;
 import com.kram.operators.dtos.UserData;
 import com.kram.operators.models.AppResponse;
+import com.kram.operators.models.GeneralRequest;
+import com.kram.operators.models.SettingsResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -24,6 +26,7 @@ import java.net.http.HttpResponse;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -156,6 +159,90 @@ public class MiddlewareService {
         }
     }
     
+    /*get a list of all settings*/
+    public SettingsResponse getAllSettings(GeneralRequest generalRequest) {
+        try {
+            String url = String.format("%s/getAllSettings", API_URL);
+
+            // Validate request object
+            if (generalRequest == null) {
+                return createSettingsErrorResponse(400, "Invalid request", "Request object cannot be null");
+            }
+
+            // Configure Gson with custom settings
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            // Serialize request
+            String requestBody = gson.toJson(generalRequest);
+            ApplicationLog.saveLog("SETTINGS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+
+            // Create and execute HTTP request
+            HttpClient client = createInsecureHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+
+            // Handle non-200 HTTP status codes
+            if (response.statusCode() != 200) {
+                return createSettingsErrorResponse(
+                    response.statusCode(),
+                    "HTTP Error: " + response.statusCode(),
+                    "Server returned non-200 status code"
+                );
+            }
+
+            // Clean and parse response
+            if (responseBody == null || responseBody.trim().isEmpty()) {
+                return createSettingsErrorResponse(500, "Empty response", "Server returned empty response");
+            }
+
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+
+            // Parse JSON response
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            SettingsResponse appResponse = gson.fromJson(jsonObject, SettingsResponse.class);
+
+            // Validate parsed response
+            if (appResponse == null) {
+                return createSettingsErrorResponse(500, "Invalid response format", "Failed to parse server response");
+            }
+
+            // Validate required fields
+            if (appResponse.getItems() == null) {
+                return createSettingsErrorResponse(500, "Invalid response data", "Response items list is null");
+            }
+
+            // Log successful response
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Items count :: " + appResponse.getItems().size(), "MIDDLEWARESERVICE");
+
+            return appResponse;
+
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createSettingsErrorResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createSettingsErrorResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createSettingsErrorResponse(500, "Unexpected error", e.getMessage());
+        }
+    }
+
     /*Save settings*/
     public AppResponse saveSettings(SettingsRequest settings) {
         try {
@@ -189,16 +276,11 @@ public class MiddlewareService {
             
             // Pre-process the response body to remove any invalid characters
             responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
-            
             JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
             
             // Check HTTP response code first
             if (response.statusCode() != 200) {
-                AppResponse errorResponse = new AppResponse();
-                errorResponse.setResponseCode(response.statusCode());
-                errorResponse.setResponseMessage("HTTP Error: " + response.statusCode());
-                errorResponse.setResponseDescription("Something went wrong");
-                return errorResponse;
+                return createAppErrorResponse(response.statusCode(),"HTTP Error: " + response.statusCode(), "Something went wrong");
             }
             
             // Attempt to deserialize the response
@@ -215,26 +297,14 @@ public class MiddlewareService {
             return appResponse;
             
         } catch (JsonSyntaxException | JsonIOException e) {
-            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
-            AppResponse errorResponse = new AppResponse();
-            errorResponse.setResponseCode(500);
-            errorResponse.setResponseMessage("Error parsing response");
-            errorResponse.setResponseDescription(e.getMessage());
-            return errorResponse;
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");;
+            return createAppErrorResponse(500, "Error parsing response", e.getMessage());
         } catch (IOException | InterruptedException e) {
             ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
-            AppResponse errorResponse = new AppResponse();
-            errorResponse.setResponseCode(500);
-            errorResponse.setResponseMessage("Network error occurred");
-            errorResponse.setResponseDescription(e.getMessage());
-            return errorResponse;
+            return createAppErrorResponse(500, "Network error occurred", e.getMessage());
         } catch (Exception e) {
             ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
-            AppResponse errorResponse = new AppResponse();
-            errorResponse.setResponseCode(500);
-            errorResponse.setResponseMessage("Unexpected error");
-            errorResponse.setResponseDescription(e.getMessage());
-            return errorResponse;
+            return createAppErrorResponse(500, "Unexpected error", e.getMessage());
         }
     }
     
@@ -266,6 +336,25 @@ public class MiddlewareService {
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException("Failed to create insecure SSL client", e);
         }
+    }
+    
+    // Helper method to create error responses
+    private SettingsResponse createSettingsErrorResponse(int code, String message, String description) {
+        SettingsResponse errorResponse = new SettingsResponse();
+        errorResponse.setResponseCode(code);
+        errorResponse.setResponseMessage(message);
+        errorResponse.setResponseDescription(description);
+        errorResponse.setItems(new ArrayList<>()); // Initialize empty list to avoid null
+        return errorResponse;
+    }
+    
+    // Helper method to create error responses
+    private AppResponse createAppErrorResponse(int code, String message, String description) {
+        AppResponse errorResponse = new AppResponse();
+        errorResponse.setResponseCode(code);
+        errorResponse.setResponseMessage(message);
+        errorResponse.setResponseDescription(description);
+        return errorResponse;
     }
     
 }

@@ -4,6 +4,7 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.models.SettingsResponse"%>
 <%@page import="com.kram.operators.helpers.ApplicationLog"%>
 <%@page import="com.kram.operators.models.AppResponse"%>
 <%@page import="java.util.List"%>
@@ -19,7 +20,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String msg = null, alertClass = "alert-success", msg_type="Success";
-
+    List<Attribute> genAttributes =  null, drvAttributes = null, empAttributes = null, memAttributes =  null, useAttributes = null, pwdAttributes = null;
+    String surnameValue = "", surnameChecked = "", firstNameValue = "", firstNameChecked = "", otherNameValue = "", otherNameChecked = "", dobValue = "";
+    String dobChecked = "", idRequiredValue = "", idRequiredChecked = "", idAtRegValue = "", idAtRegChecked = "", dHomeDistRegValue = "", dHomeDistChecked = "";
+    String dresDistRegValue = "", dresDistChecked = "", dphoneValue = "", dphoneChecked = "", dsocialValue = "", dsocialChecked = "", dmarkDeletedValue = "";
+    String dmarkDeletedChecked = "", dacademicValue = "", dacademicChecked = "", demailValue="", demailChecked="";
+    String dacademicDocsValue = "", dacademicDocsChecked = "", dlicenseValue = "", dlicenseChecked = "", dlicenseCopyValue = "", dlicenseCopyChecked = "";
+    String dreferValue = "", dreferChecked = "", dreferCopyValue = "", dreferCopyChecked = "", dworkexpValue = "", dworkexpChecked = "", dworkexpPeriodValue = "0";
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
     if(!isLoggedIn){
@@ -47,13 +54,13 @@
                 case "driver-setting":
                     settingType = AppConstants.DRVATRIB;
                     checkboxNames = AttributeList.getDriverSettings();
-                    String expireDays =  request.getParameter("expireDays"); 
-                    expireDays = (expireDays =="" || expireDays == null) ? "0" : expireDays;
+                    String workExperience =  request.getParameter("workingExperience"); 
+                    workExperience = (workExperience =="" || workExperience == null) ? "0" : workExperience;
                     workingExpAtrr = new Attribute(); 
                     workingExpAtrr.setId(0);
                     workingExpAtrr.setIdentifier(settingType);
                     workingExpAtrr.setParameterName("workingExperience");
-                    workingExpAtrr.setParameterValue(expireDays);
+                    workingExpAtrr.setParameterValue(workExperience);
                 break;
                 case "employ-setting":
                     settingType = AppConstants.EMPATRIB;
@@ -119,6 +126,153 @@
         ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGS");
     }
     
+    //get all settings
+    SettingsResponse sResp = controller.getAllAttributes();
+    List<Attribute> zattributes = new ArrayList<>();
+    if (sResp.getResponseCode() == 200) {
+        zattributes = sResp.getItems();
+        if(zattributes != null){
+            ApplicationLog.saveLog(String.format("%d settings retrieved", zattributes.size()), "SETTINGS");
+            //group settings by idetifiers
+            Map<String, List<Attribute>> groupedAttributes = ApplicationUtilities.groupAttributes(zattributes);
+            //..access each group separately
+            genAttributes = groupedAttributes.get("GENATRIB");
+            drvAttributes = groupedAttributes.get("DRVATRIB");
+            
+            ApplicationLog.saveLog(String.format("%d Driver settings", drvAttributes.size()), "SETTINGS");
+            if(drvAttributes != null && drvAttributes.size() > 0){
+            
+                for(Attribute a : drvAttributes){
+                    if ("surnameNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        surnameValue = boolValue ? "YES" : "NO";
+                        surnameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("firstNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        firstNameValue = boolValue ? "YES" : "NO";
+                        firstNameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("otherNameRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        otherNameValue = boolValue ? "YES" : "NO";
+                        otherNameChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("dobRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dobValue = boolValue ? "YES" : "NO";
+                        dobChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("idRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        idRequiredValue = boolValue ? "YES" : "NO";
+                        idRequiredChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("idRequiredAtReqgistration".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        idAtRegValue = boolValue ? "YES" : "NO";
+                        idAtRegChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("homeDistrict".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dHomeDistRegValue = boolValue ? "YES" : "NO";
+                        dHomeDistChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("residenceDistrict".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dresDistRegValue = boolValue ? "YES" : "NO";
+                        dresDistChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("phoneNumber".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dphoneValue = boolValue ? "YES" : "NO";
+                        dphoneChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("emailAddress".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        demailValue = boolValue ? "YES" : "NO";
+                        demailChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("socialMedia".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dsocialValue = boolValue ? "YES" : "NO";
+                        dsocialChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("markDriverAsDeleted".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dmarkDeletedValue = boolValue ? "YES" : "NO";
+                        dmarkDeletedChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("academicInfo".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dacademicValue = boolValue ? "YES" : "NO";
+                        dacademicChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("academicDocumentsRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dacademicDocsValue = boolValue ? "YES" : "NO";
+                        dacademicDocsChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("licienceRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dlicenseValue = boolValue ? "YES" : "NO";
+                        dlicenseChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("copyOfLicienceRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dlicenseCopyValue = boolValue ? "YES" : "NO";
+                        dlicenseCopyChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("refereesRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dreferValue = boolValue ? "YES" : "NO";
+                        dreferChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("copyOfReferenceRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dreferCopyValue = boolValue ? "YES" : "NO";
+                        dreferCopyChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("workExperienceRequired".equals(a.getParameterName())) {
+                        Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                        dworkexpValue = boolValue ? "YES" : "NO";
+                        dworkexpChecked = boolValue ? "checked" : "";
+                    }
+
+                    if ("workingExperience".equals(a.getParameterName())) {
+                        dworkexpPeriodValue = String.format("%d", Integer.valueOf(a.getParameterValue().toString()));
+                    }
+                }
+            }
+            
+            empAttributes = groupedAttributes.get("EMPATRIB");
+            memAttributes = groupedAttributes.get("MEMATRIB");
+            useAttributes = groupedAttributes.get("USEATRIB");
+            pwdAttributes = groupedAttributes.get("PWDATRIB");
+        }
+    } else {
+        ApplicationLog.saveLog(String.format("Error! %s - %s", 
+            sResp.getResponseMessage(), 
+            sResp.getResponseMessage()), "SETTINGS");
+    }
     
     //set current page
     session.setAttribute(AppConstants.CURRENT_PAGE, "SETTINGS_PAGE");
@@ -166,39 +320,39 @@
                     </div>
                     <div class="tab-area">
                         <div class="tab tab-headers">
-                            <button class="tablinks tab-active" id="defaultTab" onclick="openTab(event, 'General')">
+                            <button class="tablinks tab-active" id="generalTab" onclick="openTab(event, 'general')">
                                 <span><i class="mdi mdi-cogs"></i></span>
                                 <span>General</span>
                             </button>
-                            <button class="tablinks" onclick="openTab(event, 'Drivers')">
+                            <button class="tablinks"  id="driverTab" onclick="openTab(event, 'Drivers')">
                                 <span><i class="mdi mdi-car-cruise-control"></i></span>
                                 <span>Drivers</span>
                             </button>
-                            <button class="tablinks" onclick="openTab(event, 'Employers')">
+                            <button class="tablinks" id="employerTab" onclick="openTab(event, 'Employers')">
                                <span><i class="mdi mdi-car-cog"></i></span>
                                <span>Employers</span>
                             </button>
-                            <button class="tablinks" onclick="openTab(event, 'Members')">
+                            <button class="tablinks" id="membersTab" onclick="openTab(event, 'Members')">
                                 <span><i class="mdi mdi-account-tie-outline"></i></span>
                                <span>Members</span>
                             </button>
                             
-                            <button class="tablinks" onclick="openTab(event, 'Users')">
+                            <button class="tablinks" id="usersTab" onclick="openTab(event, 'Users')">
                                 <span><i class="mdi mdi-account-cog"></i></span>
                                 <span>Users</span>
                             </button>
                             
-                            <button class="tablinks" onclick="openTab(event, 'Passwords')"> 
+                            <button class="tablinks" id="passwordTab" onclick="openTab(event, 'Passwords')"> 
                                 <span><i class="mdi mdi-lock-reset"></i></span>
                                 <span>Password</span>
                             </button>
                             
                         </div>
 
-                        <div id="General" class="tabcontent">
+                        <div id="general" class="tabcontent">
                             
                             <form id="general-form" method="post" role="form" >
-                                 <%=ApplicationUtilities.getSalt(request)%>
+                                <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="general-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -213,19 +367,53 @@
                                 <div class="tab-content-details">
                                     
                                     <div class="row p-0">
-                                        
-                                        <div class="col-md-6 p-0">
-                                            <div class="row-cols-1 settings-row">
-                                                <div class="form-check form-switch">
-                                                    <label class="form-check-label" for="surnameNameRequired">
-                                                      Include records marked as deleted when searching for records
-                                                      <input name="includeDeletedObjects" class="form-check-input" type="checkbox" value="NO" id="surnameNameRequired"/>
-                                                    </label>
+                                        <% if(genAttributes != null && genAttributes.size() > 0){
+                                            String includeDeletedValue = "";
+                                            String includeDeletedChecked = "";
+                                            for(Attribute a : genAttributes){
+                                                if ("includeDeletedObjects".equals(a.getParameterName())) {
+                                                    Boolean boolValue = Boolean.valueOf(a.getParameterValue().toString());
+                                                    includeDeletedValue = boolValue ? "YES" : "NO";
+                                                    includeDeletedChecked = boolValue ? "checked" : "";
+                                                }
+                                        %>
+                                            
+                                            <div class="col-md-6 p-0">
+                                                
+                                                <div class="row-cols-1 settings-row">
+                                                    <div class="form-check form-switch">
+                                                        <input name="includeDeletedObjects" class="form-check-input general-attribute" type="checkbox"
+                                                            id="includeDeletedObjects"
+                                                            value="<%=includeDeletedValue%>" 
+                                                            <%= includeDeletedChecked.equals("checked") ? "checked" : "" %> />
+                                                        <label class="form-check-label" for="includeDeletedObjects">
+                                                            Include records marked as deleted when searching for records
+                                                        </label>
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
-                                        </div>
+
+                                            <div class="col-md-6 p-0"></div>
+                                            
+                                        <%} } else {%>
                                         
-                                        <div class="col-md-6 p-0"></div>
+                                            <div class="col-md-6 p-0">
+                                                
+                                                <div class="row-cols-1 settings-row">
+                                                    <div class="form-check form-switch">
+                                                        <label class="form-check-label" for="surnameNameRequired">
+                                                          Include records marked as deleted when searching for records
+                                                          <input name="includeDeletedObjects" class="form-check-input" type="checkbox" value="NO" id="surnameNameRequired"/>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-md-6 p-0"></div>
+                                        
+                                        <% } %>
                                         
                                     </div>
                                     
@@ -238,8 +426,7 @@
                         <div id="Drivers" class="tabcontent">
                             
                             <form id="driver-form" method="post" role="form" >
-                                
-                                <%=ApplicationUtilities.getSalt(request)%>
+                                 <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="driver-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -252,7 +439,7 @@
                                 </div>
                                 
                                 <div class="tab-content-details">
-                                
+                                    
                                     <div class="section-lable">
                                         <span>Bio-data settings</span>
                                     </div>
@@ -265,7 +452,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="surnameNameRequired">
                                                       Driver Surname is required
-                                                      <input name="surnameNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="surnameNameRequired"/>
+                                                      <input name="surnameNameRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=surnameValue%>"
+                                                             <%= surnameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="surnameNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -274,7 +464,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="firstNameRequired">
                                                       Driver first name is required
-                                                      <input name="firstNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="firstNameRequired"/>
+                                                      <input name="firstNameRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=firstNameValue%>"
+                                                             <%=firstNameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="firstNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -283,7 +476,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="otherNameRequired">
                                                       Driver other name is required
-                                                      <input name="otherNameRequired" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="otherNameRequired"/>
+                                                      <input name="otherNameRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=otherNameValue%>"
+                                                             <%=otherNameChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="otherNameRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -296,7 +492,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="dobRequired">
                                                       Driver date of birth is required
-                                                      <input name="dobRequired" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="dobRequired"/>
+                                                      <input name="dobRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dobValue%>"
+                                                             <%=dobChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="dobRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -305,7 +504,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="idRequired">
                                                       Driver Identification is required
-                                                      <input name="idRequired" class="form-check-input  driver-attribute" type="checkbox" value="YES" checked id="idRequired"/>
+                                                      <input name="idRequired" class="form-check-input  driver-attribute" type="checkbox"
+                                                            value="<%=idRequiredValue%>"
+                                                            <%=idRequiredChecked.equals("checked") ? "checked" : "" %> 
+                                                            id="idRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -314,7 +516,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="idRequiredAtReqgistration">
                                                       Driver Identification is required at registration
-                                                      <input name="idRequiredAtReqgistration" class="form-check-input  driver-attribute" type="checkbox" value="NO" id="idRequiredAtReqgistration"/>
+                                                      <input name="idRequiredAtReqgistration" class="form-check-input  driver-attribute" type="checkbox" 
+                                                            value="<%=idAtRegValue%>"
+                                                            <%=idAtRegChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="idRequiredAtReqgistration"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -322,11 +527,11 @@
                                         </div>
                                         
                                     </div>
-                                 
+                                    
                                     <div class="section-lable">
                                         <span>Contact info settings</span>
                                     </div>
-                                    
+                                     
                                     <div class="row p-0">
                                         
                                         <div class="col-md-6 p-0">
@@ -335,7 +540,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="homeDistrict">
                                                       Driver home district is required
-                                                      <input name="homeDistrict" class="form-check-input  driver-attribute" type="checkbox" value="N" id="homeDistrict"/>
+                                                      <input name="homeDistrict" class="form-check-input  driver-attribute" type="checkbox"
+                                                             value="<%=dHomeDistRegValue%>"
+                                                             <%=dHomeDistChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="homeDistrict"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -344,7 +552,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="residenceDistrict">
                                                       Driver residence district is required
-                                                      <input name="residenceDistrict" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="residenceDistrict"/>
+                                                      <input name="residenceDistrict" class="form-check-input  driver-attribute" type="checkbox"
+                                                             value="<%=dresDistRegValue%>"
+                                                             <%=dresDistChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="residenceDistrict"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -353,7 +564,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="phoneNumber">
                                                       Phone number is required
-                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="phoneNumber"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" name="phoneNumber"
+                                                             value="<%=dphoneValue%>"
+                                                             <%=dphoneChecked.equals("checked") ? "checked" : "" %>
+                                                             id="phoneNumber"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -365,7 +579,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="emailAddress">
                                                       Driver email address is required
-                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="emailAddress"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" name="emailAddress"
+                                                             value="<%=demailValue%>"
+                                                             <%=demailChecked.equals("checked") ? "checked" : "" %>
+                                                             id="emailAddress"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -374,7 +591,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="socialMedia">
                                                       Social media contact is required
-                                                      <input class="form-check-input  driver-attribute" type="checkbox" value="N" id="socialMedia"/>
+                                                      <input class="form-check-input  driver-attribute" type="checkbox" name="socialMedia"
+                                                             value="<%=dsocialValue%>"
+                                                             <%=dsocialChecked.equals("checked") ? "checked" : "" %>
+                                                             id="socialMedia"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -383,7 +603,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="markDriverAsDeleted">
                                                       Only Mark Drivers as deleted on deletion (Driver record will not be deleted permanently)
-                                                      <input name="markDriverAsDeleted" class="form-check-input" type="checkbox" value="YES" checked id="markDriverAsDeleted"/>
+                                                      <input name="markDriverAsDeleted" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dmarkDeletedValue%>"
+                                                             <%=dmarkDeletedChecked.equals("checked") ? "checked" : "" %>
+                                                             id="markDriverAsDeleted"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -391,7 +614,7 @@
                                          </div>
                                         
                                     </div>
-        
+                                                             
                                     <div class="section-lable">
                                         <span>Documentation</span>
                                     </div>
@@ -404,7 +627,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="academicInfo">
                                                       Academic info is required
-                                                      <input name="academicInfo" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="academicInfo"/>
+                                                      <input name="academicInfo" class="form-check-input  driver-attribute" type="checkbox" 
+                                                              value="<%=dacademicValue%>"
+                                                             <%=dacademicChecked.equals("checked") ? "checked" : "" %>
+                                                             id="academicInfo"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -413,7 +639,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="academicDocumentsRequired">
                                                       Copied of academic documents are required
-                                                      <input name="academicDocumentsRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="academicDocumentsRequired"/>
+                                                      <input name="academicDocumentsRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                              value="<%=dacademicDocsValue%>"
+                                                             <%=dacademicDocsChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="academicDocumentsRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -422,7 +651,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="licienceRequired">
                                                       Driver's license certification is required
-                                                      <input name="licienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="Y" checked id="licienceRequired"/>
+                                                      <input name="licienceRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dlicenseValue%>"
+                                                             <%=dlicenseChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="licienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -431,7 +663,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="copyOfLicienceRequired">
                                                       Copied of driver's license certification is required
-                                                      <input name="copyOfLicienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="copyOfLicienceRequired"/>
+                                                      <input name="copyOfLicienceRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                            value="<%=dlicenseCopyValue%>"
+                                                             <%=dlicenseCopyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="copyOfLicienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -444,7 +679,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="refereesRequired">
                                                       Must provide referees at registration
-                                                      <input name="refereesRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="refereesRequired"/>
+                                                      <input name="refereesRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dreferValue%>"
+                                                             <%=dreferChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="refereesRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -453,7 +691,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="copyOfReferenceRequired">
                                                       Copied of reference are required
-                                                      <input name="copyOfReferenceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="copyOfReferenceRequired"/>
+                                                      <input name="copyOfReferenceRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dreferCopyValue%>"
+                                                             <%=dreferCopyChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="copyOfReferenceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -462,7 +703,10 @@
                                                 <div class="form-check form-switch">
                                                     <label class="form-check-label" for="workExperienceRequired">
                                                       Require work experience
-                                                      <input name="workExperienceRequired" class="form-check-input  driver-attribute" type="checkbox" value="N" id="workExperienceRequired"/>
+                                                      <input name="workExperienceRequired" class="form-check-input  driver-attribute" type="checkbox" 
+                                                             value="<%=dworkexpValue%>"
+                                                             <%=dworkexpChecked.equals("checked") ? "checked" : "" %> 
+                                                             id="workExperienceRequired"/>
                                                     </label>
                                                 </div>
                                             </div>
@@ -470,14 +714,16 @@
                                             <div class="row-cols-1 settings-row">
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="workingExperience">Number of years of working experience required</span>
-                                                    <input id="workingExperience" name="expireDays" type="number" class="form-control" placeholder="Enter number of reusable passwords" aria-label="Number of years experience" aria-describedby="workingExperience">
+                                                    <input id="workingExperience" name="workingExperience" type="number" class="form-control" 
+                                                           placeholder="Enter number of reusable passwords" aria-label="Number of years experience" 
+                                                           value="<%=dworkexpPeriodValue%>"
+                                                           aria-describedby="workingExperience">
                                                  </div>
                                             </div>
                                          </div>
                                         
                                     </div>
-                                    
-                               
+                                                           
                                 </div>
                                 
                             </form>
@@ -487,8 +733,7 @@
                         <div id="Employers" class="tabcontent">
                             
                             <form id="employ-form" method="post" role="form" >
-                                
-                                <%=ApplicationUtilities.getSalt(request)%>
+                                 <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="employ-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -501,7 +746,13 @@
                                 </div>
                             
                                 <div class="tab-content-details">
-                                
+                                    <%
+                                        if(genAttributes != null && genAttributes.size() > 0){
+
+                                        } else {
+
+                                        }
+                                    %>
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -681,8 +932,7 @@
                         <div id="Members" class="tabcontent">
                             
                             <form id="member-form" method="post" role="form" >
-                                
-                                <%=ApplicationUtilities.getSalt(request)%>
+                                 <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="member-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -695,7 +945,14 @@
                                 </div>
                             
                                 <div class="tab-content-details">
-                                
+                                    <%
+                                        if(genAttributes != null && genAttributes.size() > 0){
+
+                                        } else {
+
+                                        }
+                                    %>
+                                    
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -812,6 +1069,7 @@
                                         </div>
                                         
                                     </div>
+                                    
                                 </div>   
                             </form>
                             
@@ -820,8 +1078,7 @@
                         <div id="Users" class="tabcontent">
                             
                             <form id="user-form" method="post" role="form" >
-                                
-                                <%=ApplicationUtilities.getSalt(request)%>
+                                 <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="user-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -834,7 +1091,15 @@
                                 </div>
                             
                                 <div class="tab-content-details">
+                                    
+                                    <%
+                                        if(genAttributes != null && genAttributes.size() > 0){
 
+                                        } else {
+
+                                        }
+                                    %>
+                                        
                                     <div class="section-lable">
                                         <span>General Info</span>
                                     </div>
@@ -958,7 +1223,9 @@
                                         </div>
                                         
                                     </div>
+                                    
                                 </div>
+                                
                             </form>    
                             
                         </div>
@@ -966,8 +1233,7 @@
                         <div id="Passwords" class="tabcontent">
                            
                             <form id="password-form" method="post" role="form" >
-                                
-                                <%=ApplicationUtilities.getSalt(request)%>
+                                 <input type="hidden" id="salt" name="salt" value="<%=ApplicationUtilities.getSalt(request)%>">
                                 <input type="hidden" name="mtd" value="pwd-setting"/>
                                 
                                 <div class="tab-content-header">
@@ -980,7 +1246,13 @@
                                 </div>
                                 
                                 <div class="tab-content-details">
+                                    
+                                    <% if(pwdAttributes != null && pwdAttributes.size() > 0){%>
+                                    
+                                    <%} else {%>
 
+                                    <% } %>
+                                        
                                     <div class="row-cols-1 settings-row">
                                         <div class="form-check form-switch">
                                             <label class="form-check-label" for="expirePasswords">
