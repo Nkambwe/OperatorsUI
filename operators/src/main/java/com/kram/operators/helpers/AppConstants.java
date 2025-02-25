@@ -43,6 +43,6 @@ public class AppConstants {
     public final static String PWDATRIB = "PWDATRIB";
     public final static String GENATRIB = "GENATRIB";
     
-    public final static String APP_FOOTER = String.format("Drive Match 1.0 &copy 2024 - %s. Kram",new SimpleDateFormat("yyyy").format(new Date()));
+    public final static String APP_FOOTER = String.format("Drive Match 1.0 &copy 2025 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 
 }

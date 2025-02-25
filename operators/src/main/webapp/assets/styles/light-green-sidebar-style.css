@@ -1,0 +1,113 @@
+
+.ops-side-bar-container {
+    grid-column: 1;
+    height: 100%;
+}
+
+.ops-side-bar-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.4rem;
+}
+
+.ops-side-bar-logo {
+    display: flex;
+    gap: 0.8rem;
+}
+
+#img-logo {
+    width: 3rem;
+    height: 3rem;
+}
+
+.ops-brand {
+    margin: 0;
+    padding-top: 10px;
+    padding-left:5px;
+    text-align: center;
+    font-size: 1.5rem !important;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.drive-tint {
+    color:var(--ops-color-background)
+}
+
+.ops-side-bar,
+.ops-side-bar-menu {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.ops-side-bar-close {
+    display: none;
+    font-size: 2rem;
+}
+
+.ops-side-bar {
+    margin-top: 10px;
+}
+
+.ops-side-bar-menu-item {
+    display: flex;
+    flex-direction: row;
+    background: transparent;
+    border: none;
+    line-height: 1;
+    position: relative;
+}
+
+.ops-side-bar-menu-item-link {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color:var(--ops-color-gray-light);
+    font-size: 2rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.ops-side-bar-menu-item-link p {
+    margin: 0;
+    flex-grow: 1;
+    padding: 3px 20px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    background: transparent;
+}
+
+.active-menu-item {
+    color:var(--ops-color-background-faint-active);
+    background: var(--ops-color-background-faint);
+}
+
+.ops-side-bar-menu-item:has(.active-menu-item):after {
+  content: "";
+  width: 6px;
+  height: 100%;
+  background: var(--ops-color-background-faint);
+  position: absolute;
+  top: 0;
+  right: 0; 
+}
+
+ul.ops-side-bar-menu li:last-child {
+    position: absolute;
+    bottom: 2rem;
+    width: 100%;
+}
+
+.ops-side-bar-menu-item-link:hover {
+    color:var(--ops-color-background);
+    transition: all .3s ease-in-out;
+}
+
+.ops-side-bar-menu-item:has(.ops-side-bar-menu-item-link:hover):after {
+  background: var(--ops-color-background-hover, var(--ops-color-background));
+  transition: all .3s ease-in-out;
+}

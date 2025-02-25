@@ -106,6 +106,8 @@
         
     }
     
+    //user theme settings
+    String theme_color = "light-red-";
     
 %>
 <!DOCTYPE html>
@@ -119,7 +121,7 @@
         <link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/assets/images/favicon.png"/>
         <link href="${pageContext.request.contextPath}/assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/login-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>login-style.css" rel="stylesheet" type="text/css"/>
     </head>
     </head>
     <body onload="noBack();" onpageshow="if(event.persisted)noBack();">

@@ -36,8 +36,6 @@
         <link href="${pageContext.request.contextPath}/assets/styles/sidebar-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-    <body>
-     <body>
         <%@include file="sidebar.jsp"%> 
 
         <section class="main-content-container">

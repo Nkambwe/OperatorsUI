@@ -4,11 +4,12 @@
 */
 
 $(document).ready(function () {
-    //prevent back navigation
-    noBack();
     
     //hide loader
     hideLoading();
+    
+    //prevent back navigation
+    noBack();
     
     //prevent pasting in text field
     detectPastePrevention();
@@ -40,6 +41,7 @@ function showLoading() {
 function hideLoading() {
     $('#loading').css("display", "none");
 }
+
 
 // Encapsulated function to detect and prevent pasting
 function detectPastePrevention() {

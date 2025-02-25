@@ -2,8 +2,6 @@
 .ops-side-bar-container {
     grid-column: 1;
     height: 100%;
-    border-right: solid 1px #cecece;
-    box-shadow: 2px 0 5px var(--ops-color-faint-dropshadow);
 }
 
 .ops-side-bar-top{
@@ -11,7 +9,6 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 1.4rem;
-    background: var(--ops-color-white);
 }
 
 .ops-side-bar-logo {

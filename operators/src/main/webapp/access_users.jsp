@@ -88,6 +88,10 @@
     
     //set current page
     session.setAttribute(AppConstants.CURRENT_PAGE, "USERS_PAGE");
+    
+
+    //user theme settings
+    String theme_color = "light-green-";
 %>
 <!DOCTYPE html>
 <html>
@@ -102,13 +106,11 @@
         <link href="${pageContext.request.contextPath}/assets/plugins/datatables/datatables.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/app-styles.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/sidebar-style.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/table-customerzation.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>table-customerzation.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-    <body>
-     <body>
         <%@include file="sidebar.jsp"%> 
 
         <section class="main-content-container">

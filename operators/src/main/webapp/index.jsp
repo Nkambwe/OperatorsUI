@@ -30,6 +30,9 @@
         alertClass = "alert-warning";
     }
     
+    //user theme settings
+    String theme_color = "light-green-";
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -43,8 +46,8 @@
         <link href="${pageContext.request.contextPath}/assets/styles/rest-style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/app-styles.css" rel="stylesheet" type="text/css"/>
-        <link href="${pageContext.request.contextPath}/assets/styles/sidebar-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
       
@@ -62,22 +65,55 @@
                
                 <section>
                     
-                    <div class="main-content">
-                        <% if (msg != null) {%>
-                        <div class="message-container">
+                    <% if (msg != null) {%>
+                    <div class="message-container">
 
-                            <div class="alert <%= alertClass%> alert-dismissable">
-                                <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <div class="alert <%= alertClass%> alert-dismissable">
+                            <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                    </div>
+                    <% }%>
+
+                    <div class="content-wrapper">
+                        
+                        <div class="dashboard-welcome-container">
+                            <span class="welcome-brand display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</span>
+                            <button id="btn-user" class="btn-user-settings">
+                                <span><i class="mdi mdi-account-cog"></i></span>
+                            </button>
+                        </div>
+                        
+                        <div class="dashboard-chart-container"> 
+                             <!----------------Left charts-------->
+                            <div class="right-chart-container">
+                                 
+                               <div class="ops-charts-drivers">
+                                    <span class="display-5">Drivers charts here</span>
+                                </div>
+                                  
+                                <div class="ops-charts-employers">
+                                    <span class="display-5">Employers charts here</span>
+                                </div>
+                                  
+                                <div class="ops-charts-members">
+                                    <span class="display-5">Members charts here</span>
+                                </div>
+                                
+                                <div class="ops-charts-recent">
+                                    <span class="display-5">Recent matches charts here</span>
+                                </div>
+                                
                             </div>
-
+                            
+                               <!----------------Right charts-------->
+                             <div class="left-chart-container">
+                                 <span class="display-5">Other chats</span>
+                            </div>
+                            
                         </div>
-                        <% }%>
-
-                        <div class="content-wrapper">
-                            <h1 class="display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</h1>
-                        </div>
-
+                        
                     </div>
 
                 </section>
