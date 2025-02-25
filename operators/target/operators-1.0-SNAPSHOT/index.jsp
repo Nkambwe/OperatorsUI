@@ -47,33 +47,48 @@
         <link href="${pageContext.request.contextPath}/assets/styles/sidebar-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <%@include file="sidebar.jsp"%> 
-
-        <section class="main-content-container">
+      
+        <!----------------main container-------->
+        <div class="ops-dashboard-container">
             
-            <%@include file="header.jsp"%> 
-            <div class="main-content">
-                <% if (msg != null) {%>
-                <div class="message-container">
+             <!----------------sidebar-------->
+             <%@include file="sidebar.jsp"%> 
+             
+              <!----------------dashboard container: other pages use content container-------->
+             <div class="ops-dashboard-content">
+                 
+                <!----------------sidebar-------->
+                <%@include file="header.jsp"%> 
+               
+                <section>
                     
-                    <div class="alert <%= alertClass%> alert-dismissable">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <div class="main-content">
+                        <% if (msg != null) {%>
+                        <div class="message-container">
+
+                            <div class="alert <%= alertClass%> alert-dismissable">
+                                <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+
+                        </div>
+                        <% }%>
+
+                        <div class="content-wrapper">
+                            <h1 class="display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</h1>
+                        </div>
+
                     </div>
+
+                </section>
                         
+                <div class="footer shadow-text">
+                    <%=AppConstants.APP_FOOTER%>
                 </div>
-                <% }%>
-                
-                <div class="content-wrapper">
-                    <h1 class="display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</h1>
-                </div>
-                
-            </div>
-            
-            <div class="footer shadow-text">
-                <%=AppConstants.APP_FOOTER%>
-            </div>
-        </section>
+                    
+             </div>
+             
+        </div>
             
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>

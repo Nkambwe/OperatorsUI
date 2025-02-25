@@ -10,7 +10,7 @@ import java.util.Date;
 public class AppConstants {
     public static final String BASE_URL = "https://localhost:7134/middleware";
     public final static boolean ISLIVE = false; 
-    public final static String APP_TITLE = "OPERATOR";
+    public final static String APP_TITLE = "DRIVE MATCH";
     public final static String KEY_LOGGEDIN = "logged_in";
     public final static String KEY_ACTIVE = "active";
     public final static String KEY_VERIFIED = "verified";
@@ -43,6 +43,6 @@ public class AppConstants {
     public final static String PWDATRIB = "PWDATRIB";
     public final static String GENATRIB = "GENATRIB";
     
-    public final static String APP_FOOTER = String.format("Operactor 1.0 &copy 2024 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
+    public final static String APP_FOOTER = String.format("Drive Match 1.0 &copy 2024 - %s. Kram",new SimpleDateFormat("yyyy").format(new Date()));
 
 }
