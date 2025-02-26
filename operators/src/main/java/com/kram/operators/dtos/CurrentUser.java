@@ -59,6 +59,18 @@ public class CurrentUser {
 
     private final boolean deleted;
     public boolean isDeleted() { return this.deleted; }
+    
+    private int themeId;
+    public int getThemeId() { return this.themeId; }
+    public void setThemeId(int themeId) { this.themeId = themeId; }
+
+    private String themeTexture;
+    public String getThemeTexture() { return themeTexture; }
+    public void setThemeTexture(String themeTexture) { this.themeTexture = themeTexture; }
+
+    private String themeColor;
+    public String getThemeColor() { return themeColor; }
+    public void setThemeColor(String themeColor) { this.themeColor = themeColor; }
 
     private final boolean loggedin;
     public boolean isLoggedin() { return this.loggedin; }
@@ -107,6 +119,9 @@ public class CurrentUser {
         this.active = userData.isActive();
         this.verified = userData.isVerified();
         this.deleted = userData.isDeleted();
+        this.themeId = userData.getThemeId();
+        this.themeTexture = userData.getThemeTexture();
+        this.themeColor = userData.getThemeColor();
         this.loggedin = userData.isLoggedin();
         this.addedOn = userData.getAddedOn();
         this.addedBy = userData.getAddedBy();

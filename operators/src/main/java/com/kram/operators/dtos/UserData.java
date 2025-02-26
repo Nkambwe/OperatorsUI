@@ -111,6 +111,24 @@ public class UserData {
     private boolean deleted;
     public boolean isDeleted() { return this.deleted; }
     public void setDeleted(boolean deleted) { this.deleted = deleted; }
+    
+    @SerializedName("themeId")
+    @Expose
+    private int themeId;
+    public int getThemeId() { return this.themeId; }
+    public void setThemeId(int themeId) { this.themeId = themeId; }
+    
+    @SerializedName("themeTexture")
+    @Expose
+    private String themeTexture;
+    public String getThemeTexture() { return themeTexture; }
+    public void setThemeTexture(String themeTexture) { this.themeTexture = themeTexture; }
+    
+    @SerializedName("themeColor")
+    @Expose
+    private String themeColor;
+    public String getThemeColor() { return themeColor; }
+    public void setThemeColor(String themeColor) { this.themeColor = themeColor; }
 
     @SerializedName("loggedin")
     @Expose

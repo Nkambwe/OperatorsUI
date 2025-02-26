@@ -81,6 +81,18 @@ public class AppUser {
     public boolean isDeleted() { return this.deleted; }
     public void setIsDeleted(boolean deleted) { this.deleted = deleted; }
     
+    private int themeId;
+    public int getThemeId() { return this.themeId; }
+    public void setThemeId(int themeId) { this.themeId = themeId; }
+
+    private String themeTexture;
+    public String getThemeTexture() { return themeTexture; }
+    public void setThemeTexture(String themeTexture) { this.themeTexture = themeTexture; }
+
+    private String themeColor;
+    public String getThemeColor() { return themeColor; }
+    public void setThemeColor(String themeColor) { this.themeColor = themeColor; }
+
     private boolean loggedin;
     public boolean isLoggedin() { return this.loggedin; }
     public void setIsLoggedin(boolean loggedin) { this.loggedin = loggedin; }

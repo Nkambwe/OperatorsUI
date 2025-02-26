@@ -55,7 +55,7 @@ public class LoginController {
             response = apiMiddleware.retrieveUser(userRequest);
             
             if (response.isSuccess()) {
-                 User user = (User)response.getData();
+                User user = (User)response.getData();
                 cUser = ApplicationUtilities.generateUser(user);
                 ApplicationLog.saveLog("User account retrieved successfully", "LOGINCONTROLLER");
                 ApplicationLog.saveLog("SUCCESS CODE:: " + cUser.getResponseCode(), "LOGINCONTROLLER");
@@ -80,6 +80,10 @@ public class LoginController {
                     this.session.setAttribute(AppConstants.USER_EMAIL, cUser.getEmail());
                     this.session.setAttribute(AppConstants.KEY_PASSWORDID, cUser.getPasswordId());
                     this.session.setAttribute(AppConstants.KEY_EXPIRRPWD, cUser.getExpirePasswords());
+                    this.session.setAttribute(AppConstants.THEME_ID, cUser.getThemeId());
+                    this.session.setAttribute(AppConstants.THEME_TEXTURE, cUser.getThemeTexture());
+                    this.session.setAttribute(AppConstants.THEME_COLOR, cUser.getThemeColor());
+                    
                      ApplicationLog.saveLog(String.format("EXPIRED PASSWORD :: %s", cUser.getExpirePasswords()), "LOGINCONTROLLER");
                     this.session.setAttribute(AppConstants.KEY_EXPIRESINDAYS, cUser.getExpiresIn());
                     

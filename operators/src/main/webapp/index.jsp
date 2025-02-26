@@ -25,13 +25,20 @@
     boolean checkExpiredPwd = (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD);
     var remainders = (int)session.getAttribute(AppConstants.KEY_EXPIRESINDAYS); 
     if(remainders <= 7){
-    msg_type="Warning! ";
-        msg = String.format("Your password will expire in %s days, Change password", remainders);
+        msg_type="Warning! ";
+        
+        msg = String.format("Your password will expire in %d days. Consider changing your password", remainders);
         alertClass = "alert-warning";
     }
     
     //user theme settings
-    String theme_color = "light-green-";
+    
+    String theme_name = session.getAttribute(AppConstants.THEME_TEXTURE) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_TEXTURE) : "Theme Not Found!" ; 
+
+    String theme_clr = session.getAttribute(AppConstants.THEME_COLOR) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_COLOR) : "Color Not Found!" ; 
+    String theme_color = String.format("%s-%s-", theme_name, theme_clr);
     
 %>
 <!DOCTYPE html>
