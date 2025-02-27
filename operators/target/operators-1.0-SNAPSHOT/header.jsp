@@ -14,6 +14,12 @@
     
 %>
  <header class="main-content-header">
-    <div class="content-header-left"><%=current_branch %></div>
+    <div class="content-header-left">
+        <% if(current_page.equals("INDEX_PAGE")){%>
+        <span class="display-1 page-brand">DASHBOARD</span>
+        <%} else {%>
+            <span><%=current_page%></span>
+        <%}%>
+    </div>
     <div class="content-header-right"><%=loggedin_user%></div>
 </header>

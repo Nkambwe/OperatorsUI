@@ -18,7 +18,7 @@
     
     <div class="ops-side-bar-top">
         <div class="ops-side-bar-logo">
-             <img id="img-logo" src="${pageContext.request.contextPath}/assets/images/logo.png" alt="logo"/>
+             <img id="img-logo" src="${pageContext.request.contextPath}/assets/images/black.png" alt="logo"/>
              <h2 class="display-1 ops-brand">DRIVE<span class="drive-tint">MATCH<span></h2>
         </div>
         <div class="ops-side-bar-close">

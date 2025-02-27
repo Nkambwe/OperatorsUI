@@ -97,15 +97,70 @@
                             <div class="right-chart-container">
                                  
                                <div class="ops-charts-drivers">
-                                    <span class="display-5">Drivers charts here</span>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-settings"></i></span>
+                                       <h3>Registered Drivers</h3>
+                                       <h1>139</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-connected"></i></span>
+                                       <h3>Available</h3>
+                                       <h1>65</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-info"></i></span>
+                                       <h3>Pending Approval</h3>
+                                       <h1>32</h1>
+                                   </div>
+                                   
                                 </div>
-                                  
-                                <div class="ops-charts-employers">
-                                    <span class="display-5">Employers charts here</span>
-                                </div>
+                                 
                                   
                                 <div class="ops-charts-members">
-                                    <span class="display-5">Members charts here</span>
+                                     
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-settings"></i></span>
+                                       <h3>Members</h3>
+                                       <h1>82</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-connected"></i></span>
+                                       <h3>Individuals</h3>
+                                       <h1>27</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-info"></i></span>
+                                       <h3>Companies</h3>
+                                       <h1>55</h1>
+                                   </div>
+                                    
+                                </div>
+                                
+                                <div class="ops-charts-employers">
+                                     
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-settings"></i></span>
+                                       <h3>Employers</h3>
+                                       <h1>48</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-connected"></i></span>
+                                       <h3>Businesses</h3>
+                                       <h1>38</h1>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span><i class="mdi mdi-car-info"></i></span>
+                                       <h3>Seasonal</h3>
+                                       <h1>10</h1>
+                                   </div>
+                                   
                                 </div>
                                 
                                 <div class="ops-charts-recent">

@@ -126,16 +126,19 @@ a {
     height: 100%;
 }
 
-.ops-charts-drivers {
-    background: teal;
+.ops-charts-drivers,
+.ops-charts-members,
+.ops-charts-employers{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:2rem;
+    padding: 20px;
 }
 
-.ops-charts-employers {
-    background: blue;
-}
-
-.ops-charts-members {
-    background: yellow;
+.chart-card {
+    padding:10px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 
 .ops-charts-recent {
@@ -146,7 +149,6 @@ a {
 .left-chart-container {
     background: red;
 }
-
 
 .ops-container {
     display: grid;
@@ -159,6 +161,20 @@ a {
 
 header.main-content-header {
     height: 74px;
+    display: flex;
+    flex-direction: row;
+}
+
+.content-header-left {
+    flex-grow: 1;
+}
+
+.page-brand {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #cecece;
+    padding: 20px 0 0 15px;
 }
 
 /* Footer */
@@ -206,6 +222,7 @@ header.main-content-header {
 .message-container {
     display: flex;
     width: 100%;
+    margin: 0 15px;
     flex-direction: row;
 }
 
