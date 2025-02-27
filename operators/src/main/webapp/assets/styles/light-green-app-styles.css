@@ -89,6 +89,8 @@ a {
 
 .dashboard-welcome-container {
     display: flex;
+    padding-left: 2px;
+    padding-top: 5px;
     flex-direction: row;
 }
 
@@ -136,9 +138,56 @@ a {
 }
 
 .chart-card {
-    padding:10px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+.chart-card-content {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  position: relative;
+  flex-grow: 1;
+}
+
+.chart-card-content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #cecece 15%,
+    #cecece 85%,
+    transparent 100%
+  );
+}
+
+.chart-card-content h1{
+    flex-grow: 1;
+}
+
+.chart-card-content span {
+    font-size:1.3rem;
+    font-weight: 400;
+    color: #cecece;
+    justify-content: right;
+    display: inline-block;
+}
+
+.chart-card-icon {
+    display: inline-block;
+    font-size: 5rem;
+    width: 40%;
+}
+
+.driver-icon {
+    
 }
 
 .ops-charts-recent {
@@ -146,8 +195,22 @@ a {
     background: tan;
 }
 
+.chart-card-icon {
+    display: inline-block;
+    font-size: 5rem;
+    width: 40%;
+    cursor: pointer;
+    color: var(--ops-color-background-faint-active);
+    transition: all .5s ease-in-out;
+}
+
+.chart-card:hover .chart-card-icon {
+    color:var(--ops-color-background);
+    transition: all .5s ease-in-out;
+}
+
 .left-chart-container {
-    background: red;
+/*    background: red;*/
 }
 
 .ops-container {
@@ -163,6 +226,7 @@ header.main-content-header {
     height: 74px;
     display: flex;
     flex-direction: row;
+/*    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;*/
 }
 
 .content-header-left {

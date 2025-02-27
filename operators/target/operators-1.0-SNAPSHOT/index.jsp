@@ -99,68 +99,39 @@
                                <div class="ops-charts-drivers">
                                     
                                    <div class="chart-card">
-                                       <span><i class="mdi mdi-car-settings"></i></span>
-                                       <h3>Registered Drivers</h3>
-                                       <h1>139</h1>
+                                       <span class="chart-card-icon"><i class="mdi mdi-car-child-seat"></i></span>
+                                       <div class="chart-card-content">
+                                           <h1 class="display-2">139</h1>
+                                           <span>Drivers</span>
+                                       </div>
                                    </div>
                                     
                                    <div class="chart-card">
-                                       <span><i class="mdi mdi-car-connected"></i></span>
-                                       <h3>Available</h3>
-                                       <h1>65</h1>
+                                       <span class="chart-card-icon"><i class="mdi mdi-account-tie"></i></span>
+                                       <div class="chart-card-content">
+                                           <h1 class="display-2">83</h1>
+                                           <span>Members</span>
+                                       </div>
                                    </div>
                                     
                                    <div class="chart-card">
-                                       <span><i class="mdi mdi-car-info"></i></span>
-                                       <h3>Pending Approval</h3>
-                                       <h1>32</h1>
+                                       <span class="chart-card-icon"><i class="mdi mdi-car-multiple"></i></span>
+                                       <div class="chart-card-content">
+                                          <h1 class="display-2">65</h1>
+                                           <span>Employers</span>
+                                       </div>
                                    </div>
                                    
                                 </div>
                                  
                                   
                                 <div class="ops-charts-members">
-                                     
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-settings"></i></span>
-                                       <h3>Members</h3>
-                                       <h1>82</h1>
-                                   </div>
-                                    
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-connected"></i></span>
-                                       <h3>Individuals</h3>
-                                       <h1>27</h1>
-                                   </div>
-                                    
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-info"></i></span>
-                                       <h3>Companies</h3>
-                                       <h1>55</h1>
-                                   </div>
-                                    
+                                    <h1>Row 2</h1>
+                                   
                                 </div>
                                 
                                 <div class="ops-charts-employers">
-                                     
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-settings"></i></span>
-                                       <h3>Employers</h3>
-                                       <h1>48</h1>
-                                   </div>
-                                    
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-connected"></i></span>
-                                       <h3>Businesses</h3>
-                                       <h1>38</h1>
-                                   </div>
-                                    
-                                   <div class="chart-card">
-                                       <span><i class="mdi mdi-car-info"></i></span>
-                                       <h3>Seasonal</h3>
-                                       <h1>10</h1>
-                                   </div>
-                                   
+                                    <h1>Row 3</h1>
                                 </div>
                                 
                                 <div class="ops-charts-recent">

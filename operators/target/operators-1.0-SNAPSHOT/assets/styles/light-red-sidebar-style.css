@@ -4,11 +4,12 @@
     height: 100%;
 }
 
-.ops-side-bar-top{
+.ops-side-bar-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 1.4rem;
+/*    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;*/
 }
 
 .ops-side-bar-logo {
