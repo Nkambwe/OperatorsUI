@@ -9,8 +9,12 @@ import com.kram.operators.models.SettingsRequest;
 import com.kram.operators.helpers.AppSingleton;
 import com.kram.operators.helpers.ApplicationLog;
 import com.kram.operators.helpers.ApplicationUtilities;
+import com.kram.operators.helpers.UserTheme;
 import com.kram.operators.middleware.MiddlewareService;
 import com.kram.operators.models.SettingsResponse;
+import com.kram.operators.models.ThemeRequest;
+import com.kram.operators.models.UserThemeRequest;
+import com.kram.operators.models.UserThemeResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -97,4 +101,89 @@ public class SettingsController {
             return response;
         } 
     }
+    
+    public UserTheme gerCurrentTheme(){
+        UserTheme theme = null;
+        ApplicationLog.saveLog("Current user theme", "SETTINGCONTROLLER");
+        String requestBody;
+        Gson gson = new Gson();
+        var response = new UserThemeResponse(); 
+        
+        try{
+            int userId = Integer.parseInt(ApplicationUtilities.getUserId(session));
+            ApplicationLog.saveLog(String.format("User ID :: %d", userId), "SETTINGCONTROLLER");
+            
+            var request = new UserThemeRequest();
+            request.setUserId(userId);
+            
+            //log request object
+            requestBody = gson.toJson(request);
+            ApplicationLog.saveLog("Request body :: " + requestBody, "SETTINGCONTROLLER");
+            UserThemeResponse themeResponse = apiMiddleware.getUserTheme(request);
+            
+            if(themeResponse.getResponseCode() == 200){
+                theme = new UserTheme();
+                theme.setId(themeResponse.getId());
+                theme.setSkin(themeResponse.getSkin());
+                theme.setColor(themeResponse.getColor());
+            }
+            
+            requestBody = gson.toJson(theme);
+            ApplicationLog.saveLog("RESPONSE :: " + requestBody, "SETTINGCONTROLLER");
+        } catch(NumberFormatException ex){
+            response.setResponseCode(200);
+            response.setResponseDescription("An error occurred.");
+            response.setResponseMessage(ex.getMessage());
+            String responseBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("RESPONSE BODY :: %s", responseBody), "SETTINGCONTROLLER");
+            
+            // Convert the exception to a string and pass it to saveLog
+            ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGCONTROLLER");
+            
+        }
+        
+        return theme;
+    }
+    
+    public AppResponse updateUserTheme(String theme) {
+        ApplicationLog.saveLog("Selected Theme: " + theme, "SETTINGCONTROLLER");
+        String requestBody;
+        Gson gson = new Gson();
+        var response = new AppResponse(); 
+
+        if (theme == null || theme.isEmpty()) {
+            response.setResponseCode(400);
+            response.setResponseDescription("Theme parameter is missing");
+            response.setResponseMessage("Theme value cannot be null or empty");
+            String responseBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("ERROR RESPONSE :: %s", responseBody), "SETTINGCONTROLLER");
+            return response;
+        }
+        
+        try{
+            int userId = Integer.parseInt(ApplicationUtilities.getUserId(session));
+            ApplicationLog.saveLog(String.format("User ID :: %d", userId), "SETTINGCONTROLLER");
+            
+            ThemeRequest themeRequest = new ThemeRequest();
+            themeRequest.setTheme(theme);
+            themeRequest.setUserId(userId);
+            
+            //log request object
+            requestBody = gson.toJson(themeRequest);
+            ApplicationLog.saveLog("Request body :: " + requestBody, "SETTINGCONTROLLER");
+            return apiMiddleware.setThemeName(themeRequest);
+        } catch(NumberFormatException ex){
+            response.setResponseCode(200);
+            response.setResponseDescription("An error occurred.");
+            response.setResponseMessage(ex.getMessage());
+            String responseBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("RESPONSE BODY :: %s", responseBody), "SETTINGCONTROLLER");
+            
+            // Convert the exception to a string and pass it to saveLog
+            ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGCONTROLLER");
+            return response;
+        }
+        
+    }
+    
 }

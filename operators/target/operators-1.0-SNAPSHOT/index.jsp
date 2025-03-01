@@ -4,10 +4,14 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.ApplicationLog"%>
+<%@page import="com.kram.operators.helpers.UserTheme"%>
+<%@page import="com.kram.operators.controllers.SettingsController"%>
 <%@page import="com.kram.operators.helpers.ApplicationUtilities"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    String ip =ApplicationUtilities.getClientIP(request);
     String msg = null, alertClass = "alert-danger", msg_type="Success";
     String username = (String)session.getAttribute(AppConstants.EMPLOYEE_NAME);
     
@@ -20,7 +24,7 @@
     
     //set current page
     session.setAttribute(AppConstants.CURRENT_PAGE, "INDEX_PAGE");
-
+    
     //TODO--check number of days left for expirey
     boolean checkExpiredPwd = (boolean)session.getAttribute(AppConstants.KEY_EXPIRRPWD);
     var remainders = (int)session.getAttribute(AppConstants.KEY_EXPIRESINDAYS); 
@@ -31,15 +35,37 @@
         alertClass = "alert-warning";
     }
     
-    //user theme settings
-    
+    //get session theme
     String theme_name = session.getAttribute(AppConstants.THEME_TEXTURE) != null ? 
-    (String)session.getAttribute(AppConstants.THEME_TEXTURE) : "Theme Not Found!" ; 
-
-    String theme_clr = session.getAttribute(AppConstants.THEME_COLOR) != null ? 
-    (String)session.getAttribute(AppConstants.THEME_COLOR) : "Color Not Found!" ; 
-    String theme_color = String.format("%s-%s-", theme_name, theme_clr);
+    (String)session.getAttribute(AppConstants.THEME_TEXTURE) : "light" ; 
+    ApplicationLog.saveLog("Session Kin :: " + theme_name, "INDEX_PAGE");
     
+    String theme_clr = session.getAttribute(AppConstants.THEME_COLOR) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_COLOR) : "green" ; 
+    ApplicationLog.saveLog("Session Color :: " + theme_clr, "INDEX_PAGE");
+    
+    //get current user theme
+    SettingsController controller = new SettingsController(session, ip);
+    UserTheme theme = controller.gerCurrentTheme();
+    if(theme != null){
+        theme_name = theme.getSkin();
+        session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
+        ApplicationLog.saveLog("Saved Skin :: " + theme_name, "INDEX_PAGE");
+        theme_clr = theme.getColor();
+        session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
+        ApplicationLog.saveLog("Saved Color :: " + theme_clr, "INDEX_PAGE");
+    }
+
+    //current theme color
+    if(theme_name.equals("dark")){
+        session.setAttribute(AppConstants.ACTIVE_DARK, "active-theme");
+        session.setAttribute(AppConstants.ACTIVE_LIGHT, "");
+    } else {
+        session.setAttribute(AppConstants.ACTIVE_DARK, "");
+        session.setAttribute(AppConstants.ACTIVE_LIGHT, "active-theme");
+    }
+    String theme_color = String.format("%s-%s-", theme_name, theme_clr);
+    ApplicationLog.saveLog("Current Theme :: " + theme_color, "INDEX_PAGE");
 %>
 <!DOCTYPE html>
 <html>
@@ -87,9 +113,6 @@
                         
                         <div class="dashboard-welcome-container">
                             <span class="welcome-brand display-1"><%=ApplicationUtilities.greet()%> <%=username%>!</span>
-                            <button id="btn-user" class="btn-user-settings">
-                                <span><i class="mdi mdi-account-cog"></i></span>
-                            </button>
                         </div>
                         
                         <div class="dashboard-chart-container"> 
@@ -126,16 +149,75 @@
                                  
                                   
                                 <div class="ops-charts-members">
-                                    <h1>Row 2</h1>
+                                     
+                                   <div class="chart-card">
+                                       <span class="chart-card-icon"><i class="mdi mdi-car-traction-control"></i></span>
+                                       <div class="chart-card-content">
+                                           <h1 class="display-2">96</h1>
+                                           <span>Active Drivers</span>
+                                       </div>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span class="chart-card-icon"><i class="mdi mdi-account-tie-voice"></i></span>
+                                       <div class="chart-card-content">
+                                           <h1 class="display-2">65</h1>
+                                           <span>Active Members</span>
+                                       </div>
+                                   </div>
+                                    
+                                   <div class="chart-card">
+                                       <span class="chart-card-icon"><i class="mdi mdi-car-2-plus"></i></span>
+                                       <div class="chart-card-content">
+                                          <h1 class="display-2">41</h1>
+                                           <span>Active Employers</span>
+                                       </div>
+                                   </div>
                                    
                                 </div>
                                 
-                                <div class="ops-charts-employers">
-                                    <h1>Row 3</h1>
-                                </div>
-                                
                                 <div class="ops-charts-recent">
-                                    <span class="display-5">Recent matches charts here</span>
+                                    
+                                    <div class="ops-selected-matches-container">
+                                        <span class="display-5 matches-table-header">Selected matches call list</span>
+                                        <table class="matched-table">
+                                            <thead>
+                                            <th>Driver Name</th>
+                                            <th>Driver Contact</th>
+                                            <th>Employer</th>
+                                            <th>Employer Contact</th>
+                                            <th>Contract Type</th>
+                                            <th>Call About</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Semakula Thormas</td>
+                                                    <td>2567729014132</td>
+                                                    <td>Mukula and Company</td>
+                                                    <td>0456890127</td>
+                                                    <td>Employment</td>
+                                                    <td>Pending Charges</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Atwine Philip</td>
+                                                    <td>2567760018331</td>
+                                                    <td>Mr.Matovu Muhamad</td>
+                                                    <td>256704897213</td>
+                                                    <td>Family Driver</td>
+                                                    <td>Pending ID Documents</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Okello Jackson</td>
+                                                    <td>2567514010351</td>
+                                                    <td>ST.Kizito Primary</td>
+                                                    <td>0456966127</td>
+                                                    <td>School Bus</td>
+                                                    <td>Pending ID Documents</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
                                 </div>
                                 
                             </div>

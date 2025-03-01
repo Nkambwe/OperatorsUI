@@ -5,6 +5,7 @@ import com.kram.operators.helpers.AppConstants;
 import com.kram.operators.helpers.ApplicationLog;
 import com.kram.operators.models.ErrorResponse;
 import com.kram.operators.models.User;
+import com.kram.operators.models.ThemeRequest;
 import com.kram.operators.models.UserRequest;
 import com.kram.operators.models.UserResponse;
 import com.google.gson.Gson;
@@ -18,6 +19,8 @@ import com.kram.operators.dtos.UserData;
 import com.kram.operators.models.AppResponse;
 import com.kram.operators.models.GeneralRequest;
 import com.kram.operators.models.SettingsResponse;
+import com.kram.operators.models.UserThemeRequest;
+import com.kram.operators.models.UserThemeResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -242,7 +245,138 @@ public class MiddlewareService {
             return createSettingsErrorResponse(500, "Unexpected error", e.getMessage());
         }
     }
+    
+    /*Save theme name*/
+    public AppResponse setThemeName(ThemeRequest theme){
+        try {
+            String url = String.format("%s/setThemeName", API_URL);
 
+            // Create Gson with custom configuration
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            HttpClient client = createInsecureHttpClient();
+            
+            // Log the request object for debugging
+            String requestBody = gson.toJson(theme);
+            ApplicationLog.saveLog("SETTINGS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+                    
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                return createAppErrorResponse(response.statusCode(),"HTTP Error: " + response.statusCode(), "Something went wrong");
+            }
+            
+            // Attempt to deserialize the response
+            AppResponse appResponse = gson.fromJson(jsonObject, AppResponse.class);
+            if (appResponse == null) {
+                throw new JsonSyntaxException("Failed to parse response");
+            }
+            
+            // Log the response code
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            
+            return appResponse;
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");;
+            return createAppErrorResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createAppErrorResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createAppErrorResponse(500, "Unexpected error", e.getMessage());
+        }
+    
+    }
+    
+    /*Retrieve user theme*/
+    public UserThemeResponse getUserTheme(UserThemeRequest userTheme) {
+        try {
+            String url = String.format("%s/getTheme", API_URL);
+
+            // Create Gson with custom configuration
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            HttpClient client = createInsecureHttpClient();
+            
+            // Log the request object for debugging
+            String requestBody = gson.toJson(userTheme);
+            ApplicationLog.saveLog("SETTINGS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+                    
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                return createThemeErrorResponse(response.statusCode(),"HTTP Error: " + response.statusCode(), "Something went wrong");
+            }
+            
+            // Attempt to deserialize the response
+            UserThemeResponse themeResponse = gson.fromJson(jsonObject, UserThemeResponse.class);
+            if (themeResponse == null) {
+                throw new JsonSyntaxException("Failed to parse response");
+            }
+            
+            // Log the response code
+            ApplicationLog.saveLog("Response code :: " + themeResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + themeResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + themeResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            
+            return themeResponse;
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");;
+            return createThemeErrorResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createThemeErrorResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createThemeErrorResponse(500, "Unexpected error", e.getMessage());
+        }
+    }
+    
     /*Save settings*/
     public AppResponse saveSettings(SettingsRequest settings) {
         try {
@@ -357,4 +491,13 @@ public class MiddlewareService {
         return errorResponse;
     }
     
+    // Helper method to create error responses
+    private UserThemeResponse createThemeErrorResponse(int code, String message, String description) {
+        UserThemeResponse errorResponse = new UserThemeResponse();
+        errorResponse.setResponseCode(code);
+        errorResponse.setResponseMessage(message);
+        errorResponse.setResponseDescription(description);
+        return errorResponse;
+    }
+
 }
