@@ -46,8 +46,8 @@ public class AppConstants {
     public final static String THEME_TEXTURE="theme_texture";
     public final static String THEME_COLOR="theme_clr";
     
-    public final static String ACTIVE_LIGHT="active_light";
-    public final static String ACTIVE_DARK="active_dark";
+    public final static String ACTIVE_THEME="active_light";
+    public final static String ACTIVE_COLOR="active_color";
     
     public final static String APP_FOOTER = String.format("Drive Match 1.0 &copy 2025 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 

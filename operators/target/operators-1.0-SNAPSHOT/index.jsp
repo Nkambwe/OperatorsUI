@@ -57,13 +57,8 @@
     }
 
     //current theme color
-    if(theme_name.equals("dark")){
-        session.setAttribute(AppConstants.ACTIVE_DARK, "active-theme");
-        session.setAttribute(AppConstants.ACTIVE_LIGHT, "");
-    } else {
-        session.setAttribute(AppConstants.ACTIVE_DARK, "");
-        session.setAttribute(AppConstants.ACTIVE_LIGHT, "active-theme");
-    }
+    session.setAttribute(AppConstants.ACTIVE_THEME, theme_name);
+    session.setAttribute(AppConstants.ACTIVE_COLOR, theme_clr);
     String theme_color = String.format("%s-%s-", theme_name, theme_clr);
     ApplicationLog.saveLog("Current Theme :: " + theme_color, "INDEX_PAGE");
 %>
@@ -99,13 +94,9 @@
                 <section>
                     
                     <% if (msg != null) {%>
-                    <div class="message-container">
-
-                        <div class="alert <%= alertClass%> alert-dismissable">
-                            <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-
+                    <div class="alert <%= alertClass%> alert-dismissable message-container">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                     <% }%>
 
@@ -230,13 +221,13 @@
                         </div>
                         
                     </div>
-
+                            
+                    <div class="footer shadow-text">
+                        <%=AppConstants.APP_FOOTER%>
+                    </div>
+                     
                 </section>
-                        
-                <div class="footer shadow-text">
-                    <%=AppConstants.APP_FOOTER%>
-                </div>
-                    
+                   
              </div>
              
         </div>

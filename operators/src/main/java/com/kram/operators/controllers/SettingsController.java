@@ -145,6 +145,47 @@ public class SettingsController {
         return theme;
     }
     
+    public AppResponse updateUserThemeColor(String color){
+        ApplicationLog.saveLog("Selected Color: " + color, "SETTINGCONTROLLER");
+        String requestBody;
+        Gson gson = new Gson();
+        var response = new AppResponse(); 
+
+        if (color == null || color.isEmpty()) {
+            response.setResponseCode(400);
+            response.setResponseDescription("Color parameter is missing");
+            response.setResponseMessage("Color value cannot be null or empty");
+            String responseBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("ERROR RESPONSE :: %s", responseBody), "SETTINGCONTROLLER");
+            return response;
+        }
+        
+        try{
+            int userId = Integer.parseInt(ApplicationUtilities.getUserId(session));
+            ApplicationLog.saveLog(String.format("User ID :: %d", userId), "SETTINGCONTROLLER");
+            
+            ThemeRequest themeRequest = new ThemeRequest();
+            themeRequest.setTheme(color);
+            themeRequest.setUserId(userId);
+            
+            //log request object
+            requestBody = gson.toJson(themeRequest);
+            ApplicationLog.saveLog("Request body :: " + requestBody, "SETTINGCONTROLLER");
+            return apiMiddleware.setThemeColor(themeRequest);
+        } catch(NumberFormatException ex){
+            response.setResponseCode(200);
+            response.setResponseDescription("An error occurred.");
+            response.setResponseMessage(ex.getMessage());
+            String responseBody = gson.toJson(response);
+            ApplicationLog.saveLog(String.format("RESPONSE BODY :: %s", responseBody), "SETTINGCONTROLLER");
+            
+            // Convert the exception to a string and pass it to saveLog
+            ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGCONTROLLER");
+            return response;
+        }
+    }
+    
+    //save user selected theme
     public AppResponse updateUserTheme(String theme) {
         ApplicationLog.saveLog("Selected Theme: " + theme, "SETTINGCONTROLLER");
         String requestBody;
@@ -182,8 +223,7 @@ public class SettingsController {
             // Convert the exception to a string and pass it to saveLog
             ApplicationLog.saveLog(ApplicationLog.getStackTraceAsString(ex), "SETTINGCONTROLLER");
             return response;
-        }
-        
+        } 
     }
     
 }

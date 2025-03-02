@@ -33,7 +33,7 @@
                     <p>Dashboard</p> 
                 </a>
             </li>
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_drivers_link" href="drivers.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-car-child-seat"></i>
@@ -42,7 +42,7 @@
                 </a>
             </li>
 
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_clients_link" href="employer.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-car-multiple"></i>
@@ -51,7 +51,7 @@
                 </a>
 
             </li>
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_members_link" href="members.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-account-tie"></i>
@@ -61,7 +61,7 @@
 
             </li>
             
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_analytics_link" href="analytics.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-chart-line"></i>
@@ -73,7 +73,7 @@
 
             <li class="menu-separator"></li>
 
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_users_link" href="access_branches.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-source-branch-plus"></i>
@@ -83,7 +83,7 @@
 
             </li>
 
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_users_link" href="access_users.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-account-group"></i>
@@ -93,7 +93,7 @@
 
             </li>
 
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_roles_link" href="access_roles.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-account-supervisor"></i>
@@ -102,7 +102,7 @@
                 </a>
 
             </li>
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_permissions_link" href="access_permissions.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-account-key"></i>
@@ -112,7 +112,7 @@
 
             </li>
 
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_settings_link" href="settings.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-cogs"></i>
@@ -123,7 +123,7 @@
             </li>
             
             
-            <li class="menu-item">
+            <li class="ops-side-bar-menu-item">
                 <a id="menu_logout_link" href="#" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-logout"></i>

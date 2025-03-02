@@ -149,5 +149,49 @@ public class ApplicationUtilities {
 
         return false;
     }
+   
+   public static List<String> getThemecolor(String color){
+       List<String> colors = new ArrayList<>();
+       switch(color){
+            case "red":
+                colors.add("active-color");
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                break;
+            case "yellow":
+                colors.add("");
+                colors.add("active-color");
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                break;
+            case "purple":
+                colors.add("");
+                colors.add("");
+                colors.add("active-color");
+                colors.add("");
+                colors.add("");
+                break;
+            
+            case "aqua":
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                colors.add("active-color");
+                colors.add("");
+                break;
+            default:
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                colors.add("");
+                colors.add("active-color");
+                break;
+        }
+       
+       return colors;
+   }
 
 }

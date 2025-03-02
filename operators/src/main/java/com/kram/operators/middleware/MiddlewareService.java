@@ -246,6 +246,70 @@ public class MiddlewareService {
         }
     }
     
+    public AppResponse setThemeColor(ThemeRequest theme){
+        try {
+            String url = String.format("%s/setThemeColor", API_URL);
+
+            // Create Gson with custom configuration
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            HttpClient client = createInsecureHttpClient();
+            
+            // Log the request object for debugging
+            String requestBody = gson.toJson(theme);
+            ApplicationLog.saveLog("SETTINGS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+                    
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                return createAppErrorResponse(response.statusCode(),"HTTP Error: " + response.statusCode(), "Something went wrong");
+            }
+            
+            // Attempt to deserialize the response
+            AppResponse appResponse = gson.fromJson(jsonObject, AppResponse.class);
+            if (appResponse == null) {
+                throw new JsonSyntaxException("Failed to parse response");
+            }
+            
+            // Log the response code
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            
+            return appResponse;
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");;
+            return createAppErrorResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createAppErrorResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createAppErrorResponse(500, "Unexpected error", e.getMessage());
+        }
+    }
+    
     /*Save theme name*/
     public AppResponse setThemeName(ThemeRequest theme){
         try {

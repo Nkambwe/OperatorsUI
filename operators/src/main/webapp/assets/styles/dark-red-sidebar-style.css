@@ -1,0 +1,140 @@
+
+.ops-side-bar-container {
+    grid-column: 1;
+    height: 100%;
+    background-color: var(--ops-sidebar-background);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5), 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 0px 0px 1px rgba(255, 255, 255, 0.07) inset;
+}
+
+.ops-side-bar-top {
+    display: flex;
+    height: 70px;
+}
+
+.ops-side-bar-logo {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+#img-logo {
+    margin-top: 1.6rem;
+    width: 4rem;
+    height: 3rem;
+}
+
+.ops-brand {
+    margin: 0;
+    padding-top: 25px;
+    padding-left: 5px;
+    text-align: center;
+    font-size: 1.7rem !important;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--ops-color-white);
+}
+
+.ops-side-bar-expand {
+    cursor: pointer;
+    width: 50px;
+    font-size: 2.5rem;
+    color:var(--ops-color-gray-light);
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+}
+
+.ops-side-bar-expand span, 
+.ops-side-bar-expand i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 8px;
+    transition: all .5s ease-in-out;
+}
+
+.ops-side-bar-expand:hover span,
+.ops-side-bar-expand:hover i{
+    color:#fff;
+    transition: all .5s ease-in-out;
+}
+
+.drive-tint {
+    color:var(--ops-color-background)
+}
+
+.ops-side-bar,
+.ops-side-bar-menu {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.ops-side-bar-menu{
+    position: relative;
+}
+
+.ops-side-bar {
+    margin-top: 10px;
+}
+
+.ops-side-bar-menu-item {
+    display: flex;
+    flex-direction: row;
+    background: transparent;
+    border: none;
+    line-height: 1;
+    position: relative;
+}
+
+.ops-side-bar-menu-item-link {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color:var(--ops-color-gray-light);
+    font-size: 2rem;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.ops-side-bar-menu-item-link p {
+    margin: 0;
+    flex-grow: 1;
+    padding: 3px 20px;
+    cursor: pointer;
+    font-size: 1.6rem;
+    background: transparent;
+}
+
+.active-menu-item {
+    color:var(--ops-color-background-faint-active);
+    background: var(--ops-color-background-faint);
+}
+
+.ops-side-bar-menu-item:has(.active-menu-item):after {
+  content: "";
+  width: 6px;
+  height: 100%;
+  background: var(--ops-color-background);
+  position: absolute;
+  top: 0;
+  right: 0; 
+}
+
+ul.ops-side-bar-menu li:last-child {
+    position: absolute;
+    bottom: 8rem;
+    width: 100%;
+}
+
+.ops-side-bar-menu-item-link:hover {
+    color:var(--ops-color-background);
+    transition: all .3s ease-in-out;
+}
+
+.ops-side-bar-menu-item:has(.ops-side-bar-menu-item-link:hover):after {
+  background: var(--ops-color-background-hover, var(--ops-color-background));
+  transition: all .3s ease-in-out;
+}

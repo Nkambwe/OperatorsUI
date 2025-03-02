@@ -4,6 +4,8 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.ApplicationUtilities"%>
+<%@page import="java.util.List"%>
 <%@page import="com.kram.operators.helpers.StringValidator"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,13 +15,27 @@
     String current_page = session.getAttribute(AppConstants.CURRENT_PAGE) != null ? (String)session.getAttribute(AppConstants.CURRENT_PAGE) : "";
     
     
-    Object darkObj = session.getAttribute(AppConstants.ACTIVE_DARK);
-    Object lightObj = session.getAttribute(AppConstants.ACTIVE_LIGHT);
-    String active_dark = darkObj != null? (String)darkObj :"";
-    String active_light = lightObj != null? (String)lightObj :"";
-    if(lightObj.equals("") && darkObj.equals("")){
+    Object themeObj = session.getAttribute(AppConstants.ACTIVE_THEME);
+    String themeSkin = themeObj != null? (String)themeObj :"";
+    String active_dark = "", active_light = "";
+    if(themeSkin.equals("dark")){
+        active_dark = "active-theme";
+        active_light = "";
+    } else {
         active_light = "active-theme";
+        active_dark = "";
     }
+    
+    String active_green = "", active_red = "", active_aqua = "", active_purple = "", active_yellow = "";
+    Object colorObj = session.getAttribute(AppConstants.ACTIVE_COLOR);
+    String color = colorObj != null? (String)colorObj :"";
+    List<String> themeColors = ApplicationUtilities.getThemecolor(color);
+    active_red = themeColors.get(0);
+    active_yellow = themeColors.get(1);
+    active_purple = themeColors.get(2);
+    active_aqua = themeColors.get(3);
+    active_green = themeColors.get(4);
+    
         
 %>
  <header class="main-content-header">
@@ -29,6 +45,8 @@
     <div class="content-header-left">
         <% if(current_page.equals("INDEX_PAGE")){%>
         <span class="display-1 page-brand">DASHBOARD</span>
+        <% } else if(current_page.equals("SETTINGS_PAGE")){%>
+        <span class="display-1 page-brand">SETTINGS</span>
         <%} else {%>
             <span><%=current_page%></span>
         <%}%>
@@ -76,23 +94,24 @@
                     </div>
                     
                     <div class="color-buttons-container">
-                        <div class="theme-button-color">
+                        
+                        <div class="theme-button-color-green <%=active_green%>">
                             <button class="btn-green-clr"></button>
                         </div>
 
-                        <div class="theme-button-color">
+                        <div class="theme-button-color-red <%=active_red%>">
                             <button class="btn-red-clr"></button>
                         </div>
 
-                        <div class="theme-button-color">
+                        <div class="theme-button-color-purple <%=active_purple%>">
                             <button class="btn-purple-clr"></button>
                         </div>
 
-                        <div class="theme-button-color">
+                        <div class="theme-button-color-yellow <%=active_yellow%>">
                             <button class="btn-yellow-clr"></button>
                         </div>
 
-                        <div class="theme-button-color">
+                        <div class="theme-button-color-aqua <%=active_aqua%>">
                             <button class="btn-aqua-clr"></button>
                         </div>
                     </div>

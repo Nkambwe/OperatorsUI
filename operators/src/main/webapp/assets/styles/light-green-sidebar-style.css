@@ -39,7 +39,6 @@
     transition: all .5s ease-in-out;
 }
 
-
 .ops-side-bar-expand span, 
 .ops-side-bar-expand i {
     display: block;
@@ -68,6 +67,10 @@
     overflow: hidden;
 }
 
+.ops-side-bar-menu{
+    position: relative;
+}
+
 .ops-side-bar {
     margin-top: 10px;
 }
@@ -87,7 +90,7 @@
     width: 100%;
     color:var(--ops-color-gray-light);
     font-size: 2rem;
-    padding: 5px 10px;
+    padding: 15px 10px;
     cursor: pointer;
     transition: all .3s ease-in-out;
 }
@@ -118,7 +121,7 @@
 
 ul.ops-side-bar-menu li:last-child {
     position: absolute;
-    bottom: 2rem;
+    bottom: 8rem;
     width: 100%;
 }
 
