@@ -201,6 +201,9 @@ $(document).ready(function () {
         
         // Set active to saved item
         $('#' + activeItem).addClass('active-menu-item'); 
+        
+        //redirect to active page
+        redirectToPage(activeItem);
     } 
     
      // Handle menu item clicks
@@ -274,4 +277,29 @@ function showLoading() {
 
 function hideLoading() {
     $('#loading').css("display", "none");
+}
+
+function redirectToPage(activeItem){
+    // Define page mappings
+    const pageMappings = {
+        "menu_dashboard_link": "index.jsp",
+        "menu_drivers_link": "drivers.jsp",
+        "menu_employers_link": "employer.jsp",
+        "menu_members_link": "members.jsp",
+        "menu_analytics_link": "analytics.jsp",
+        "menu_branches_link": "access_branches.jsp",
+        "menu_users_link": "access_users.jsp",
+        "menu_roles_link": "access_roles.jsp",
+        "menu_permissions_link": "access_permissions.jsp",
+        "menu_settings_link": "settings.jsp"
+    };
+    
+    // Get the current page filename
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // Only redirect if we're not already on the correct page
+    if (pageMappings[activeItem] && currentPage !== pageMappings[activeItem]) {
+        console.log("Redirecting to: " + pageMappings[activeItem]);
+        window.location.href = pageMappings[activeItem];
+    }
 }

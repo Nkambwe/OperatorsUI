@@ -17,6 +17,8 @@ C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\SessionManager.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\middleware\MiddlewareService.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\AppUser.java
+C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\controllers\LogoutController.java
+C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\LogoutRequest.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\models\GeneralRequest.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\helpers\StringValidator.java
 C:\Projects\Operators\ui\OperatorsUI\operators\src\main\java\com\kram\operators\dtos\CurrentUser.java

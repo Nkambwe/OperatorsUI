@@ -181,7 +181,7 @@
                          </div>    
                         <!-- Submit Button -->
                         <div class="submit-box">
-                            <button id="btn-login" class="btn-submit" type="submit" onsubmit="showLoading()">Login</button>
+                            <button id="btn-login" class="btn-submit" type="submit">Login</button>
                         </div>
                     </div>
                 </form>

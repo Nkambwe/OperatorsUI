@@ -43,7 +43,7 @@
             </li>
 
             <li class="ops-side-bar-menu-item">
-                <a id="menu_clients_link" href="employer.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
+                <a id="menu_employers_link" href="employer.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-car-multiple"></i>
                     </span> 
@@ -74,7 +74,7 @@
             <li class="menu-separator"></li>
 
             <li class="ops-side-bar-menu-item">
-                <a id="menu_users_link" href="access_branches.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
+                <a id="menu_branches_link" href="access_branches.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-source-branch-plus"></i>
                     </span> 
@@ -124,7 +124,7 @@
             
             
             <li class="ops-side-bar-menu-item">
-                <a id="menu_logout_link" href="#" class="ops-side-bar-menu-item-link" onclick="showLoading();">
+                <a id="menu_logout_link" href="logout.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
                         <i class="mdi mdi-logout"></i>
                     </span> 
