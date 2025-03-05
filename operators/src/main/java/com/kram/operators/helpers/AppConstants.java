@@ -45,7 +45,7 @@ public class AppConstants {
     public final static String THEME_ID="theme_id";
     public final static String THEME_TEXTURE="theme_texture";
     public final static String THEME_COLOR="theme_clr";
-    
+    public final static String IMG_COLOR="img_clr";
     public final static String ACTIVE_THEME="active_light";
     public final static String ACTIVE_COLOR="active_color";
     

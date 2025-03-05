@@ -33,26 +33,42 @@ document.addEventListener('DOMContentLoaded', function() {
      // Add click event for green color button
     buttonGreen.addEventListener('click', function() {
         updateColor('green');
+        
+        //update logo
+        updateThemeImages('green');
     });
     
      // Add click event for red color button
     buttonRed.addEventListener('click', function() {
         updateColor('red');
+        
+        //update logo
+        updateThemeImages('red');
     });
     
      // Add click event for purple color button
     buttonPurple.addEventListener('click', function() {
         updateColor('purple');
+        
+        //update logo
+        updateThemeImages('purple');
     });
     
      // Add click event for purple color button
     buttonYellow.addEventListener('click', function() {
         updateColor('yellow');
+        
+        //update logo
+        updateThemeImages('yellow'); 
     });
     
      // Add click event for purple color button
     buttonAqua.addEventListener('click', function() {
         updateColor('aqua');
+        
+        //update logo
+        updateThemeImages('aqua'); 
+        
     });
 
     function updateColor(color){
@@ -106,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Save theme preference to database via AJAX
         saveThemeColor(color);
+        
     }
 
     // Function to update theme
@@ -301,5 +318,29 @@ function redirectToPage(activeItem){
     if (pageMappings[activeItem] && currentPage !== pageMappings[activeItem]) {
         console.log("Redirecting to: " + pageMappings[activeItem]);
         window.location.href = pageMappings[activeItem];
+    }
+}
+
+function updateThemeImages(theme) {
+    // Target specifically the image with id img-logo
+    const logoImage = document.getElementById('img-logo');
+    
+    if (logoImage) {
+        // Get the current image source
+        const currentSrc = logoImage.getAttribute('src');
+        
+        // Extract the path and filename
+        const pathParts = currentSrc.split('/');
+        const filename = pathParts[pathParts.length - 1];
+        
+        // Replace the color/theme prefix in the filename
+        const newFilename = theme + '.png';
+        
+        // Reconstruct the full path
+        pathParts[pathParts.length - 1] = newFilename;
+        const newSrc = pathParts.join('/');
+        
+        // Update the image source
+        logoImage.setAttribute('src', newSrc);
     }
 }

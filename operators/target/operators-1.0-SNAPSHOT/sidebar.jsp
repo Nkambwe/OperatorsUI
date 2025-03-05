@@ -4,21 +4,23 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.UserTheme"%>
+<%@page import="com.kram.operators.helpers.ApplicationUtilities"%>
+<%@page import="com.kram.operators.controllers.SettingsController"%>
 <%@page import="com.kram.operators.helpers.StringValidator"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String role = session.getAttribute(AppConstants.USER_ROLE) != null ? (String)session.getAttribute(AppConstants.USER_ROLE) : "";
-    if(StringValidator.isNullOrWhitespace(role)){
-        role = "";
-    }
+    String bar_img_clr =session.getAttribute(AppConstants.IMG_COLOR) != null ? 
+    (String)session.getAttribute(AppConstants.IMG_COLOR) :"green";
+
 %>
         
 <aside class="ops-side-bar-container">
     
     <div class="ops-side-bar-top">
         <div class="ops-side-bar-logo">
-             <img id="img-logo" src="${pageContext.request.contextPath}/assets/images/green.png" alt="logo"/>
+             <img id="img-logo" src="${pageContext.request.contextPath}/assets/images/<%=bar_img_clr%>.png" alt="logo"/>
              <h2 class="display-1 ops-brand">DRIVE<span class="drive-tint">MATCH<span></h2>
         </div>
     </div>

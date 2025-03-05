@@ -44,6 +44,9 @@
     (String)session.getAttribute(AppConstants.THEME_COLOR) : "green" ; 
     ApplicationLog.saveLog("Session Color :: " + theme_clr, "INDEX_PAGE");
     
+    String img_clr = theme_clr; 
+    ApplicationLog.saveLog("Image Color :: " + img_clr, "INDEX_PAGE");
+    
     //get current user theme
     SettingsController controller = new SettingsController(session, ip);
     UserTheme theme = controller.gerCurrentTheme();
@@ -52,15 +55,20 @@
         session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
         ApplicationLog.saveLog("Saved Skin :: " + theme_name, "INDEX_PAGE");
         theme_clr = theme.getColor();
-        session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
+        session.setAttribute(AppConstants.THEME_COLOR, theme_clr);
         ApplicationLog.saveLog("Saved Color :: " + theme_clr, "INDEX_PAGE");
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
+        ApplicationLog.saveLog("Image Color :: " + theme_clr, "INDEX_PAGE");
+    } else {
+        //current theme color
+        session.setAttribute(AppConstants.ACTIVE_THEME, theme_name);
+        session.setAttribute(AppConstants.ACTIVE_COLOR, theme_clr);
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
     }
-
-    //current theme color
-    session.setAttribute(AppConstants.ACTIVE_THEME, theme_name);
-    session.setAttribute(AppConstants.ACTIVE_COLOR, theme_clr);
     String theme_color = String.format("%s-%s-", theme_name, theme_clr);
     ApplicationLog.saveLog("Current Theme :: " + theme_color, "INDEX_PAGE");
+
+    
 %>
 <!DOCTYPE html>
 <html>
