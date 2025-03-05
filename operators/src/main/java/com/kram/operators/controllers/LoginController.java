@@ -37,6 +37,11 @@ public class LoginController {
 
     }
     
+    public boolean loginStatus(){
+        int userId = Integer.parseInt(ApplicationUtilities.getUserId(this.session));
+        return apiMiddleware.login(userId, clientIP);
+    }
+    
     public CurrentUser doLogin(String username, String password) {
         ApplicationLog.saveLog("Attempting to login user", "LOGINCONTROLLER");
         CurrentUser cUser = null;

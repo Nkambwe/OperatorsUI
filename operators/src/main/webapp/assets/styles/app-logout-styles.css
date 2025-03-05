@@ -1,0 +1,161 @@
+
+/* 
+    Created on : Mar 4, 2025, 7:31:05 PM
+    Author     : Macjohnan
+*/
+
+
+:root{
+    --ops-color-white: #fff;
+    --ops-color-black: #000000;
+    --ops-color-dark: #363949;
+    --ops-color-dark-variant: #677483;
+    --ops-color-gray-light:#6c757d;
+    --ops-color-info-light: #dce1eb;
+    --ops-color-info-dark: #78dda1;
+    --ops-color-gray-dark:#343a40;
+     --ops-color-background-faint: #FFE4F0;
+    --ops-color-background-faint-active:#FF4B96;
+    --ops-color-background: #FF1777;
+    --ops-color-background-2:#f5f5f5;
+    --ops-color-background-3:#f6f6f9;
+    --ops-color-light:rgba(132, 139, 200, 0.18);
+    --ops-box-shadow: 0 2rem 3rem var(--ops-color-light);
+    --ops-color-faint-dropshadow: rgba(0, 0, 0, 0.05);
+    
+    --ops-button-green:#A80F4F;
+    --ops-settings-pane:#171C21;
+    --ops-settings-content-pane:#1E242B;
+    --ops-app-background-color:#EBF6FA;
+    --ops-sidebar-background:#292D31;
+    --ops-container-background:#292929;
+    --ops-card-background: #393E44;
+    --ops-card-table-boarder:#292929
+}
+
+*{
+    margin:0;
+    padding:0;
+    outline:0;
+    appearance: none;
+    border:0;
+    text-decoration: none;
+    list-style:none;
+    box-sizing: border-box;
+}
+
+html {
+    font-size:14px;
+    overflow:hidden;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    font-family: var(--bs-font-sans-serif);
+    font-size:0.88rem;
+    background: var(--ops-color-background-3);
+    user-select: none;
+    overflow:hidden;
+}
+
+a {
+    color: var(--ops-color-dark);
+    text-decoration: none;
+}
+
+.ops-logout-container{
+    position: relative;
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    background: var(--ops-color-white);
+    display: flex;
+    flex-direction: column;
+}
+
+.ops-logout-top  {
+    color:#FFF;
+    background: #1F1F1F;
+    width:100%;
+}
+
+.ops-logout-logo {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.image-box {
+    padding: 10px 0 0 5px;
+    height: 100px;
+    width:100px;
+    background: #FFF;
+    border-radius: 50%;
+}
+.ops-logout-logo{
+    margin-top:20px;
+    align-content: center;
+}
+
+.ops-logout-drive {
+    color:#1AD497;
+    font-size:4rem;
+    text-align:center;
+    padding:20px 0;
+}
+
+.ops-logout-text {
+    color:#F50F39;
+    padding:20px 0;
+    font-weight: 800;
+    width: 100%;
+    text-align: center;
+}
+
+.ops-logout-content h1 {
+    font-size: 2rem;
+    width:100%;
+    text-align: center;
+}
+
+.btn-container {
+    width:100%;
+    height: 60px;
+    margin-top:20px;
+    align-content:center;
+}
+
+.btn-container a{
+    display: block;
+    text-align: center;
+    width:300px;
+    height: 100%;
+    margin:0 auto;
+    padding-top:10px;
+    font-size: 1.8rem;
+    border-radius: 30px;
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    right: 0;
+    height: 60px;
+    color: #000;
+    text-align: center;
+    background: #fff;
+    padding: 15px;
+    border-top: solid 1px #e6e6e6;
+    z-index: 85;
+}
+
+.shadow-text {
+    color: var(--ops-color-black); 
+    background: var(--ops-color-white); 
+    font-size: 1.2em; 
+    text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+}

@@ -507,8 +507,84 @@ public class MiddlewareService {
         }
     }
     
+    /*User login*/
+    public boolean login(int userId, String clientIP) {
+        ApplicationLog.saveLog("USER IP :: " + clientIP, "MIDDLEWARESERVICE");
+        ApplicationLog.saveLog("User ID :: " + userId, "MIDDLEWARESERVICE");
+        try {
+            String url = String.format("%s/login", API_URL);
+
+            // Create Gson with custom configuration
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            HttpClient client = createInsecureHttpClient();
+            
+            // Log the request object for debugging
+            LogoutRequest logoutRequest = new LogoutRequest();
+            logoutRequest.setIpAddress(clientIP);
+            logoutRequest.setUserId(userId);
+            String requestBody = gson.toJson(logoutRequest);
+            ApplicationLog.saveLog("LOGIN REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+                    
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                createLogoutErrorResponse(response.statusCode(),"HTTP Error: " + response.statusCode(), "Something went wrong");
+                return false;
+            }
+            
+            // Attempt to deserialize the response
+            AppResponse appResponse = gson.fromJson(jsonObject, AppResponse.class);
+            if (appResponse == null) {
+                throw new JsonSyntaxException("Failed to parse response");
+            }
+            
+            // Log the response code
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            
+            return appResponse.getResponseCode() == 200;
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");;
+            createLogoutErrorResponse(500, "Error parsing response", e.getMessage());
+            return false;
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            createLogoutErrorResponse(500, "Network error occurred", e.getMessage());
+            return false;
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            createLogoutErrorResponse(500, "Unexpected error", e.getMessage());
+            return false;
+        }
+    }
+    
     /*User logout*/
-    public boolean logout(String userId, String clientIP) {
+    public boolean logout(int userId, String clientIP) {
+        ApplicationLog.saveLog("USER IP :: " + clientIP, "MIDDLEWARESERVICE");
+        ApplicationLog.saveLog("User ID :: " + userId, "MIDDLEWARESERVICE");
         try {
             String url = String.format("%s/logout", API_URL);
 
@@ -523,8 +599,10 @@ public class MiddlewareService {
             HttpClient client = createInsecureHttpClient();
             
             // Log the request object for debugging
-            LogoutRequest Logout = new LogoutRequest();
-            String requestBody = gson.toJson(Logout);
+            LogoutRequest logoutRequest = new LogoutRequest();
+            logoutRequest.setIpAddress(clientIP);
+            logoutRequest.setUserId(userId);
+            String requestBody = gson.toJson(logoutRequest);
             ApplicationLog.saveLog("LOGOUT REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
             
             HttpRequest request = HttpRequest.newBuilder()
@@ -609,7 +687,6 @@ public class MiddlewareService {
         errorResponse.setItems(new ArrayList<>()); // Initialize empty list to avoid null
         return errorResponse;
     }
-    
     
     // Helper method to create error responses
     private AppResponse createLogoutErrorResponse(int code, String message, String description) {

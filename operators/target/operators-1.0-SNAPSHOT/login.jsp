@@ -52,8 +52,12 @@
                         boolean checkExpiredPwd = user.getExpirePasswords();
                         ApplicationLog.saveLog(String.format("Success:: %s", user.getResponseCode()), "LOGINS");
                         if(user.getResponseCode() == AppConstants.CODE_SUCCESS){
-                           
+                            ApplicationLog.saveLog(String.format("DB PASSWORD:: %s; US PASSWORD:: %s;", user.getPassword(), password.trim()), "LOGINS");
                             if(user.getPassword().trim().equals(password.trim())){
+                                //..update user login status
+                                controller.loginStatus();
+                                
+                                //..check user password expiretion
                                 if(checkExpiredPwd){
                                     //check days remaining
                                     var remainders = (int)session.getAttribute(AppConstants.KEY_EXPIRESINDAYS); 

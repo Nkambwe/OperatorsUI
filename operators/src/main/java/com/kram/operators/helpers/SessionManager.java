@@ -23,15 +23,16 @@ public class SessionManager implements HttpSessionListener  {
         HttpSession session = se.getSession();
         MiddlewareService api = new MiddlewareService();
         
-        String userId = ApplicationUtilities.getUserId(session);
+        int userId = Integer.parseInt(ApplicationUtilities.getUserId(session));
         String clientIP=AppSingleton.getInstance().getClientIP();
        //update database login status
         boolean isLoggedout =api.logout(userId, clientIP);
-        System.out.println("Session Timeout Out With :: ");
+        ApplicationLog.saveLog("Session Timeout Out With ::", "SESSION");
         if(isLoggedout){
             System.out.println("User session closed");
+            ApplicationLog.saveLog("Session closed", "SESSION");
         } else {
-            System.out.println("Session Failed to close");
+            ApplicationLog.saveLog("Session failed closed", "SESSION");
         }
         
     }
