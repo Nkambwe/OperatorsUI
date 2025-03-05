@@ -10,7 +10,6 @@
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String loggedin_user =  session.getAttribute(AppConstants.EMPLOYEE_NAME) != null ? (String)session.getAttribute(AppConstants.EMPLOYEE_NAME):"";
     String current_branch =  session.getAttribute(AppConstants.BRANCH_NAME) != null ? (String)session.getAttribute(AppConstants.BRANCH_NAME):"";
     String current_page = session.getAttribute(AppConstants.CURRENT_PAGE) != null ? (String)session.getAttribute(AppConstants.CURRENT_PAGE) : "";
     
@@ -36,6 +35,15 @@
     active_aqua = themeColors.get(3);
     active_green = themeColors.get(4);
     
+    
+    Object objname = session.getAttribute(AppConstants.KEY_USERNAME);
+    String initials = "";
+    String strname = "";
+    if(objname != null){
+        strname = objname.toString();
+        initials = strname.substring(0, 2);
+    }
+    
         
 %>
  <header class="main-content-header">
@@ -52,7 +60,11 @@
         <%}%>
     </div>
     <div class="content-header-right">
-        <%=loggedin_user%>
+        <div class="user-initials">
+            <span class="display-5">
+                <%=initials%>
+            </span>
+        </div>
         <button id="btn-user" class="btn-user-settings">
             <span><i class="mdi mdi-account-cog"></i></span>
         </button>
