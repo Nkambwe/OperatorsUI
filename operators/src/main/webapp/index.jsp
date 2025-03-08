@@ -221,9 +221,49 @@
                                 
                             </div>
                             
-                               <!----------------Right charts-------->
+                            <!----------------Right charts-------->
                              <div class="left-chart-container">
-                                 <span class="display-5">Other chats</span>
+                                
+                                 <div class="mini-chart-box">
+                                     
+                                     <div class="mini-chart-box-head">
+                                         <span class="display-5 box-head-span"></span>
+                                     </div>
+                                     
+                                     <div class="mini-chart-box-content">
+                                         
+                                         <div class="box-content">
+                                             <span class="display-5 box-span-1">Total</span>
+                                             <span class="display-5 box-span-2">100%</span>
+                                             <span class="display-5 box-span-3">50</span>
+                                         </div>
+                                         
+                                         <div class="box-content">
+                                             <span class="display-5 box-span-1">New</span>
+                                             <span class="display-5 box-span-2">10%</span>
+                                             <span class="display-5 box-span-3">5</span>
+                                         </div>
+                                         
+                                         <div class="box-content">
+                                             <span class="display-5 box-span-1">Hired</span>
+                                             <span class="display-5 box-span-2">70%</span>
+                                             <span class="display-5 box-span-3">35</span>
+                                         </div>
+                                         
+                                         <div class="box-content">
+                                             <span class="display-5 box-span-1">Pending</span>
+                                             <span class="display-5 box-span-2">20%</span>
+                                             <span class="display-5 box-span-3">10</span>
+                                         </div>
+                                         
+                                     </div>
+                                     
+                                    <div class="mini-chart-box-footer">
+                                        <span class="display-5">Most Active Category</span>  
+                                        <span class="display-5">Private Drivers accounting for 45% of monthly total</span>
+                                    </div>
+                                 </div>
+                                 
                             </div>
                             
                         </div>
