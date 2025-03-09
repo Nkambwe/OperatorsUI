@@ -663,7 +663,7 @@
             <!----------------sidebar-------->
             <%@include file="sidebar.jsp"%> 
             
-            <!----------------dashboard container: other pages use content container-------->
+            <!----------------section container-------->
             <div class="ops-base-content">   
                 
                 <!----------------sidebar-------->

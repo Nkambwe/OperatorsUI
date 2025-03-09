@@ -12,7 +12,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String ip =ApplicationUtilities.getClientIP(request);
-    String msg = null, alertClass = "alert-danger", msg_type="Success";
+    String msg = null, alertClass = "alert-success", msg_type="Success";
     String username = (String)session.getAttribute(AppConstants.EMPLOYEE_NAME);
     
     //..make sure user is logged in to access page
@@ -74,7 +74,6 @@
 <html>
     <head>
        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><%=AppConstants.APP_TITLE%> | HOME</title>

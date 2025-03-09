@@ -9,19 +9,19 @@
     --ops-color-dark: #363949;
     --ops-color-dark-variant: #677483;
     --ops-color-gray-light:#6c757d;
-    --ops-color-info-light: #dce1eb;
+      --ops-color-info-light: #dce1eb;
     --ops-color-info-dark: #78dda1;
     --ops-color-gray-dark:#343a40;
-    --ops-color-background-faint:#090014;
-    --ops-color-background-faint-active: #35016E;
-    --ops-color-background:#41128C;
+    --ops-color-background-faint:#433D57;
+    --ops-color-background-faint-active: #BC07ED;
+    --ops-color-background:#9E05C7;
     --ops-color-background-2:#f5f5f5;
     --ops-color-background-3:#f6f6f9;
     --ops-color-light:rgba(132, 139, 200, 0.18);
     --ops-box-shadow: 0 2rem 3rem var(--ops-color-light);
     --ops-color-faint-dropshadow: rgba(0, 0, 0, 0.05);
     
-    --ops-button-green:#F1AC08;
+    --ops-button-green:#8004A1;
     --ops-settings-pane:#171C21;
     --ops-settings-content-pane:#1E242B;
     --ops-app-background-color:#EBF6FA;
@@ -355,7 +355,7 @@ span.display-5.box-span-2{
 span.display-5.box-span-1,
 span.display-5.box-span-3 {
     text-align: center;
-    color: #6c757d;
+    color: #c3c3c3;
     font-size: 1.5rem !important;
 }
 
@@ -389,7 +389,7 @@ span.display-5.box-span-3 {
 }
 
 .mini-chart-box-footer span:last-child {
-    color: #6c757d;
+    color: #c3c3c3;
 }
 
 .mini-chart-box-footer {
@@ -417,7 +417,7 @@ header.main-content-header {
     height: 74px;
     display: flex;
     flex-direction: row;
-/*    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;*/
+    border-bottom: solid 1px #6c757d;
 }
 
 
@@ -435,10 +435,10 @@ header.main-content-header {
     display: block;
     height: 100%;
     width: 100%;
-    padding: 15px 0 0 13px;
+    padding-top: 15px;
     font-weight: 600;
     font-size: 1.5rem;
-    text-align:justify;
+    text-align:center;
     background: var(--ops-color-background);
     text-transform: uppercase;
     transition: all .5s ease-in-out;
@@ -672,15 +672,15 @@ button.btn-black-theme {
     text-align: center;
 }
 
-.active-theme {
-    border:solid 5px #20c997!important;
+.active-color {
+    border:solid 5px var(--ops-color-background)!important;
 }
 
 .page-brand {
     display: block;
     font-size: 1.8rem;
     font-weight: 600;
-    color: var(--ops-color-white);
+    color: var(--ops-color-background);
     padding: 25px 0 0 15px;
     transition: all .3sease-in-out;
 }
@@ -772,6 +772,105 @@ button.btn-black-theme {
     color: #fc5056!important;
     background-color: #f7bbbe!important;
     border-color: #fc5056!important;
+}
+
+/*----------------------------------pages*/
+#page-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 65px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+content-page-header{
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color: var(--ops-color-gray-light);
+    border-bottom: solid 1px #cecece;
+    border-top: solid 1px #cecece;
+}
+
+.content-page-parent-header{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px;
+}
+
+.content-page-brand{
+    display: inline-block;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 400;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: right;
+    padding-right:20px;
+    color: var(--ops-color-background);
+    width: 200px;
+    border-right: solid 1px #6c757d;
+}
+
+.content-page-header-menu {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-header-menu-item {
+    display: flex;
+    list-style: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    color: var(--ops-color-gray-light);
+}
+
+.nav-item-button{
+    background: transparent;
+    font-size: 1.5rem;
+    padding:10px;
+    color: var(--ops-color-gray-light);
+    transition: all .5s ease-in-out;
+}
+
+.page-menu-button:hover {
+    color: var(--ops-color-background);
+    transition: all .5s ease-in-out;
+}
+
+.section-main-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content {
+    flex-grow: 1;
+    height: 100%;
+    color:#fff;
+    text-align: justify;
 }
 
 /*----------------------------------settings*/

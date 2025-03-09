@@ -4,10 +4,13 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.ApplicationLog"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String msg = null, alertClass = "alert-danger", msg_type="Success";
+    String ip =ApplicationUtilities.getClientIP(request);
+    String msg = null, alertClass = "alert-success", msg_type="Success";
+    String username = (String)session.getAttribute(AppConstants.EMPLOYEE_NAME);
 
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
@@ -17,19 +20,50 @@
     }
     
     //set current page
-    session.setAttribute(AppConstants.CURRENT_PAGE, "CUSTOMERS_PAGE");
+    session.setAttribute(AppConstants.CURRENT_PAGE, "EMPLOYERS_PAGE");
     
-    //user theme settings
-    String theme_color = "light-green-";
+    //get session theme
+    String theme_name = session.getAttribute(AppConstants.THEME_TEXTURE) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_TEXTURE) : "light" ; 
+    ApplicationLog.saveLog("Session Kin :: " + theme_name, "EMPLOYERS_PAGE");
+    
+    String theme_clr = session.getAttribute(AppConstants.THEME_COLOR) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_COLOR) : "green" ; 
+    ApplicationLog.saveLog("Session Color :: " + theme_clr, "EMPLOYERS_PAGE");
+    
+    String img_clr = theme_clr; 
+    ApplicationLog.saveLog("Image Color :: " + img_clr, "EMPLOYERS_PAGE");
+    
+    //get current user theme
+    SettingsController controller = new SettingsController(session, ip);
+    UserTheme theme = controller.gerCurrentTheme();
+    if(theme != null){
+        theme_name = theme.getSkin();
+        session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
+        ApplicationLog.saveLog("Saved Skin :: " + theme_name, "EMPLOYERS_PAGE");
+        theme_clr = theme.getColor();
+        session.setAttribute(AppConstants.THEME_COLOR, theme_clr);
+        ApplicationLog.saveLog("Saved Color :: " + theme_clr, "EMPLOYERS_PAGE");
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
+        ApplicationLog.saveLog("Image Color :: " + theme_clr, "EMPLOYERS_PAGE");
+    } else {
+        //current theme color
+        session.setAttribute(AppConstants.ACTIVE_THEME, theme_name);
+        session.setAttribute(AppConstants.ACTIVE_COLOR, theme_clr);
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
+    }
+    
+    String theme_color = String.format("%s-%s-", theme_name, theme_clr);
+    ApplicationLog.saveLog("Current Theme :: " + theme_color, "EMPLOYERS_PAGE");
+    
 %>
 <!DOCTYPE html>
 <html>
     <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><%=AppConstants.APP_TITLE%> | CLIENTS</title>
+        <title><%=AppConstants.APP_TITLE%> | EMPLOYERS</title>
         <link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/assets/images/favicon.png"/>
         <link href="${pageContext.request.contextPath}/assets/styles/rest-style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -37,90 +71,57 @@
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
     </head>
+    
     <body>
-    <body>
-     <body>
-        <%@include file="sidebar.jsp"%> 
-
-        <section class="main-content-container">
+        
+        <!----------------main container-------->
+        <div class="ops-base-container">
             
-            <%@include file="header.jsp"%> 
+            <!----------------sidebar-------->
+            <%@include file="sidebar.jsp"%> 
             
-            <div class="main-content">
+            <!----------------section container-------->
+            <div class="ops-base-content">
                 
-                <% if (msg != null) {%>
-                <div class="message-container">
+                <!----------------sidebar-------->
+                <%@include file="header.jsp"%> 
+                
+                <section class="main-content-container">
                     
-                    <div class="alert <%= alertClass%> alert-dismissable">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+                    <% if (msg != null) {%>
+                    <div class="alert <%= alertClass%> alert-dismissable message-container">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
-                        
-                </div>
-                <% }%>
-                
-                <div class="content-wrapper">
+                    <% }%>
                     
-                    <header class="page-header">
+                    <div class="section-main-content">
                         
-                        <nav class="page-parent-header">
-
-                            <span class="page-brand text-success">CLIENTS</span>
-
-                            <ul class="page-header-menu">
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="employer_page_01.jsp">
-                                        <span>
-                                            <i class="mdi mdi-car-info"></i>
-                                        </span>
-                                        <span>Employer</span>
-                                    </button>
-                                </li>
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="employer_page_02.jsp">
-                                        <span>
-                                             <i class="mdi  mdi-car-electric"></i>
-                                        </span>
-                                        <span>Engagements</span>
-                                    </button>
-                                </li>
-                                
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="employer_page_03.jsp">
-                                        <span>
-                                             <i class="mdi mdi-car-off"></i>
-                                        </span>
-                                        <span>Canceled Contracts</span>
-                                    </button>
-                                </li>
-                                
-                           </ul>
-
-                        </nav>
-                    </header>
-                    
-                    <div class="page-content">
                         <!--container for child pages-->
                         <div id="overlay">
                             <div id="parent-container" class="page-container" data-child="no-child"></div>
                         </div>
-                         <h1>Employer Home Page</h1>
+                        
+                        <div class="page-content">
+                             <h1>Employers Home Page</h1>
+                        </div>
+                        
                     </div>
-                   
-                </div>
-               
+                    
+                    <div class="footer shadow-text">
+                        <%=AppConstants.APP_FOOTER%>
+                    </div>
+                    
+                </section>
+                
             </div>
             
-            <div class="footer shadow-text">
-                <%=AppConstants.APP_FOOTER%>
-            </div>
-        </section>
+        </div>
         
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
     </body>
+    
 </html>
 

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonYellowConts  = document.querySelector('.theme-button-color-yellow');
     const buttonAqua  = document.querySelector('.btn-aqua-clr');
     const buttonAquaConts  = document.querySelector('.theme-button-color-aqua');
-
+    
     // Add click event for light theme button
     lightButton.addEventListener('click', function() {
       updateTheme('light');
@@ -209,6 +209,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(document).ready(function () {
     hideLoading();
+    const lightButton = document.querySelector('.btn-light-theme');
+    const darkButton = document.querySelector('.btn-black-theme');
+    const themeSelected = document.querySelector('.theme-selected');
+    
+    // Make theme values available to JavaScript
+
+    console.log("Active Theme " + themeName);
+
+    // Update button styles based on theme name
+    if (themeName === 'light') {
+      darkButton.classList.remove('active-theme');
+      lightButton.classList.add('active-theme');
+      themeSelected.textContent = 'Light mode';
+    } else if (themeName === 'dark') {
+      lightButton.classList.remove('active-theme');
+      darkButton.classList.add('active-theme');
+      themeSelected.textContent = 'Dark mode';
+    }
+    
+    
+    // setting current color
+    $('.color-buttons-container [class*="theme-button-color-"]').removeClass('active-color');
+    $(`.color-buttons-container .theme-button-color-${themeColor}`).addClass('active-color');
+  
      // Retrieve the active item from localStorage
     const activeItem = localStorage.getItem('activeItem');
     console.log("Active Menu Item: " + activeItem);

@@ -22,7 +22,8 @@
     --ops-color-faint-dropshadow: rgba(0, 0, 0, 0.05);
     
      --ops-button-green:#14694C;
-    --ops-settings-pane:#171C21;
+    --ops-settings-pane:#F7F7F7;
+    --ops-settings-pane-background:#F5F5F5;
     --ops-settings-content-pane:#1E242B;
     --ops-app-background-color:#EBF6FA;
 }
@@ -413,6 +414,7 @@ header.main-content-header {
     height: 74px;
     display: flex;
     flex-direction: row;
+    border-bottom: solid 1px #cecece;
 }
 
 .user-initials {
@@ -429,10 +431,10 @@ header.main-content-header {
     display: block;
     height: 100%;
     width: 100%;
-    padding: 15px 0 0 13px;
+    padding-top: 15px;
     font-weight: 600;
     font-size: 1.5rem;
-    text-align:justify;
+    text-align:center;
     background: var(--ops-color-background);
     text-transform: uppercase;
     transition: all .5s ease-in-out;
@@ -479,7 +481,6 @@ header.main-content-header {
     margin-left: 30px;
     padding-top: 20px;
 }
-
 
 .color-buttons {
     display: flex;
@@ -678,7 +679,7 @@ button.btn-black-theme {
     display: block;
     font-size: 1.8rem;
     font-weight: 600;
-    color: var(--ops-color-black);
+    color: var(--ops-color-background);
     padding: 25px 0 0 15px;
     transition: all .3s ease-in-out;
 }
@@ -725,7 +726,7 @@ button.btn-black-theme {
 .message-container {
     display: flex;
     width: 100%;
-    margin: 0 15px;
+    margin: 0px;
     flex-direction: row;
 }
 
@@ -773,8 +774,96 @@ button.btn-black-theme {
     border-color: #fc5056!important;
 }
 
+/*----------------------------------pages*/
+#page-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 65px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
 
+#overlay {
+    display: none;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+content-page-header{
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-bottom: solid 1px #cecece;
+    border-top: solid 1px #cecece;
+}
+
+.content-page-parent-header{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px;
+}
+
+.content-page-brand{
+    display: inline-block;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 400;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: right;
+    padding-right:20px;
+    color: var(--ops-color-background);
+    width: 200px;
+    border-right: solid 1px #6c757d;
+}
+
+.content-page-header-menu {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page-header-menu-item {
+    display: flex;
+    list-style: none;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item-button{
+    background: transparent;
+    font-size: 1.5rem;
+    padding:10px;
+    transition: all .5s ease-in-out;
+}
+
+.page-menu-button:hover {
+    color: var(--ops-color-background);
+    transition: all .5s ease-in-out;
+}
+
+.section-main-content {
+    display: flex;
+    flex-direction: column;
+}
 /*----------------------------------settings*/
+.section-main-content,
 .settings-main-container {
     width: 100%;
     height: 100%;

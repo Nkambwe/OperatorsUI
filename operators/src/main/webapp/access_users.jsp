@@ -4,12 +4,15 @@
     Author     : Macjohnan
 --%>
 
+<%@page import="com.kram.operators.helpers.ApplicationLog"%>
 <%@page import="com.kram.operators.dtos.AppUser"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    String msg = null, alertClass = "alert-danger", msg_type="Success";
+    String ip =ApplicationUtilities.getClientIP(request);
+    String msg = null, alertClass = "alert-success", msg_type="Success";
+    String username = (String)session.getAttribute(AppConstants.EMPLOYEE_NAME);
 
     //..make sure user is logged in to access page
     boolean isLoggedIn = session.getAttribute(AppConstants.KEY_LOGGEDIN) != null ? (Boolean)session.getAttribute(AppConstants.KEY_LOGGEDIN) : false;
@@ -17,6 +20,42 @@
         response.sendRedirect("login.jsp");
         return;
     }
+    
+    //set current page
+    session.setAttribute(AppConstants.CURRENT_PAGE, "USERS_PAGE");
+    
+    //get session theme
+    String theme_name = session.getAttribute(AppConstants.THEME_TEXTURE) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_TEXTURE) : "light" ; 
+    ApplicationLog.saveLog("Session Kin :: " + theme_name, "USERS_PAGE");
+    
+    String theme_clr = session.getAttribute(AppConstants.THEME_COLOR) != null ? 
+    (String)session.getAttribute(AppConstants.THEME_COLOR) : "green" ; 
+    ApplicationLog.saveLog("Session Color :: " + theme_clr, "USERS_PAGE");
+    
+    String img_clr = theme_clr; 
+    ApplicationLog.saveLog("Image Color :: " + img_clr, "USERS_PAGE");
+    
+    //get current user theme
+    SettingsController controller = new SettingsController(session, ip);
+    UserTheme theme = controller.gerCurrentTheme();
+    if(theme != null){
+        theme_name = theme.getSkin();
+        session.setAttribute(AppConstants.THEME_TEXTURE, theme_name);
+        ApplicationLog.saveLog("Saved Skin :: " + theme_name, "USERS_PAGE");
+        theme_clr = theme.getColor();
+        session.setAttribute(AppConstants.THEME_COLOR, theme_clr);
+        ApplicationLog.saveLog("Saved Color :: " + theme_clr, "USERS_PAGE");
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
+        ApplicationLog.saveLog("Image Color :: " + theme_clr, "USERS_PAGE");
+    } else {
+        //current theme color
+        session.setAttribute(AppConstants.ACTIVE_THEME, theme_name);
+        session.setAttribute(AppConstants.ACTIVE_COLOR, theme_clr);
+        session.setAttribute(AppConstants.IMG_COLOR, theme_clr);
+    }
+    String theme_color = String.format("%s-%s-", theme_name, theme_clr);
+    ApplicationLog.saveLog("Current Theme :: " + theme_color, "USERS_PAGE");
     
     ArrayList<AppUser> users = new ArrayList<>();
     AppUser user1 = new AppUser();
@@ -85,13 +124,6 @@
     user3.setLastLogin("2025-02-15");
     users.add(user3);
     
-    
-    //set current page
-    session.setAttribute(AppConstants.CURRENT_PAGE, "USERS_PAGE");
-    
-
-    //user theme settings
-    String theme_color = "light-green-";
 %>
 <!DOCTYPE html>
 <html>
@@ -111,149 +143,50 @@
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>table-customerzation.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <%@include file="sidebar.jsp"%> 
-
-        <section class="main-content-container">
+       
+        <!----------------main container-------->
+        <div class="ops-base-container">
+            <!----------------sidebar-------->
+            <%@include file="sidebar.jsp"%>
             
-            <%@include file="header.jsp"%> 
-            <div class="main-content">
-                <% if (msg != null) {%>
-                <div class="message-container">
+            <!----------------section container-------->
+            <div class="ops-base-content">
+                
+                <!----------------sidebar-------->
+                <%@include file="header.jsp"%> 
+                
+                <section class="main-content-container">
                     
-                    <div class="alert <%= alertClass%> alert-dismissable">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+                    <% if (msg != null) {%>
+                    <div class="alert <%= alertClass%> alert-dismissable message-container">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
-                        
-                </div>
-                <% }%>
-                
-                <div class="content-wrapper">
+                    <% }%>
                     
-                    <header class="page-header">
-                        
-                        <nav class="page-parent-header">
-
-                            <span class="page-brand text-success">Users</span>
-
-                            <ul class="page-header-menu">
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="user_page_01.jsp">
-                                        <span>
-                                              <i class="mdi mdi-account-plus"></i>
-                                        </span>
-                                        <span>New</span>
-                                    </button>
-                                </li>
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="user_page_02.jsp">
-                                        <span>
-                                            <i class="mdi mdi-account-network"></i>
-                                        </span>
-                                        <span>Roles</span>
-                                    </button>
-                                </li>
-                                
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="user_page_04.jsp">
-                                        <span>
-                                            <i class="mdi mdi-account-key"></i>
-                                        </span>
-                                        <span>Permissions</span>
-                                    </button>
-                                </li>
-
-                                <li class="page-header-menu-item">
-                                    <button id="btn-page-d3" class="nav-item-button page-menu-button" data-partial="user_page_03.jsp">
-                                        <span>
-                                             <i class="mdi mdi-account-clock"></i>
-                                        </span>
-                                        <span>History</span>
-                                    </button>
-                                </li>
-                           </ul>
-
-                        </nav>
-                    </header>
-                    
-                    <div class="page-content">
+                    <div class="section-main-content">  
                         
                         <!--container for child pages-->
                         <div id="overlay">
                             <div id="parent-container" class="page-container" data-child="no-child"></div>
                         </div>
                         
-                        <!--main content page-->
-                        <div class="page-cotent-home">
-                            <table id="datatable-users" class="table table-striped table-bordered table-hover">
-                                
-                                <thead>
-                                    <tr>
-                                         <th></th>
-                                        <th>FIRST NAME</th>
-                                        <th>MIDDLE NAME</th>
-                                        <th>LAST NAME</th>
-                                        <th>LOGIN NAME</th>
-                                        <th>EMAIL</th>
-                                        <th>ROLE</th>
-                                        <th>BRANCH</th>
-                                        <th>ACTIVE</th>
-                                        <th>VERIFIED</th>
-                                        <th>ADDED ON</th>
-                                        <th>LAST MODIFIED</th>
-                                        <th>LAST LOGIN</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                    <%
-                                        if(users != null && users.size() > 0){
-                                            for(AppUser user : users){
-                                    %>
-                                                
-                                                <tr id="<%= user.getId()%>">
-                                                     <td></td>
-                                                    <td><%= user.getFirstName()%></td> 
-                                                    <td><%= user.getMiddleName()%></td> 
-                                                    <td><%= user.getLastName()%></td> 
-                                                    <td><%= user.getUsername()%></td> 
-                                                    <td><%= user.getEmail()%></td> 
-                                                    <td><%= user.getRole()%></td> 
-                                                    <td><%= user.getBranchName()%></td> 
-                                                    <td><%= user.isActive()%></td> 
-                                                    <td><%= user.isVerified()%></td> 
-                                                    <td><%= user.getAddedOn()%></td> 
-                                                    <td><%= user.getModifiedOn()%></td> 
-                                                    <td><%= user.getLastLogin()%></td> 
-                                                </tr>
-                                            <%}
-                                        } else {%>
-                                        <tr>
-                                            <td colspan="15" class="no-data-container">
-                                                <span style="display:inline-block; font-size:1.2em; font-weight:600; padding-left:20px;">
-                                                    No Records found
-                                                </span>
-                                            </td>
-                                        </tr>   
-                                    <%}
-                                    %>
-                                </tbody>
-                            </table>
+                        <div class="page-content">
+                             <h1>User Home Page</h1>
                         </div>
                         
                     </div>
-                   
-                </div>
+                    
+                    <div class="footer shadow-text">
+                        <%=AppConstants.APP_FOOTER%>
+                    </div>
+                    
+                </section>
                 
             </div>
             
-            <div class="footer shadow-text">
-                <%=AppConstants.APP_FOOTER%>
-            </div>
-        </section>
-            
+        </div>
+         
         <script src="${pageContext.request.contextPath}/assets/plugins/datatables/datatables.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>

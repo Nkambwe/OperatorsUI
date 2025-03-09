@@ -10,6 +10,7 @@
 <%@page import="com.kram.operators.helpers.AppConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    
     String current_branch =  session.getAttribute(AppConstants.BRANCH_NAME) != null ? (String)session.getAttribute(AppConstants.BRANCH_NAME):"";
     String current_page = session.getAttribute(AppConstants.CURRENT_PAGE) != null ? (String)session.getAttribute(AppConstants.CURRENT_PAGE) : "";
     
@@ -47,18 +48,297 @@
         
 %>
  <header class="main-content-header">
+     
     <div class="ops-side-bar-expand">
         <span><i class="mdi mdi-menu"></i></span>
     </div>
+     
     <div class="content-header-left">
-        <% if(current_page.equals("INDEX_PAGE")){%>
-        <span class="display-1 page-brand">DASHBOARD</span>
+        <% if(current_page.equals("ANALYTICS_PAGE")){%>
+        
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">ANALYTICS</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="analytics_page_01.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-tie-outline"></i>
+                               </span>
+                               <span>PERFORMANCE</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="analytics_page_02.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-tie-voice"></i>
+                                </span>
+                                <span>FAILS</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="analytics_page_03.jsp">
+                               
+                                <span>
+                                    <i class="mdi mdi-account-tie-voice-off"></i>
+                               </span>
+                               <span>DELAYS</span>
+                               
+                            </button>
+                        </li>
+
+                   </ul>
+
+                </nav>
+
+            </header>
+        
         <% } else if(current_page.equals("SETTINGS_PAGE")){%>
-        <span class="display-1 page-brand">SETTINGS</span>
+        
+            <span class="display-1 page-brand">SETTINGS</span>
+        
+        <% } else if(current_page.equals("DRIVERS_PAGE")){%>
+
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">DRIVERS</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="driver_page_01.jsp">
+                                <span>
+                                      <i class="mdi mdi-plus"></i>
+                                </span>
+                                <span>NEW DRIVER</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="driver_page_02.jsp">
+                                <span>
+                                    <i class="mdi mdi-glasses"></i>
+                                </span>
+                                <span>UNDER REVIEW</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="driver_page_04.jsp">
+                                <span>
+                                    <i class="mdi mdi-car-key"></i>
+                                </span>
+                                <span>CONTRACT DRIVER</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d3" class="nav-item-button page-menu-button" data-partial="driver_page_03.jsp">
+                                <span>
+                                     <i class="mdi mdi-car-traction-control"></i>
+                                </span>
+                                <span>ENGAGEMENTS</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button  id="btn-page-d5" class="nav-item-button page-menu-button" data-partial="driver_page_05.jsp">
+                                <span>
+                                    <i class="mdi mdi-card-bulleted-settings"></i>
+                                </span>
+                                <span>BLACKLISTED</span>
+                            </button>
+                        </li>
+                   </ul>
+
+                </nav>
+            </header>
+
+        <% } else if(current_page.equals("EMPLOYERS_PAGE")){%>
+        
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">EMPLOYERS</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="employer_page_01.jsp">
+                                <span>
+                                      <i class="mdi mdi-plus"></i>
+                                </span>
+                                <span>NEW EMPLOYER</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="employer_page_02.jsp">
+                                <span>
+                                     <i class="mdi  mdi-car-electric"></i>
+                                </span>
+                                <span>ENGAGEMENTS</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="employer_page_03.jsp">
+                                <span>
+                                    <i class="mdi mdi-car-off"></i>
+                                </span>
+                                <span>CANCELLED CONTRACTS</span>
+                            </button>
+                        </li>
+
+                   </ul>
+
+                </nav>
+
+            </header>
+        
+        <% } else if(current_page.equals("MEMBERS_PAGE")){%>
+        
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">MEMBERS</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="members_page_01.jsp">
+                                <span>
+                                    <i class="mdi mdi-plus"></i>
+                                </span>
+                                <span>NEW MEMBER</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="members_page_03.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-tie-voice"></i>
+                                </span>
+                                <span>REFERRALS</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="customers_page_03.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-tie-voice-off"></i>
+                               </span>
+                               <span>CANCELLED</span>
+                            </button>
+                        </li>
+
+                   </ul>
+
+                </nav>
+
+            </header>
+        
+        <% } else if(current_page.equals("BRANCHES_PAGE")){%>
+        
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">BRANCHES</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="members_page_01.jsp">
+                                <span>
+                                    <i class="mdi mdi-plus"></i>
+                                </span>
+                                <span>NEW BRANCH</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="members_page_03.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-tie-voice"></i>
+                                </span>
+                                <span>MEMBERS</span>
+                            </button>
+                        </li>
+
+                   </ul>
+
+                </nav>
+
+            </header>
+        
+        <% } else if(current_page.equals("USERS_PAGE")){%>
+            
+            <header class="content-page-header">
+
+                <nav class="content-page-parent-header">
+
+                    <span class="content-page-brand">USERS</span>
+
+                    <ul class="content-page-header-menu">
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do1" class="nav-item-button page-menu-button" data-partial="driver_page_01.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-plus"></i>
+                                </span>
+                                <span>NEW USER</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-do2" class="nav-item-button page-menu-button" data-partial="driver_page_02.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-network"></i>
+                                </span>
+                                <span>ROLES</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button id="btn-page-d4" class="nav-item-button page-menu-button" data-partial="driver_page_04.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-key"></i>
+                                </span>
+                                <span>PERMISSIONS</span>
+                            </button>
+                        </li>
+
+                        <li class="page-header-menu-item">
+                            <button  id="btn-page-d5" class="nav-item-button page-menu-button" data-partial="driver_page_05.jsp">
+                                <span>
+                                    <i class="mdi mdi-account-clock"></i>
+                                </span>
+                                <span>HISTORY</span>
+                            </button>
+                        </li>
+                   </ul>
+
+                </nav>
+            </header>
+
         <%} else {%>
-            <span><%=current_page%></span>
+        
+           <span class="display-1 page-brand">DASHBOARD</span>
+           
         <%}%>
     </div>
+    
     <div class="content-header-right">
         <div class="user-initials">
             <span class="display-5">
@@ -133,4 +413,10 @@
             </div>
         </div>
     </div>
+                            
 </header>
+                            
+<script>
+      var themeName = "<%=session.getAttribute(AppConstants.THEME_TEXTURE) %>";
+      var themeColor = "<%= session.getAttribute(AppConstants.THEME_COLOR) %>";
+</script>

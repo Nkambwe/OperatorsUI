@@ -6,9 +6,13 @@
 .tab {
     float: left;
     border: none;
-    background-color: var(--ops-settings-pane);
+    background-color: var(--ops-settings-pane)!important;
     width: 14%;
     height: 100%;
+}
+
+.tab-content-details {
+    background: var(--ops-settings-content-pane);
 }
 
 /* Style the buttons inside the tab */
@@ -123,10 +127,6 @@ button.tablinks span:last-child {
 
 .tab-content-header-banner {
     flex: 1;
-}
-
-.tab-cotent-details {
-    
 }
 
 .row-cols-1.settings-row {
