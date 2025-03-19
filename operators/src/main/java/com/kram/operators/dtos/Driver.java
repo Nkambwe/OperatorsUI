@@ -7,24 +7,17 @@ import java.time.LocalDateTime;
  * @author Macjohnan
  */
 public class Driver {
-    private String firstName;
-    private String middleName;
-    private String surname;
-    private String whatsapp;
-    private String facebook;
-    private String otherSocialMedia;
-    private String favoriteSocialMedia;
-    private String primaryContact;
-    private String alternativeContact;
-    private String districtOfOrigin;
-    private String residentialDistrict;
-    private boolean isActive;
-    private boolean isDeleted;
-    private LocalDateTime createdOn;
-    private String createdBy;
-    private LocalDateTime lastModifiedOn;
-    private String lastModifiedBy;
+    
+    private long id;
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+    
+    private String firstName;
     public String getFirstName() {
         return firstName;
     }
@@ -33,6 +26,7 @@ public class Driver {
         this.firstName = firstName;
     }
 
+    private String middleName;
     public String getMiddleName() {
         return middleName;
     }
@@ -41,6 +35,7 @@ public class Driver {
         this.middleName = middleName;
     }
 
+    private String surname;
     public String getSurname() {
         return surname;
     }
@@ -48,7 +43,52 @@ public class Driver {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+    
+    private String fullName;
+    public String getFullName() {
+        return fullName;
+    }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    
+    private LocalDateTime dateOfBirth;
+    public LocalDateTime getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+    
+    private int experience;
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+    private long categoryId;
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryI(long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    private String categoryName;
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+    
+    private String whatsapp;
     public String getWhatsapp() {
         return whatsapp;
     }
@@ -57,6 +97,7 @@ public class Driver {
         this.whatsapp = whatsapp;
     }
 
+    private String facebook;
     public String getFacebook() {
         return facebook;
     }
@@ -65,22 +106,25 @@ public class Driver {
         this.facebook = facebook;
     }
 
-    public String getOtherSocialMedia() {
-        return otherSocialMedia;
+    private String tweeter;
+    public String getTweeter() {
+        return tweeter;
     }
 
-    public void setOtherSocialMedia(String otherSocialMedia) {
-        this.otherSocialMedia = otherSocialMedia;
+    public void setTweeter(String tweeter) {
+        this.tweeter = tweeter;
     }
 
-    public String getFavoriteSocialMedia() {
-        return favoriteSocialMedia;
+    private String email;
+    public String getEmail() {
+        return email;
     }
 
-    public void setFavoriteSocialMedia(String favoriteSocialMedia) {
-        this.favoriteSocialMedia = favoriteSocialMedia;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    private String primaryContact;
     public String getPrimaryContact() {
         return primaryContact;
     }
@@ -89,6 +133,7 @@ public class Driver {
         this.primaryContact = primaryContact;
     }
 
+    private String alternativeContact;
     public String getAlternativeContact() {
         return alternativeContact;
     }
@@ -96,7 +141,17 @@ public class Driver {
     public void setAlternativeContact(String alternativeContact) {
         this.alternativeContact = alternativeContact;
     }
+    
+    private long DistrictOfOriginId;
+    public long getDistrictOfOriginId() {
+        return DistrictOfOriginId;
+    }
 
+    public void setDistrictOfOriginId(long DistrictOfOriginId) {
+        this.DistrictOfOriginId = DistrictOfOriginId;
+    }
+    
+    private String districtOfOrigin;
     public String getDistrictOfOrigin() {
         return districtOfOrigin;
     }
@@ -104,7 +159,17 @@ public class Driver {
     public void setDistrictOfOrigin(String districtOfOrigin) {
         this.districtOfOrigin = districtOfOrigin;
     }
+    
+    private long residentialDistrictId;
+    public long getResidentialDistrictId() {
+        return residentialDistrictId;
+    }
 
+    public void setResidentialDistrictId(long residentialDistrictId) {
+        this.residentialDistrictId = residentialDistrictId;
+    }
+    
+    private String residentialDistrict;
     public String getResidentialDistrict() {
         return residentialDistrict;
     }
@@ -113,6 +178,7 @@ public class Driver {
         this.residentialDistrict = residentialDistrict;
     }
 
+    private boolean isActive;
     public boolean isIsActive() {
         return isActive;
     }
@@ -121,6 +187,7 @@ public class Driver {
         this.isActive = isActive;
     }
 
+    private boolean isDeleted;
     public boolean isIsDeleted() {
         return isDeleted;
     }
@@ -129,6 +196,7 @@ public class Driver {
         this.isDeleted = isDeleted;
     }
 
+    private LocalDateTime createdOn;
     public LocalDateTime getCreatedOn() {
         return createdOn;
     }
@@ -137,6 +205,7 @@ public class Driver {
         this.createdOn = createdOn;
     }
 
+    private String createdBy;
     public String getCreatedBy() {
         return createdBy;
     }
@@ -145,6 +214,7 @@ public class Driver {
         this.createdBy = createdBy;
     }
 
+    private LocalDateTime lastModifiedOn;
     public LocalDateTime getLastModifiedOn() {
         return lastModifiedOn;
     }
@@ -153,6 +223,7 @@ public class Driver {
         this.lastModifiedOn = lastModifiedOn;
     }
 
+    private String lastModifiedBy;
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }

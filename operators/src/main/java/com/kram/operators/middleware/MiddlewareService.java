@@ -17,6 +17,8 @@ import com.google.gson.JsonSyntaxException;
 import com.kram.operators.models.SettingsRequest;
 import com.kram.operators.dtos.UserData;
 import com.kram.operators.models.AppResponse;
+import com.kram.operators.models.DriverRequest;
+import com.kram.operators.models.DriverResponse;
 import com.kram.operators.models.GeneralRequest;
 import com.kram.operators.models.LogoutRequest;
 import com.kram.operators.models.SettingsResponse;
@@ -655,6 +657,89 @@ public class MiddlewareService {
         }
     }
     
+    public DriverResponse getDrivers(DriverRequest driverRequest) {
+        try {
+            String url = String.format("%s/getAllDrivers", API_URL);
+
+            // Validate request object
+            if (driverRequest == null) {
+                return createDriverErrorResponse(400, "Invalid request", "Request object cannot be null");
+            }
+
+            // Configure Gson with custom settings
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            // Serialize request
+            String requestBody = gson.toJson(driverRequest);
+            ApplicationLog.saveLog("DRIVERS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+
+            // Create and execute HTTP request
+            HttpClient client = createInsecureHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+
+            // Handle non-200 HTTP status codes
+            if (response.statusCode() != 200) {
+                return createDriverErrorResponse(
+                    response.statusCode(),
+                    "HTTP Error: " + response.statusCode(),
+                    "Server returned non-200 status code"
+                );
+            }
+
+            // Clean and parse response
+            if (responseBody == null || responseBody.trim().isEmpty()) {
+                return createDriverErrorResponse(500, "Empty response", "Server returned empty response");
+            }
+
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+
+            // Parse JSON response
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            DriverResponse appResponse = gson.fromJson(jsonObject, DriverResponse.class);
+
+            // Validate parsed response
+            if (appResponse == null) {
+                return createDriverErrorResponse(500, "Invalid response format", "Failed to parse server response");
+            }
+
+            // Validate required fields
+            if (appResponse.getDrivers() == null) {
+                return createDriverErrorResponse(500, "Invalid response data", "Response items list is null");
+            }
+
+            // Log successful response
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Items count :: " + appResponse.getDrivers().size(), "MIDDLEWARESERVICE");
+
+            return appResponse;
+
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createDriverErrorResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createDriverErrorResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createDriverErrorResponse(500, "Unexpected error", e.getMessage());
+        }
+    }
+
     // ✅ This method disables SSL verification for local development
     private HttpClient createInsecureHttpClient() {
         try {
@@ -676,6 +761,15 @@ public class MiddlewareService {
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException("Failed to create insecure SSL client", e);
         }
+    }
+    // Helper method to create error responses
+    private DriverResponse createDriverErrorResponse(int code, String message, String description) {
+        DriverResponse errorResponse = new DriverResponse();
+        errorResponse.setResponseCode(code);
+        errorResponse.setResponseMessage(message);
+        errorResponse.setResponseDescription(description);
+        errorResponse.setDrivers(new ArrayList<>());
+        return errorResponse;
     }
     
     // Helper method to create error responses
