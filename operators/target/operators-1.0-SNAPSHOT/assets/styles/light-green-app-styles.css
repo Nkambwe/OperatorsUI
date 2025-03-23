@@ -817,14 +817,15 @@ content-page-header{
     padding: 10px;
 }
 
-.content-page-brand{
+.content-page-brand {
     display: inline-block;
     font-family: var(--bs-font-sans-serif);
     font-weight: 400;
-    font-size: 1.8rem;
+    padding-top: 10px;
+    font-size: 1.3rem;
     font-weight: 600;
     text-align: right;
-    padding-right:20px;
+    padding-right: 20px;
     color: var(--ops-color-background);
     width: 200px;
     border-right: solid 1px #6c757d;
@@ -848,7 +849,7 @@ content-page-header{
 
 .nav-item-button{
     background: transparent;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     padding:10px;
     transition: all .5s ease-in-out;
 }
@@ -862,6 +863,7 @@ content-page-header{
     display: flex;
     flex-direction: column;
 }
+
 /*----------------------------------settings*/
 .section-main-content,
 .settings-main-container {
@@ -876,4 +878,109 @@ content-page-header{
 
 .settings-content-container {
     flex-grow: 1;
+}
+
+/*----------------------------- Pages*/
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlay.show-overlay {
+    display: flex;
+}
+
+.page-container {
+    position: relative;
+    background-color: white;
+    width: 80%;
+    height: 100%;
+    overflow: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+}
+
+.page-container.expanded {
+    width: 100%;
+    height: 100%;
+}
+
+.hide-icon {
+    display: none;
+}
+
+.page-top {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.back-container {
+    flex: 0 0 50px;
+}
+
+.page-top-header-container {
+    flex: 1;
+    text-align: left;
+}
+
+.page-top-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.app-page {
+    padding: 0 !important;
+}
+
+.page-content {
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+}
+
+.page-footer {
+   position: absolute;
+   bottom:0;
+   left:0;
+   width:100%;
+   height: 40px;
+   padding-top:10px;
+   text-align: center;
+   border-top: solid 1px #e6e6e6;    
+}
+
+.expand-container {
+    flex: 0 0 50px;
+    text-align: right;
+}
+
+.btn-back, .btn-expand {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #6c757d;
+}
+
+.btn-back:hover, .btn-expand:hover {
+    color: #343a40;
+}
+
+.driver-details .card {
+    height: 100%;
+}
+
+.driver-details table th {
+    font-weight: 600;
+    color: #495057;
 }

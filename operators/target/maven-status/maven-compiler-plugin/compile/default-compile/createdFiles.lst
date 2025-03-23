@@ -6,6 +6,9 @@ com\kram\operators\models\User.class
 com\kram\operators\helpers\ApplicationUtilities.class
 com\kram\operators\middleware\MiddlewareService$1.class
 com\kram\operators\models\SettingsRequest.class
+com\kram\operators\models\DriverRecordResponse.class
+com\kram\operators\controllers\DriverController.class
+com\kram\operators\models\DriverRequest.class
 com\kram\operators\models\UserRequest.class
 com\kram\operators\dtos\UserData.class
 com\kram\operators\models\ErrorResponse.class
@@ -22,10 +25,13 @@ com\kram\operators\middleware\MiddlewareService.class
 com\kram\operators\helpers\StringValidator.class
 com\kram\operators\controllers\SettingsController.class
 com\kram\operators\helpers\AttributeList.class
+com\kram\operators\models\DriverResponse.class
 com\kram\operators\models\LogoutRequest.class
 com\kram\operators\webfilters\SlashFilter.class
 com\kram\operators\models\ThemeRequest.class
 com\kram\operators\webfilters\ValidateHashToken.class
+com\kram\operators\models\DriverRecordRequest.class
+com\kram\operators\models\PageMeta.class
 com\kram\operators\controllers\LoginController.class
 com\kram\operators\JakartaRestConfiguration.class
 com\kram\operators\helpers\ApplicationLog.class

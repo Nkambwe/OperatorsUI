@@ -90,7 +90,7 @@
     flex-direction: row;
     width: 100%;
     color:var(--ops-color-gray-light);
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 15px 10px;
     cursor: pointer;
     transition: all .3s ease-in-out;
@@ -101,7 +101,7 @@
     flex-grow: 1;
     padding: 3px 20px;
     cursor: pointer;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     background: transparent;
 }
 

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Macjohnan
  */
-public class DriverResponse {
+public class DriverRecordResponse {
     
     @SerializedName("responseCode")
     @Expose
@@ -31,13 +31,9 @@ public class DriverResponse {
 
     @SerializedName("data")
     @Expose
-    private List<Driver> data;
-    public  List<Driver> getDrivers() { return data; }
-    public void setDrivers(List<Driver> data) { this.data = data; }
-    
-    @SerializedName("meta")
-    @Expose
-    private PageMeta meta;
-    public PageMeta getMeta() { return meta; }
-    public void setMeta(PageMeta meta) { this.meta = meta; }
+    private Driver data;
+    public  Driver getDriver() { return data; }
+    public void setDriver(Driver data) { this.data = data; }
+
 }
+

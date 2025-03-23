@@ -48,6 +48,11 @@ public class AppConstants {
     public final static String IMG_COLOR="img_clr";
     public final static String ACTIVE_THEME="active_light";
     public final static String ACTIVE_COLOR="active_color";
+    public final static String PAGE_SIZE="page_size";
+    public final static String PAGE_NUMBER="page_number";
+    public final static String PAGE_COUNT="page_count";
+    public final static String TOTAL_COUNT="total_count";
+    public final static String INCLUDE_DELETED="include_deleted";
     
     public final static String APP_FOOTER = String.format("Drive Match 1.0 &copy 2025 - %s. Kram Software",new SimpleDateFormat("yyyy").format(new Date()));
 
