@@ -153,9 +153,9 @@
                                <div class="card">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title mb-0">Driver List</h5>
-                                        <div>
-                                            <span class="badge bg-primary">Total: <%= totalDrivers %></span>
-                                            <span class="badge bg-secondary">Page: <%= pageNumber %> / <%= pageCount %></span>
+                                        <div class="total-brand">
+                                            <span class="badge total-brand-primary">Total: <%= totalDrivers %></span>
+                                            <span class="badge total-brand-secondary">Page: <%= pageNumber %> / <%= pageCount %></span>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -185,12 +185,12 @@
                                                             <td><%= driver.getResidentialDistrict() != null ? driver.getResidentialDistrict() : "" %></td>
                                                             <td>
                                                                 <% if(driver.isIsActive()) { %>
-                                                                    <span class="badge bg-success">Active</span>
+                                                                    <span class="active-badge">Active</span>
                                                                 <% } else { %>
-                                                                    <span class="badge bg-danger">Inactive</span>
+                                                                    <span class="inactive-badge text-dark">Inactive</span>
                                                                 <% } %>
                                                                 <% if(driver.isIsDeleted()) { %>
-                                                                    <span class="badge bg-warning text-dark">Deleted</span>
+                                                                    <span class="deleted-badge">Deleted</span>
                                                                 <% } %>
                                                             </td>
                                                         </tr>
@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <nav>
-                                            <ul class="pagination justify-content-center">
+                                            <ul class="pagination">
                                                 <li class="page-item <%= pageNumber <= 1 ? "disabled" : "" %>">
                                                     <a class="page-link" href="?page=<%= pageNumber-1 %>&pageSize=<%= pageSize %>" aria-label="Previous">
                                                         <span aria-hidden="true">&laquo;</span>

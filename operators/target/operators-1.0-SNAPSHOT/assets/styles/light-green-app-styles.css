@@ -1012,3 +1012,73 @@ content-page-header{
    transition: all .3s ease-in-out;
 }
 
+/*-------------------------------------------*/
+.total-brand {
+   padding: 2px;
+}
+
+.total-brand-primary,
+.total-brand-secondary{
+    padding:10px;
+    font-size: 1rem;
+    border-radius: 0;
+    background: var(--ops-color-background);
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background: var(--ops-color-background);
+    border-color: var(--ops-color-background);
+}
+
+.page-link {
+    color: var(--ops-color-background);
+}
+
+.pagination {
+    margin:0!important
+}
+
+.active-badge {
+    display: inline-block;
+    padding: 5px;
+    font-size: .95em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    background: var(--ops-color-background);
+}
+
+.deleted-badge {
+    display: inline-block;
+    padding: 5px;
+    font-size: .95em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    background: #ED1C24;
+}
+
+
+.inactive-badge {
+    display: inline-block;
+    padding: .5px;
+    font-size: .95em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    background: #EDC94B;
+}
