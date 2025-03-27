@@ -20,6 +20,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttonAqua  = document.querySelector('.btn-aqua-clr');
     const buttonAquaConts  = document.querySelector('.theme-button-color-aqua');
     
+    
+    // Select the first non-empty container
+    const container = $(".ops-base-container").length 
+        ? $(".ops-base-container") 
+        : $(".ops-dashboard-container");
+    
+    const sidebarToggle = $(".ops-side-bar-expand");
+    const savedState = localStorage.getItem("sidebarState");
+    
+    // Apply saved state from localStorage
+    if (savedState) {
+        container.attr("data-sidebar-state", savedState);
+    }
+    
     // Add click event for light theme button
     lightButton.addEventListener('click', function() {
       updateTheme('light');
@@ -69,6 +83,25 @@ document.addEventListener('DOMContentLoaded', function() {
         //update logo
         updateThemeImages('aqua'); 
         
+    });
+    
+    // Toggle sidebar on click
+    sidebarToggle.on("click", function () {
+        // Only proceed if a container exists
+        if (container.length > 0) {
+            const currentState = container.attr("data-sidebar-state");
+            const newState = currentState === "expanded" ? "collapsed" : "expanded";
+
+            container.attr("data-sidebar-state", newState);
+
+            // Debugging: Log state change
+            console.log("Toggling sidebar:", currentState, "→", newState);
+
+            // Save new state in localStorage
+            localStorage.setItem("sidebarState", newState);
+        } else {
+            console.warn("Cannot toggle sidebar: No container found");
+        }
     });
 
     function updateColor(color){

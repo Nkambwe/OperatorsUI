@@ -118,7 +118,7 @@
      <body>
          
         <!----------------main container-------->
-        <div class="ops-base-container">
+        <div class="ops-base-container" data-sidebar-state="collapsed">
             
             <!----------------sidebar-------->
             <%@include file="sidebar.jsp"%> 

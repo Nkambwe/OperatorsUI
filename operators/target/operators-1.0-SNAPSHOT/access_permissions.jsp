@@ -38,33 +38,52 @@
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <%@include file="sidebar.jsp"%> 
+        
+        <!----------------main container-------->    
+        <div class="ops-base-container" data-sidebar-state="collapsed">
 
-        <section class="main-content-container">
+            <!----------------sidebar-------->
+            <%@include file="sidebar.jsp"%> 
             
-            <%@include file="header.jsp"%> 
-            <div class="main-content">
-                <% if (msg != null) {%>
-                <div class="message-container">
-                    
-                    <div class="alert <%= alertClass%> alert-dismissable">
-                        <span><strong><%=msg_type%>!</strong> <%=msg%></span>
+            <!----------------base content-------->
+            <div class="ops-base-content" data-sidebar-state="collapsed">
+                
+                <!----------------header-------->
+                <%@include file="header.jsp"%> 
+
+                <!----------------section container-------->
+                <section class="main-content-container">
+
+                     
+                    <% if (msg != null) {%>
+                    <div class="alert <%= alertClass%> alert-dismissable message-container">
+                        <span><strong><%=msg_type%>!</strong> <%=msg%>!</span>
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
+                    <% }%>
+                    
+                    <div class="section-main-content">  
                         
-                </div>
-                <% }%>
-                
-                <div class="content-wrapper">
-                    <h1>System Access</h1>
-                </div>
+                        <!--container for child pages-->
+                        <div id="overlay">
+                            <div id="parent-container" class="page-container" data-child="no-child"></div>
+                        </div>
+                        
+                        <div class="page-content">
+                             <h1>User Permissions</h1>
+                        </div>
+                        
+                    </div>
+
+                    <div class="footer shadow-text">
+                        <%=AppConstants.APP_FOOTER%>
+                    </div>
+
+                </section>
                 
             </div>
-            
-            <div class="footer shadow-text">
-                <%=AppConstants.APP_FOOTER%>
-            </div>
-        </section>
+
+        </div>
         
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>

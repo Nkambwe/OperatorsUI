@@ -87,7 +87,7 @@
     <body>
       
         <!----------------main container-------->
-        <div class="ops-dashboard-container">
+        <div class="ops-dashboard-container" data-sidebar-state="collapsed">
             
              <!----------------sidebar-------->
              <%@include file="sidebar.jsp"%> 

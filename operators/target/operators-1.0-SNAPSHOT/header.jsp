@@ -49,9 +49,9 @@
 %>
  <header class="main-content-header">
      
-    <div class="ops-side-bar-expand">
+    <button type="button" class="ops-side-bar-expand">
         <span><i class="mdi mdi-menu"></i></span>
-    </div>
+    </button>
      
     <div class="content-header-left">
         <% if(current_page.equals("ANALYTICS_PAGE")){%>
