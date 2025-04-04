@@ -104,16 +104,7 @@
                 </a>
 
             </li>
-            <li class="ops-side-bar-menu-item">
-                <a id="menu_permissions_link" href="access_permissions.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
-                    <span>  
-                        <i class="mdi mdi-account-key"></i>
-                    </span> 
-                    <p>Permissions</p> 
-                </a>
-
-            </li>
-
+            
             <li class="ops-side-bar-menu-item">
                 <a id="menu_settings_link" href="settings.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">
                     <span>  
@@ -123,7 +114,6 @@
                 </a>
 
             </li>
-            
             
             <li class="ops-side-bar-menu-item">
                 <a id="menu_logout_link" href="logout.jsp" class="ops-side-bar-menu-item-link" onclick="showLoading();">

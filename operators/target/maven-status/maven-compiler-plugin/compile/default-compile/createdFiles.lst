@@ -5,6 +5,7 @@ com\kram\operators\dtos\Driver.class
 com\kram\operators\models\User.class
 com\kram\operators\helpers\ApplicationUtilities.class
 com\kram\operators\middleware\MiddlewareService$1.class
+com\kram\operators\dtos\AppRole.class
 com\kram\operators\models\SettingsRequest.class
 com\kram\operators\models\DriverRecordResponse.class
 com\kram\operators\controllers\DriverController.class

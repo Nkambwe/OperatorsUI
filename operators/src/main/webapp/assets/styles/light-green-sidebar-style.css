@@ -183,7 +183,7 @@ ul.ops-side-bar-menu li:last-child {
 .ops-base-container[data-sidebar-state="collapsed"] .ops-base-content, 
 .ops-dashboard-container[data-sidebar-state="collapsed"] .ops-dashboard-content {
     left: -200px !important;
-    width: 110.5%;
+    width: 115%;
     flex-grow: 1;
     transition: width 0.3s ease;
 }

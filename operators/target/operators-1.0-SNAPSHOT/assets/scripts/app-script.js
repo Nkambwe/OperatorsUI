@@ -316,8 +316,69 @@ $(document).ready(function () {
             .removeClass('show-user-settings')
             .addClass('hide-user-settings');
     });
-});
     
+    
+    const roleName = document.getElementById('roleName');
+    const roleDiscription = document.getElementById('roleDecription');
+    const roleButton = document.getElementById('roleBtn');
+    const roleList = document.getElementById('roleList');
+    
+    // Clear local storage to prevent duplicate loading from JSP and local storage
+    if (!localStorage.getItem('rolesLoaded')) {
+        localStorage.removeItem('roles');
+        
+        // Mark that roles have been loaded
+        localStorage.setItem('rolesLoaded', 'true'); 
+    }
+
+    // load roles from local storage (if any)
+    loadRoles(roleList);
+    
+    $('#roleBtn').on('click', function() {
+        var role = roleName.value;
+        var description = roleDiscription.value;
+        
+        if(role !== "" && description !== null){
+            role = role.trim();
+            description = description.trim();
+            
+            //create item and add it to the list
+            createRoleItem(roleList, role);
+            
+            //..save items
+            addRole(roleList);
+            
+            //..clear input fields
+            roleName.value = '';
+            roleDiscription.value = '';
+        } else {
+            alert('Please enter role');
+        }
+        
+    });
+    
+    
+});
+
+function addRole(roleList){
+    let roles =[];
+    roleList.querySelectorAll('li').forEach(function(item){
+        roles.push(item.textContent.trim());
+    });
+    
+    localStorage.setItem('roles', JSON.stringify(roles));
+}
+
+function createRoleItem(roleList, role) {
+    const item = document.createElement('li');
+    item.textContent = role;
+    roleList.appendChild(item);
+}
+ 
+function loadRoles(roleList) {
+    const roles = JSON.parse(localStorage.getItem('roles')) || [];
+    roles.forEach(role => createRoleItem(roleList, role));
+}
 
 
 function on(){

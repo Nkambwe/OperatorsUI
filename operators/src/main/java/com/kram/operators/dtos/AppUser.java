@@ -5,7 +5,7 @@ package com.kram.operators.dtos;
  * @author Macjohnan
  */
 public class AppUser {
-     private int id;
+    private int id;
     public int getId() { return this.id; }
     public void setId(int id) { this.id = id; }
     

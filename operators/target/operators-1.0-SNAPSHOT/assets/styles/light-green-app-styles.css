@@ -1082,3 +1082,56 @@ content-page-header{
     border-radius: .25rem;
     background: #EDC94B;
 }
+
+.role-container {
+    position:relative;
+    padding:10px;
+    display:flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.role-list-add-container {
+    width: 300px;
+    padding: 5px 10px;
+}
+
+#roleBtn {
+    min-width:150px;
+}
+
+.role-list-container {
+    margin-right: 10px;
+}
+
+.role-list-box {
+    height: auto;
+    padding-top: 10px;
+}
+
+ul.role-list {
+    list-style-type: none;
+    padding:0;
+}
+
+ul.role-list li{
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+}
+
+.no-data-box {
+    padding:30px;
+}
+
+.no-data-box span {
+    font-size: 2.5em;
+    color: #dce1eb;
+}
+
+.role-details-container {
+    flex-grow: 1;
+/*    background: red;*/
+}
