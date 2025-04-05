@@ -679,10 +679,10 @@ button.btn-black-theme {
 
 .page-brand {
     display: block;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--ops-color-background);
-    padding: 25px 0 0 15px;
+    padding: 30px 0 0 15px;
     transition: all .3s ease-in-out;
 }
 
@@ -1091,17 +1091,34 @@ content-page-header{
     height: 100%;
 }
 
-.role-list-add-container {
+.user-container {
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.role-list-add-container,
+.user-list-add-container {
     width: 300px;
     padding: 5px 10px;
 }
 
 #roleBtn {
-    min-width:150px;
+    min-width:100%;
+    border: solid 1px var(--ops-color-background);
+    background: var(--ops-button-green);
 }
 
-.role-list-container {
+#roleBtn:hover {
+    background:var(--ops-color-background);
+    transition:all .5s ease-in-out;
+}
+
+.role-list-container,
+.user-list-container {
     margin-right: 10px;
+    border-right: solid 1px #F2F2F2;
 }
 
 .role-list-box {
@@ -1109,17 +1126,22 @@ content-page-header{
     padding-top: 10px;
 }
 
-ul.role-list {
+ul.role-list,
+ul.user-list {
     list-style-type: none;
     padding:0;
 }
 
-ul.role-list li{
-    margin: 5px 0;
+ul.role-list li,
+ul.user-list li{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
+}
+
+ul.role-list li:last-child ,
+ul.user-list li:last-child {
+    border-bottom:solid 1px var(--bs-list-group-border-width);
 }
 
 .no-data-box {
@@ -1131,7 +1153,28 @@ ul.role-list li{
     color: #dce1eb;
 }
 
-.role-details-container {
+.role-details-container,
+.user-details-container{
     flex-grow: 1;
-/*    background: red;*/
+    padding: 20px;
+}
+
+.card.user-list-container {
+    border-radius: 0;
+}
+
+li.list-group-item {
+    cursor: pointer;
+    border-radius: 0;
+}
+
+ul.user-list li:last-child {
+    border-radius: 0;
+    border-bottom: solid .2px #cecece !important;
+}
+
+ul.user-list li.list-group-item:hover {
+    color: var(--ops-color-background);
+    background: var(--ops-color-background-faint);
+    transition: all .5s ease-in-out;
 }

@@ -23,7 +23,7 @@ $(document).ready(function () {
     function fetchDriverData(driverId) {
         $.ajax({
             type: 'GET',
-            url: '/operators/driver_info.jsp',
+            url: '/operators/roles_list.jsp',
             data: { driverId: driverId },
             dataType: 'json',
             success: function (response) {

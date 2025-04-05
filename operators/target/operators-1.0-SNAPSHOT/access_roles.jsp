@@ -57,39 +57,6 @@
     String theme_color = String.format("%s-%s-", theme_name, theme_clr);
     ApplicationLog.saveLog("Current Theme :: " + theme_color, "ROLES_PAGE");
     
-    ArrayList<AppRole> roles = new ArrayList<>();
-    AppRole user1 = new AppRole();
-    user1.setId(1);
-    user1.setRoleName("Administrator");
-    user1.setDescription("System Administrator");
-    user1.setIsActive(true);
-    user1.setAddedOn("2025-01-23");
-    user1.setAddedBy("System");
-    user1.setModifiedOn("2025-01-25");
-    user1.setModifiedBy("Mark");
-    roles.add(user1);
-    
-    AppRole user2 = new AppRole();
-    user2.setId(2);
-    user2.setRoleName("System");
-    user2.setDescription("Customer Support");
-    user2.setIsActive(true);
-    user2.setAddedOn("2025-02-12");
-    user2.setAddedBy("System");
-    user2.setModifiedOn("2025-02-12");
-    user2.setModifiedBy("Mark");
-    roles.add(user2);
-    
-    AppRole user3 = new AppRole();
-    user3.setId(3);
-    user3.setRoleName("System");
-    user3.setDescription("Super User");
-    user3.setIsActive(true);
-    user3.setAddedOn("2025-01-20");
-    user3.setAddedBy("System");
-    user3.setModifiedOn("2025-01-23");
-    user3.setModifiedBy("Mark");
-    roles.add(user3);
 %>
 <!DOCTYPE html>
 <html>
@@ -131,55 +98,7 @@
                     </div>
                     <% }%>
                     
-                    <div class="section-main-content">  
-                        
-                        <!--container for child pages-->
-                        <div id="overlay">
-                            <div id="parent-container" class="page-container" data-child="no-child"></div>
-                        </div>
-                        
-                        <div class="page-content">
-                            <div class="role-container">   
-                                <div class="role-list-container">
-                                    <div class="role-list-add-container">
-                                        <form id="role-form">
-
-                                            <div class="mb-3">
-                                                <label for="roleName" class="form-label">Role</label>
-                                                <input id="roleName" name="roleName" class="form-control form-control-sm" type="text" placeholder="Role Name" aria-label="Role Name">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="roleDecription" class="form-label">Description</label>
-                                                <input id="roleDecription" name="roleDecription" class="form-control form-control-sm" type="text" placeholder="Description" aria-label="Description">
-                                            </div>
-                                            <div class="mb-3">
-                                                <button id="roleBtn" type="button" class="btn btn-primary">Add</button>
-                                            </div>
-                                        </form>
-                                        
-                                        <div class="role-list-box">
-                                            <%if(roles != null && !roles.isEmpty()){%>
-                                            <ul id="roleList" class="role-list">
-                                                <%for(AppRole role : roles){%>
-                                                <li><%=role.getRoleName()%></li>
-                                                <%}%>
-                                            </ul>
-                                            <%}else{%>
-                                            <div class="no-data-box">
-                                                <span class="display-4">No Roles</span>
-                                            </div>
-                                            <%}%>
-                                            
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="role-details-container"></div>
-                            </div>
-                        </div>
-                        
-                    </div>
+                    <%@include file="Pages/roles_page.jsp"%> 
 
                     <div class="footer shadow-text">
                         <%=AppConstants.APP_FOOTER%>
@@ -194,5 +113,6 @@
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/scripts/role-script.js" type="text/javascript"></script>
     </body>
 </html>

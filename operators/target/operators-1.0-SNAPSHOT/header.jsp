@@ -331,7 +331,8 @@
 
                 </nav>
             </header>
-
+        <% } else if(current_page.equals("ROLES_PAGE")){%>
+            <span class="display-1 page-brand">SYSTEM ROLES</span>
         <%} else {%>
         
            <span class="display-1 page-brand">DASHBOARD</span>

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * @author Macjohnan
  */
 public class DriverRecordRequest {
-     @SerializedName("userId")
+    @SerializedName("userId")
     @Expose
     private int userId;
     public int getUserId() { return userId; }
