@@ -44,14 +44,17 @@ html {
     overflow:hidden;
 }
 
+/* Base setup for body */
 body {
     width: 100vw;
     height: 100vh;
     font-family: var(--bs-font-sans-serif);
-    font-size:0.88rem;
+    font-size: 0.88rem;
     background: var(--ops-color-background-3);
     user-select: none;
-    overflow:hidden;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -70,20 +73,38 @@ a {
     color:var(--ops-color-info-dark);
 }
 
-.ops-base-container,
+/* Grid container setup */
+.ops-base-container, 
 .ops-dashboard-container {
     display: grid;
     width: 100vw;
     height: 100vh;
-    grid-template-columns: 18rem auto;
     background: var(--ops-color-white);
+    transition: grid-template-columns 0.3s ease;
+    overflow: hidden;
 }
 
-.ops-base-content,
+/* Grid layout for expanded state */
+.ops-base-container[data-sidebar-state="expanded"],
+.ops-dashboard-container[data-sidebar-state="expanded"] {
+    grid-template-columns: 18rem 1fr; /* Sidebar at 18rem, content takes remaining space */
+}
+
+/* Grid layout for collapsed state */
+.ops-base-container[data-sidebar-state="collapsed"],
+.ops-dashboard-container[data-sidebar-state="collapsed"] {
+    grid-template-columns: 4rem 1fr; /* Collapsed sidebar at 4rem, content takes remaining space */
+}
+
+/* Content area styling */
+.ops-base-content, 
 .ops-dashboard-content {
     display: flex;
     flex-direction: column;
     position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevent content from overflowing */
 }
 
 .ops-dashboard-content section {
@@ -1085,7 +1106,6 @@ content-page-header{
 
 .role-container {
     position:relative;
-    padding:10px;
     display:flex;
     flex-direction: row;
     height: 100%;
@@ -1106,6 +1126,7 @@ content-page-header{
 
 #roleBtn {
     min-width:100%;
+    color:var(--ops-color-white);
     border: solid 1px var(--ops-color-background);
     background: var(--ops-button-green);
 }
@@ -1119,6 +1140,7 @@ content-page-header{
 .user-list-container {
     margin-right: 10px;
     border-right: solid 1px #F2F2F2;
+    background-color: var(--ops-settings-pane-background);
 }
 
 .role-list-box {
@@ -1177,4 +1199,9 @@ ul.user-list li.list-group-item:hover {
     color: var(--ops-color-background);
     background: var(--ops-color-background-faint);
     transition: all .5s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: var(--ops-color-background)!important;
+    border-color: var(--ops-color-background)!important;
 }

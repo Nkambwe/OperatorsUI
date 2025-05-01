@@ -2,6 +2,8 @@
 .ops-side-bar-container {
     grid-column: 1;
     height: 100%;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
 .ops-side-bar-top {
@@ -15,10 +17,11 @@
     width: 100%;
 }
 
-#img-logo {
+img#img-logo {
+    width: 3rem;
+    height: 2.5rem;
+    margin-left: 0.2rem;
     margin-top: 1.6rem;
-    width: 4rem;
-    height: 3rem;
 }
 
 .ops-brand {
@@ -35,8 +38,9 @@
     cursor: pointer;
     width: 50px;
     font-size: 2.5rem;
-    color:var(--ops-color-gray-light);
-    transition: all .5s ease-in-out;
+    color: var(--ops-color-gray-light);
+    background: transparent;
+    transition: all .3s ease-in-out;
 }
 
 .ops-side-bar-expand span, 
@@ -134,4 +138,80 @@ ul.ops-side-bar-menu li:last-child {
 .ops-side-bar-menu-item:has(.ops-side-bar-menu-item-link:hover):after {
   background: var(--ops-color-background-hover, var(--ops-color-background));
   transition: all .3s ease-in-out;
+}
+
+/*---------------------------------------------- side-bar state*/
+.ops-base-container[data-sidebar-state="collapsed"] .ops-side-bar-container,
+.ops-dashboard-container[data-sidebar-state="collapsed"] .ops-side-bar-container{
+    width: 50px !important; 
+    transition: all 0.3s ease;
+}
+
+.ops-base-container[data-sidebar-state="expanded"] .ops-side-bar-container,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-side-bar-container{
+    width: 250px !important; 
+    transition: all 0.3s ease;
+}
+
+.ops-base-container[data-sidebar-state="collapsed"] .ops-brand,
+.ops-dashboard-container[data-sidebar-state="collapsed"] .ops-brand { 
+    display: none!important;
+    transition: all .3s ease-in-out;
+}
+
+.ops-base-container[data-sidebar-state="expanded"] .ops-brand,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-brand {
+    display: inline-block!important;
+    transition: all .3s ease-in-out;
+}
+
+.ops-base-container[data-sidebar-state="collapsed"] .ops-side-bar-menu-item p,
+.ops-dashboard-container[data-sidebar-state="collapsed"] .ops-side-bar-menu-item p {
+    display: none;
+    transition: all .3s ease-in-out;
+}
+
+.ops-base-container[data-sidebar-state="expanded"] .ops-side-bar-container,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-side-bar-container {
+    width: 250px!important; 
+    transition: width 0.3s ease;
+}
+
+.ops-base-container[data-sidebar-state="expanded"] .ops-side-bar-menu-item p,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-side-bar-menu-item p {
+    display: inline; 
+}
+
+/* Sidebar collapsed: Make content take full width */
+.ops-base-container[data-sidebar-state="collapsed"] .ops-base-content, 
+.ops-dashboard-container[data-sidebar-state="collapsed"] .ops-dashboard-content {
+    flex-grow: 1;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar expanded: Reduce content width */
+.ops-base-container[data-sidebar-state="expanded"] .ops-base-content,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-dashboard-content {
+    width: 100%; 
+    left: 0!important;
+    transition: width 0.3s ease;
+}
+
+/* Ensure sidebar itself has fixed width */
+.ops-side-bar-container {
+    width: 250px;
+    transition: width 0.3s ease;
+    border-right: solid 1px #F2F2F2;
+}
+
+.ops-base-container[data-sidebar-state="collapsed"] .ops-side-bar-container,
+.ops-dashboard-container[data-sidebar-state="collapsed"] .ops-side-bar-container {
+    width: 50px;
+    transition: all .3s ease-in-out;
+}
+
+.ops-base-container[data-sidebar-state="expanded"] .ops-side-bar-container,
+.ops-dashboard-container[data-sidebar-state="expanded"] .ops-side-bar-container {
+    width: 250px;
+    transition: all .3s ease-in-out;
 }

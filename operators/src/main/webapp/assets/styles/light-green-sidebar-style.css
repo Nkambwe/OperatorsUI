@@ -2,6 +2,8 @@
 .ops-side-bar-container {
     grid-column: 1;
     height: 100%;
+    overflow: hidden;
+    transition: width 0.3s ease;
 }
 
 .ops-side-bar-top {
@@ -15,10 +17,11 @@
     width: 100%;
 }
 
-#img-logo {
+img#img-logo {
+    width: 3rem;
+    height: 2.5rem;
+    margin-left: 0.2rem;
     margin-top: 1.6rem;
-    width: 4rem;
-    height: 3rem;
 }
 
 .ops-brand {
@@ -137,7 +140,7 @@ ul.ops-side-bar-menu li:last-child {
   transition: all .3s ease-in-out;
 }
 
-/*---------------------------------------------- side-bar statee*/
+/*---------------------------------------------- side-bar state*/
 .ops-base-container[data-sidebar-state="collapsed"] .ops-side-bar-container,
 .ops-dashboard-container[data-sidebar-state="collapsed"] .ops-side-bar-container{
     width: 50px !important; 
@@ -182,8 +185,6 @@ ul.ops-side-bar-menu li:last-child {
 /* Sidebar collapsed: Make content take full width */
 .ops-base-container[data-sidebar-state="collapsed"] .ops-base-content, 
 .ops-dashboard-container[data-sidebar-state="collapsed"] .ops-dashboard-content {
-    left: -200px !important;
-    width: 115%;
     flex-grow: 1;
     transition: width 0.3s ease;
 }

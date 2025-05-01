@@ -17,10 +17,11 @@
     width: 100%;
 }
 
-#img-logo {
+img#img-logo {
+    width: 3rem;
+    height: 2.5rem;
+    margin-left: 0.5rem;
     margin-top: 1.6rem;
-    width: 4rem;
-    height: 3rem;
 }
 
 .ops-brand {
