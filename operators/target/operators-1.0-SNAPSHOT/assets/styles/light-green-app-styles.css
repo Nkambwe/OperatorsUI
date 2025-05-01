@@ -242,7 +242,6 @@ span.display-5.matches-table-header {
     display: block;
     margin-bottom: 10px;
     padding-left: 20px;
-    padding-bottom: 15px;
     padding-top: 10px;
     padding-bottom: 20px;
     border-bottom: solid 1px #cecece;
@@ -629,10 +628,6 @@ span.color-selected {
     transition: all .3s ease-in-out;
 }
 
-.active-color {
-    
-}
-
 .show-user-settings {
    right: 0 !important;
    transition: all .3s ease-in-out;
@@ -753,7 +748,6 @@ button.btn-black-theme {
     align-items: center;
     z-index: 1000;
 }
-
 
 /*message boxes*/
 .message-container {
@@ -1204,4 +1198,44 @@ ul.user-list li.list-group-item:hover {
 .form-check-input:checked {
     background-color: var(--ops-color-background)!important;
     border-color: var(--ops-color-background)!important;
+}
+
+/*--------------------------------- card*/
+.card {
+    border-radius: 0 !important;
+    border: 0;
+    background-color: var(--ops-color-white);
+}
+
+.card-header {
+    background: transparent;
+}
+
+.card-body {
+    background-color: var(--ops-color-white);
+}
+
+.card-footer {
+    background-color: var(--ops-color-white);
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+/*--------------------------------- card*/
+.card {
+    border-radius: 0 !important;
+    border: 0;
+    background-color: var(--ops-color-white);
+}
+
+.card-header {
+    background: transparent;
+}
+
+.card-body {
+    background-color: var(--ops-color-white);
+}
+
+.card-footer {
+    background-color: var(--ops-color-white);
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }

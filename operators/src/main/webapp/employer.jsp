@@ -70,6 +70,7 @@
         <link href="${pageContext.request.contextPath}/assets/styles/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>table-customerzation.css" rel="stylesheet" type="text/css"/>
     </head>
     
     <body>
@@ -120,6 +121,7 @@
         
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
     </body>
     

@@ -1200,4 +1200,24 @@ ul.user-list li.list-group-item:hover {
     border-color: var(--ops-color-background)!important;
 }
 
+/*--------------------------------- card*/
+.card {
+    border-radius: 0 !important;
+    border: 0;
+    background-color: var(--ops-color-white);
+}
+
+.card-header {
+    background: transparent;
+}
+
+.card-body {
+    background-color: var(--ops-color-white);
+}
+
+.card-footer {
+    background-color: var(--ops-color-white);
+    border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
 

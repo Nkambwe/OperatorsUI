@@ -112,8 +112,10 @@
         <link href="${pageContext.request.contextPath}/assets/styles/rest-style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>table-customerzation.css" rel="stylesheet" type="text/css"/>
     </head>
      <body>
          
@@ -158,7 +160,7 @@
                                             <span class="badge total-brand-secondary">Page: <%= pageNumber %> / <%= pageCount %></span>
                                         </div>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding:0!important">
                                         <div class="table-responsive">
                                             <table id="driversTable" class="table table-striped table-hover">
                                                 <thead>
@@ -271,6 +273,7 @@
         
         <script src="${pageContext.request.contextPath}/assets/scripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/jquery/jquery-3.7.1.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/assets/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/app-script.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/scripts/drivers-script.js" type="text/javascript"></script>
 

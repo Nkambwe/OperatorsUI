@@ -655,6 +655,7 @@
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>app-styles.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>sidebar-style.css" rel="stylesheet" type="text/css"/>
         <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>settings-style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/styles/<%=theme_color%>table-customerzation.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
          <!----------------main container-------->

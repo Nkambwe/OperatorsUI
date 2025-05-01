@@ -130,7 +130,7 @@
                                     
                                     <div class="row">
                                         
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 mt-1">
                                             
                                             <div class="row-cols-1 form-group">
                                                 <label for="tf-firstname">First Name</label>
@@ -144,14 +144,14 @@
                                             
                                         </div>
                                         
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6 mt-1">
                                             
                                             <div class="row-cols-1 form-group">
                                                 <label for="tf-lastname">First Name</label>
                                                 <input id="user-lastname" name="tf-lastname" type="text" class="form-control"  placeholder="Last Name">
                                             </div>
                                             
-                                            <div class=" row form-group">
+                                            <div class=" row-cols-1 form-group">
                                                 <label for="tf-user-email">Email address</label>
                                                 <input type="email" class="form-control" id="user-email" name="tf-user-email" placeholder="username">
                                             </div>
@@ -163,8 +163,8 @@
                                     <div class="row">
                                         
                                         <div class="col-sm-12">
-                                            <span>System Access</span>
-                                            <span>Deleted</span>
+                                            <span class="label-access">System Access</span>
+                                            <span class="label-deleted">Deleted</span>
                                         
                                             <div class="row-cols-1">
                                                 <form id="form-password-reset">
@@ -178,13 +178,16 @@
                                         
                                         <div class="col-sm-6">
                                             
-                                            <div class="row-cols-1 form-group">
+                                            <div class="row-cols-1 fcustom-select-wrapper custom-select-wrapper ">
                                                 <label for="cb-branch">Branch</label>
-                                                <select id="user-branch" name="cb-branch" class="form-control form-control-sm">
-                                                  <option value="0">Choose Branch</option>
-                                                  <option value="1">Main Branch</option>
-                                                  <option value="2">Other Branch</option>
-                                                </select>
+                                                <div class="custom-select-wrapper">
+                                                    <select id="user-branch" name="cb-branch" class="form-select" aria-label="Default select example">
+                                                        <option value="0">Choose Branch</option>
+                                                        <option value="1">Main Branch</option>
+                                                        <option value="2">Other Branch</option>
+                                                      </select>
+                                                </div>
+                                                
                                             </div>
                                             
                                             <div class="row-cols-1 form-group">

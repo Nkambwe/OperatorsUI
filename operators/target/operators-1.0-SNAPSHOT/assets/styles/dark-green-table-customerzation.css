@@ -4,9 +4,50 @@
 */
 
 /* Striped rows - odd rows */
-.table {
-    cursor: pointer;
-    border-top: none;
+table.table {
+    margin-bottom: 0;
+    cursor: pointer!important;
+    border-top: solid 1px var(--ops-table-border-cr);
+    --bs-table-active-color: var(--ops-color-background-faint-active);
+    --bs-table-active-bg: var(--ops-color-background-faint);
+    --bs-table-hover-color: var(--bs-gray-400);
+    --bs-table-hover-bg: var(--bs-gray-700);
+    --bs-table-border-color: var(--ops-table-border-cr);
+    --bs-table-striped-color: var(--ops-table-strip-cr);
+    --bs-table-striped-bg: var(--ops-table-strip-bg);
+    --bs-table-color: var(--ops-color-gray-light);
+    --bs-table-bg: var(--ops-color-background-3)!important;
+    transition: all .3s ease-in-out;
+}
+
+table.table tr,
+table.table tbody, 
+table.table td, 
+table.table tfoot, 
+table.table th, 
+table.table thead{
+    border: none;
+}
+
+.pagination {
+    --bs-pagination-bg: var(--ops-table-strip-bg);
+    --bs-pagination-disabled-bg: #495057;
+    --bs-pagination-active-bg: var(--ops-color-background);
+    --bs-pagination-focus-color: var(--ops-color-background);
+    --bs-pagination-hover-color: var(--ops-color-background-faint-active);
+    --bs-pagination-hover-bg: var(--ops-color-background-faint);
+    --bs-pagination-border-color: var(--bs-dark-text-emphasis);
+    --bs-pagination-disabled-border-color: var(--bs-dark-text-emphasis);
+    --bs-pagination-hover-border-color: var(--ops-color-background);
+}
+
+.page-item:first-child,
+.page-item:last-child{
+    border-radius: 0!important
+}
+.page-item:first-child .page-link,
+.page-item:last-child .page-link {
+    border-radius: 0!important
 }
 
 .table>thead {
@@ -24,36 +65,36 @@ div#datatable-users_info {
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    --bs-table-accent-bg: #DFF0EB !important;
+    --bs-table-accent-bg: var(--ops-color-background-3)!important;
     color: #041C15 !important;
 }
 
 /* Even rows */
 .table-striped > tbody > tr:nth-of-type(even) {
-    background-color: #fff;  
+    background-color: var(--ops-table-strip-bg);  
     transition: all .3s ease-in-out;
 }
 
 table.table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1) > * {
-    box-shadow: inset 0 0 0 9999px #CCDFD9!important;
-    color: #041C15 !important;
+    box-shadow: inset 0 0 0 9999px var(--ops-color-background-3)!important;
+    color: var(--ops-table-strip-cr)!important;
     transition: all .3s ease-in-out;
 }
 
 table.table.dataTable > tbody > tr.selected > * {
-    box-shadow: inset 0 0 0 9999px #BDCFC9;
-    color: #041C15;
+    box-shadow: inset 0 0 0 9999px var(--ops-table-strip-bg);
+    color: var(--ops-table-strip-cr);
 }
 
 /* Hover effect for even rows */
 .table-hover > tbody > tr:nth-of-type(even):hover {
-    --bs-table-accent-bg: #CCDFD9!important;
+    --bs-table-accent-bg: var(--ops-color-background-3)!important;
     color: #041C15 !important;
     transition: all .3s ease-in-out;
 }
 
 table.table.dataTable.table-hover > tbody > tr:hover > * {
-  box-shadow: inset 0 0 0 9999px #BDCFC9!important;
+  box-shadow: inset 0 0 0 9999px var(--ops-table-strip-bg)!important;
 }
 table.table.dataTable.table-hover > tbody > tr.selected:hover > * {
   box-shadow: inset 0 0 0 9999px rgba(13, 110, 253, 0.975);
@@ -63,4 +104,3 @@ div.dt-container div.dt-search {
     text-align: right;
     margin-right: 20px;
 }
-
