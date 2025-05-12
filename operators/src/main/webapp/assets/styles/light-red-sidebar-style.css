@@ -201,7 +201,7 @@ ul.ops-side-bar-menu li:last-child {
 .ops-side-bar-container {
     width: 250px;
     transition: width 0.3s ease;
-    border-right: solid 1px #F2F2F2;
+    border-right: solid 1px var(--bs-dark-text-emphasis);
 }
 
 .ops-base-container[data-sidebar-state="collapsed"] .ops-side-bar-container,
