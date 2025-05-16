@@ -14,7 +14,9 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.kram.operators.dtos.BusinessEmployer;
 import com.kram.operators.dtos.Driver;
+import com.kram.operators.dtos.IndividualEmployer;
 import com.kram.operators.models.SettingsRequest;
 import com.kram.operators.dtos.UserData;
 import com.kram.operators.models.AppResponse;
@@ -22,6 +24,10 @@ import com.kram.operators.models.DriverRecordRequest;
 import com.kram.operators.models.DriverRecordResponse;
 import com.kram.operators.models.DriverRequest;
 import com.kram.operators.models.DriverResponse;
+import com.kram.operators.models.EmployerRequest;
+import com.kram.operators.models.EmployerResponse;
+import com.kram.operators.models.EmployersRequest;
+import com.kram.operators.models.EmployersResponse;
 import com.kram.operators.models.GeneralRequest;
 import com.kram.operators.models.LogoutRequest;
 import com.kram.operators.models.SettingsResponse;
@@ -461,7 +467,6 @@ public class MiddlewareService {
             ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
             return createAppErrorResponse(500, "Unexpected error", e.getMessage());
         }
-    
     }
     
     /*Retrieve user theme*/
@@ -825,8 +830,201 @@ public class MiddlewareService {
             return createDriverErrorResponse(500, "Unexpected error", e.getMessage());
         }
     }
+    
+    public EmployerResponse<?> getEmployer(EmployerRequest employerRequest) throws IOException, InterruptedException {
+        String url = String.format("%s/employers/getEmployer", API_URL);
 
-    // ✅ This method disables SSL verification for local development
+        EmployerResponse<?> resultObj = null;
+        // Create Gson with custom type adapter
+        Gson gson = new GsonBuilder()
+            .setLenient()
+            // Ensures Gson only serializes annotated fields
+            .excludeFieldsWithoutExposeAnnotation() 
+            // Ensure Gson includes null fields instead of skipping them
+            .serializeNulls()  
+            // Preserve field names exactly
+            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY) 
+            .create();
+
+        HttpClient client = createInsecureHttpClient();
+        
+        // Log the request body for debugging
+        ApplicationLog.saveLog("RAW USEROBJECT : " + employerRequest, "MIDDLEWARESERVICE");
+
+        String requestBody = gson.toJson(employerRequest);
+        ApplicationLog.saveLog("Request body :: " + requestBody, "MIDDLEWARESERVICE");
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+                
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        try {
+            ApplicationLog.saveLog("Retrieving Employers records", "MIDDLEWARESERVICE");
+            
+            // Log raw response for debugging
+            String responseBody = response.body();
+            ApplicationLog.saveLog("Raw response :: " + responseBody, "MIDDLEWARESERVICE");
+            
+            // Pre-process the response body to remove any invalid characters
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+            
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            
+            // Check HTTP response code first
+            if (response.statusCode() != 200) {
+                resultObj = new EmployerResponse<>();
+                resultObj.setResponseCode(response.statusCode());
+                resultObj.setResponseMessage("Oops! An unexpecte error occurred.");
+                resultObj.setResponseDescription("HTTP ERROR: " + response.statusCode());
+                return resultObj;
+            }
+            
+            // Check if response contains error properties
+            if (jsonObject.has("responseCode")) {
+                resultObj = new EmployerResponse<>();
+                int statusCode = jsonObject.get("responseCode").getAsInt();
+                resultObj.setResponseCode(statusCode);
+                ApplicationLog.saveLog("Response code :: " + statusCode, "MIDDLEWARESERVICE");
+                String responseMessage = jsonObject.get("responseMessage").getAsString();
+                resultObj.setResponseMessage(responseMessage);
+                ApplicationLog.saveLog("Response Message :: " + responseMessage, "MIDDLEWARESERVICE");
+                String responseDescription = jsonObject.get("responseDescription").getAsString();
+                resultObj.setResponseDescription(responseDescription);
+                ApplicationLog.saveLog("Response Descr :: " + responseDescription, "MIDDLEWARESERVICE");
+                if (statusCode != 200) {
+                    return resultObj;
+                }
+            }
+            
+            // Attempt to deserialize as User with detailed error handling
+            try {
+                //deserialize User object
+                resultObj = gson.fromJson(jsonObject, EmployerResponse.class);
+                if (resultObj == null) {
+                    resultObj = new EmployerResponse<>();
+                    resultObj.setResponseCode(500);
+                    resultObj.setResponseMessage("Failed to retrieve employer record");
+                    resultObj.setResponseDescription("unknown system error occurred");
+                    return resultObj;
+                }
+                // Extract the "data" object that contains user details
+                JsonObject dataObject = jsonObject.getAsJsonObject("data");
+
+                String jsonData = dataObject.toString();
+                ApplicationLog.saveLog("Result Record : " + jsonData, "MIDDLEWARESERVICE");
+                return resultObj;
+            } catch (JsonSyntaxException e) {
+                ApplicationLog.saveLog("Employer deserialization error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+                throw e; 
+            }
+            
+        } catch (JsonSyntaxException | JsonIOException e) {
+            resultObj = new EmployerResponse<>();
+            resultObj.setResponseCode(500);
+            resultObj.setResponseMessage("Error parsing response");
+            resultObj.setResponseDescription(e.getMessage());
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return resultObj;
+        } catch (Exception e) {
+            resultObj = new EmployerResponse<>();
+            resultObj.setResponseCode(500);
+            resultObj.setResponseMessage("Failed to retrieve employer record");
+            resultObj.setResponseDescription("Unexpected error : " + e.getMessage());
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+                
+            return resultObj;
+        }
+    }
+
+    public EmployersResponse getEmployers(EmployersRequest employersRequest) {
+        try {
+            String url = String.format("%s/employers/getAllEmployers", API_URL);
+             ApplicationLog.saveLog("URL :: " + url, "MIDDLEWARESERVICE");
+             
+            // Validate request object
+            if (employersRequest == null) {
+                return createEmployerResponse(400, "Invalid request", "Request object cannot be null");
+            }
+
+            // Configure Gson with custom settings
+            Gson gson = new GsonBuilder()
+                .setLenient()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .create();
+
+            // Serialize request
+            String requestBody = gson.toJson(employersRequest);
+            ApplicationLog.saveLog("DRIVERS REQUEST BODY :: " + requestBody, "MIDDLEWARESERVICE");
+
+            // Create and execute HTTP request
+            HttpClient client = createInsecureHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String responseBody = response.body();
+            ApplicationLog.saveLog("RAW RESPONSE :: " + responseBody, "MIDDLEWARESERVICE");
+
+            // Handle non-200 HTTP status codes
+            if (response.statusCode() != 200) {
+                return createEmployerResponse(
+                    response.statusCode(),
+                    "HTTP Error: " + response.statusCode(),
+                    "Server returned non-200 status code"
+                );
+            }
+
+            // Clean and parse response
+            if (responseBody == null || responseBody.trim().isEmpty()) {
+                return createEmployerResponse(500, "Empty response", "Server returned empty response");
+            }
+
+            responseBody = responseBody.trim().replaceAll("[\\x00-\\x1F\\x7F]", "");
+
+            // Parse JSON response
+            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
+            EmployersResponse appResponse = gson.fromJson(jsonObject, EmployersResponse.class);
+
+            // Validate parsed response
+            if (appResponse == null) {
+                return createEmployerResponse(500, "Invalid response format", "Failed to parse server response");
+            }
+
+            // Validate required fields
+            if (appResponse.getDrivers() == null) {
+                return createEmployerResponse(500, "Invalid response data", "Response items list is null");
+            }
+
+            // Log successful response
+            ApplicationLog.saveLog("Response code :: " + appResponse.getResponseCode(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Message :: " + appResponse.getResponseMessage(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Response Descr :: " + appResponse.getResponseDescription(), "MIDDLEWARESERVICE");
+            ApplicationLog.saveLog("Items count :: " + appResponse.getDrivers().size(), "MIDDLEWARESERVICE");
+
+            return appResponse;
+
+        } catch (JsonSyntaxException | JsonIOException e) {
+            ApplicationLog.saveLog("JSON parsing error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createEmployerResponse(500, "Error parsing response", e.getMessage());
+        } catch (IOException | InterruptedException e) {
+            ApplicationLog.saveLog("Network error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createEmployerResponse(500, "Network error occurred", e.getMessage());
+        } catch (Exception e) {
+            ApplicationLog.saveLog("Unexpected error :: " + e.getMessage(), "MIDDLEWARESERVICE");
+            return createEmployerResponse(500, "Unexpected error", e.getMessage());
+        }
+    }
+    
+    // This method disables SSL verification for local development
     private HttpClient createInsecureHttpClient() {
         try {
             TrustManager[] trustAllCertificates = new TrustManager[]{
@@ -848,6 +1046,16 @@ public class MiddlewareService {
             throw new RuntimeException("Failed to create insecure SSL client", e);
         }
     }
+    
+    private EmployersResponse createEmployerResponse(int code, String message, String description) {
+        EmployersResponse errorResponse = new EmployersResponse();
+        errorResponse.setResponseCode(code);
+        errorResponse.setResponseMessage(message);
+        errorResponse.setResponseDescription(description);
+        errorResponse.setDrivers(new ArrayList<>());
+        return errorResponse;
+    }
+    
     // Helper method to create error responses
     private DriverResponse createDriverErrorResponse(int code, String message, String description) {
         DriverResponse errorResponse = new DriverResponse();

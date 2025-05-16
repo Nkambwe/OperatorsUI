@@ -259,7 +259,7 @@
                             <input type="hidden" id="selectedDriverId" name="driverId">
                         </form>
                             
-                        </div>
+                    </div>
                     
                     <div class="footer shadow-text">
                         <%=AppConstants.APP_FOOTER%>

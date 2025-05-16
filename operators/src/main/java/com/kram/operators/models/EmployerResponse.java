@@ -2,14 +2,13 @@ package com.kram.operators.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.kram.operators.dtos.Driver;
 
 /**
- *
+ * Class handles Employer response
  * @author Macjohnan
+ * @param <T> Class of type response
  */
-public class DriverRecordResponse {
-    
+public class EmployerResponse<T> {
     @SerializedName("responseCode")
     @Expose
     private int responseCode;
@@ -30,9 +29,7 @@ public class DriverRecordResponse {
 
     @SerializedName("data")
     @Expose
-    private Driver data;
-    public  Driver getDriver() { return data; }
-    public void setDriver(Driver data) { this.data = data; }
-
+    private T data;
+    public  T getData() { return data; }
+    public void setData(T data) { this.data = data; }
 }
-
